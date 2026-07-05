@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER ===== -->
+        <header>
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="admin.html" class="active">Admin</a>
+            </nav>
+            <div id="auth-section">
+                <span id="user-greeting">Guest</span>
+                <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
+                <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- ===== ADMIN CONTENT ===== -->
+        <h1 style="margin: 30px 0 10px 0; color: #3d2b1f;">⚙️ Admin Dashboard</h1>
+
+        <!-- Pending Tags -->
+        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
+            <h3 style="color: #3d2b1f;">🏷️ Pending Tags</h3>
+            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
+                <p><strong>"Court Politics"</strong> — submitted by Elara Vance</p>
+                <p style="font-size: 13px; color: #7a6b5a;">Story: "The Ember Crown"</p>
+                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
+                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
+            </div>
+            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
+                <p><strong>"Found Family"</strong> — submitted by Marcus Blackwood</p>
+                <p style="font-size: 13px; color: #7a6b5a;">Story: "A Quiet Life"</p>
+                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
+                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
+            </div>
+        </div>
+
+        <!-- Pending Scout Applications -->
+        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
+            <h3 style="color: #3d2b1f;">🔦 Pending Scout Applications</h3>
+            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
+                <p><strong>@BookWorm42</strong> — Chapters Read: 12, Comments: 5, Spotlights: 3</p>
+                <p style="font-size: 13px; color: #7a6b5a;">"I love discovering hidden gems."</p>
+                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
+                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
+            <h3 style="color: #3d2b1f;">👥 User Management</h3>
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #ede6db;">
+                        <th style="padding: 8px;">Username</th>
+                        <th style="padding: 8px;">Role</th>
+                        <th style="padding: 8px;">Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #f0e8de;">
+                        <td style="padding: 8px;">Elara Vance</td>
+                        <td style="padding: 8px;">Author</td>
+                        <td style="padding: 8px;">3 days ago</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #f0e8de;">
+                        <td style="padding: 8px;">BookWorm42</td>
+                        <td style="padding: 8px;">Scout</td>
+                        <td style="padding: 8px;">5 days ago</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+            <p>📜 WordFlaneur — It's OK to Be Slower.</p>
+            <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        async function handleLogin() { window.location.href = 'login.html'; }
+        async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
+        async function checkAuth() {
+            const r = await getCurrentUser();
+            if (r.success && r.user) {
+                const p = await getUserProfile(r.user.id);
+                if (p.success) {
+                    document.getElementById('user-greeting').textContent = `👋 ${p.profile.display_name || 'User'}`;
+                    document.getElementById('login-btn').classList.add('hidden');
+                    document.getElementById('logout-btn').classList.remove('hidden');
+                }
+            }
+        }
+        checkAuth();
+    </script>
+</body>
+</html>
