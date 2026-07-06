@@ -308,12 +308,12 @@
         // ============================================
         // AUTO-LOAD ON PAGE START
         // ============================================
-        window.onload = function() {
+            window.onload = function() {
             loadStories();
             supabase.auth.getSession().then(({ data }) => {
                 if (data.session) {
                     document.getElementById('auth-status').className = 'success';
-                    document.getElementById('auth-status').textContent = `✅ Already logged in as ${data.session.user.email}`;
+                    document.getElementById('auth-status').textContent = '✅ Already logged in as ' + data.session.user.email;
                 }
             });
         };
