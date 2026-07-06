@@ -1,15 +1,3 @@
-<script>
-    // ✅ GOOD: Defined at the top level (global scope)
-    const SUPABASE_URL = "https://ugrmqwgjcisufcpjqhzy.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncm1xd2dqY2lzdWZjcGpxaHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ5OTgsImV4cCI6MjA5ODU5MDk5OH0.Es9YQsuAPQqTGl4vZRotsEaWk9DBv3qmn8C2WfONffM";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // ✅ GOOD: Functions can now access supabase
-    async function testLogin() {
-        const { data, error } = await supabase.auth.signInWithPassword({ ... });
-    }
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,8 +143,15 @@
     <!-- Load Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Include your Supabase config (Copy from supabase.js) -->
     <script>
+        // ============================================
+        // 🔐 SUPABASE CONFIG (YOUR CREDENTIALS GO HERE)
+        // ============================================
+        const SUPABASE_URL = "https://ugrmqwgjcisufcpjqhzy.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncm1xd2dqY2lzdWZjcGpxaHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ5OTgsImV4cCI6MjA5ODU5MDk5OH0.Es9YQsuAPQqTGl4vZRotsEaWk9DBv3qmn8C2WfONffM";
+
+        // Create client (ONCE)
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ============================================
         // TEST 1: AUTHENTICATION
@@ -194,7 +189,7 @@
                 if (error) throw error;
 
                 status.className = 'success';
-                status.textContent = `✅ Account created! Check email for confirmation (or login manually if disabled).`;
+                status.textContent = `✅ Account created! Check email for confirmation.`;
             } catch (error) {
                 status.className = 'error';
                 status.textContent = `❌ Signup failed: ${error.message}`;
@@ -213,13 +208,16 @@
             const content = document.getElementById('story-content').value;
 
             try {
+                const { data: userData, error: userError } = await supabase.auth.getUser();
+                if (userError) throw userError;
+
                 const { data, error } = await supabase
                     .from('stories')
                     .insert([
                         {
                             title: title,
                             description: content,
-                            author_id: (await supabase.auth.getUser()).data.user?.id || null,
+                            author_id: userData.user?.id || null,
                             ris: 0,
                             view_count: 0,
                             spotlight_count: 0
@@ -230,7 +228,7 @@
 
                 status.className = 'success';
                 status.textContent = '✅ Story created successfully!';
-                loadStories(); // Refresh the list
+                loadStories();
             } catch (error) {
                 status.className = 'error';
                 status.textContent = `❌ Failed: ${error.message}`;
@@ -278,7 +276,6 @@
             status.textContent = '⏳ Sorting stories...';
 
             try {
-                // Fetch and sort stories
                 const { data, error } = await supabase
                     .from('stories')
                     .select('*')
@@ -313,7 +310,6 @@
         // ============================================
         window.onload = function() {
             loadStories();
-            // Check if user is already logged in
             supabase.auth.getSession().then(({ data }) => {
                 if (data.session) {
                     document.getElementById('auth-status').className = 'success';
