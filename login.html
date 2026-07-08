@@ -1,372 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login — WordFlaneur</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             background: #f4efe6;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
+            margin: 0;
         }
-        .login-container {
+        .container {
             background: white;
             padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            border: 1px solid #e8ddd0;
-            max-width: 400px;
-            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 350px;
         }
-        .login-container h1 {
+        h1 {
             color: #3d2b1f;
-            font-size: 28px;
-            margin-bottom: 8px;
+            text-align: center;
         }
-        .login-container .subtitle {
-            color: #7a6b5a;
-            font-size: 14px;
-            margin-bottom: 25px;
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #4d3e2e;
-            margin-bottom: 4px;
-        }
-        .form-group input {
+        button {
             width: 100%;
             padding: 12px;
-            border: 1px solid #d4c5a0;
-            border-radius: 8px;
-            font-size: 15px;
-            background: #faf8f5;
-        }
-        .form-group input:focus {
-            outline: 2px solid #b8860b;
-            border-color: transparent;
-        }
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
             background: #6b4f3c;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 16px;
-            font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
-            margin-top: 5px;
-        }
-        .btn-primary:hover {
-            background: #8b6f5a;
-        }
-        .btn-secondary {
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            color: #6b4f3c;
-            border: 2px solid #6b4f3c;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
             margin-top: 10px;
         }
-        .btn-secondary:hover {
-            background: #6b4f3c;
-            color: white;
+        button:hover {
+            background: #8b6f5a;
+        }
+        #message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
         }
         .toggle-link {
             text-align: center;
             margin-top: 15px;
-            font-size: 14px;
-            color: #7a6b5a;
         }
         .toggle-link a {
             color: #6b4f3c;
-            font-weight: 600;
             cursor: pointer;
             text-decoration: underline;
         }
-        #message {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
+        .hidden {
             display: none;
-        }
-        #message.success {
-            display: block;
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        #message.error {
-            display: block;
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: #6b4f3c;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-        .logo span {
-            color: #b8860b;
-            font-style: italic;
-        }
-        .divider {
-            text-align: center;
-            margin: 15px 0;
-            color: #d4c5a0;
-            font-size: 13px;
-        }
-        .divider::before,
-        .divider::after {
-            content: "";
-            display: inline-block;
-            width: 30%;
-            height: 1px;
-            background: #d4c5a0;
-            vertical-align: middle;
-        }
-        .divider::before {
-            margin-right: 10px;
-        }
-        .divider::after {
-            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">📜 Word<span>Flaneur</span></div>
-        <h1 id="form-title">Welcome Back</h1>
-        <p class="subtitle" id="form-subtitle">Sign in to continue your journey.</p>
 
-        <!-- ===== FORM ===== -->
-        <form id="auth-form" onsubmit="return false;">
-            <!-- Display Name (only for signup) -->
-            <div class="form-group" id="name-group" style="display:none;">
-                <label>Display Name</label>
-                <input type="text" id="display-name" placeholder="e.g. Elara Vance">
-            </div>
+<div class="container">
+    <h1>📜 WordFlaneur</h1>
+    <h2 id="form-title">Sign In</h2>
 
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="you@example.com" required>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="Min 6 characters" required minlength="6">
-            </div>
-
-            <!-- Confirm Password (only for signup) -->
-            <div class="form-group" id="confirm-group" style="display:none;">
-                <label>Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm your password">
-            </div>
-
-            <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
-        </form>
-
-        <!-- ===== TOGGLE ===== -->
-        <div class="toggle-link">
-            <span id="toggle-text">Don't have an account?</span>
-            <a id="toggle-link" onclick="toggleMode()">Sign Up</a>
+    <form id="auth-form">
+        <!-- Display Name (only for signup) -->
+        <div id="name-group" class="hidden">
+            <input type="text" id="display-name" placeholder="Display Name" />
         </div>
 
-        <!-- ===== MESSAGE ===== -->
-        <div id="message"></div>
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
 
-        <!-- ===== DIVIDER ===== -->
-        <div class="divider">or</div>
-
-        <!-- ===== DEMO ACCOUNTS ===== -->
-        <div style="text-align: center; font-size: 13px; color: #7a6b5a;">
-            <p style="margin-bottom: 8px;"><strong>Demo Accounts</strong></p>
-            <p>admin@wordflaneur.com / admin123</p>
-            <p style="font-size: 12px; margin-top: 6px;">(Sign up to create your own account)</p>
+        <!-- Confirm Password (only for signup) -->
+        <div id="confirm-group" class="hidden">
+            <input type="password" id="confirm-password" placeholder="Confirm Password" />
         </div>
+
+        <button type="submit" id="submit-btn">Sign In</button>
+    </form>
+
+    <div id="message"></div>
+
+    <div class="toggle-link">
+        <span id="toggle-text">Don't have an account?</span>
+        <a id="toggle-link">Sign Up</a>
     </div>
 
-    <script>
-        // ============================================
-        // 🔐 SUPABASE CONFIG
-        // ============================================
-        const SUPABASE_URL = "https://ugrmqwgjcisufcpjqhzy.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
+    <div style="text-align:center; margin-top:20px; font-size:13px; color:#7a6b5a;">
+        Demo: admin@wordflaneur.com / admin123
+    </div>
+</div>
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script>
+    // ============================================
+    // 🔐 YOUR SUPABASE CREDENTIALS
+    // ============================================
+    const SUPABASE_URL = "https://wordflaneur.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp"; // REPLACE THIS
 
-        // ============================================
-        // 🧠 STATE
-        // ============================================
-        let isLoginMode = true;
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ============================================
-        // 🔄 TOGGLE MODE (Login / Signup)
-        // ============================================
-        function toggleMode() {
-            isLoginMode = !isLoginMode;
+    // ============================================
+    // 🧠 STATE
+    // ============================================
+    let isLogin = true;
 
-            const title = document.getElementById('form-title');
-            const subtitle = document.getElementById('form-subtitle');
-            const submitBtn = document.getElementById('submit-btn');
-            const toggleText = document.getElementById('toggle-text');
-            const toggleLink = document.getElementById('toggle-link');
-            const nameGroup = document.getElementById('name-group');
-            const confirmGroup = document.getElementById('confirm-group');
+    // ============================================
+    // 📤 FORM SUBMIT
+    // ============================================
+    document.getElementById('auth-form').addEventListener('submit', async function(e) {
+        e.preventDefault(); // ✅ Prevents page reload
 
-            if (isLoginMode) {
-                title.textContent = 'Welcome Back';
-                subtitle.textContent = 'Sign in to continue your journey.';
-                submitBtn.textContent = 'Sign In';
-                toggleText.textContent = "Don't have an account?";
-                toggleLink.textContent = 'Sign Up';
-                nameGroup.style.display = 'none';
-                confirmGroup.style.display = 'none';
-            } else {
-                title.textContent = 'Create Account';
-                subtitle.textContent = 'Join the WordFlaneur community.';
-                submitBtn.textContent = 'Sign Up';
-                toggleText.textContent = 'Already have an account?';
-                toggleLink.textContent = 'Sign In';
-                nameGroup.style.display = 'block';
-                confirmGroup.style.display = 'block';
-            }
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const displayName = document.getElementById('display-name').value.trim();
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const msg = document.getElementById('message');
 
-            // Clear any previous messages
-            const msg = document.getElementById('message');
-            msg.style.display = 'none';
-            msg.className = '';
+        msg.textContent = '';
+        msg.className = '';
+
+        // --- Validation ---
+        if (!email || !password) {
+            msg.textContent = '❌ Please fill in all fields.';
+            msg.className = 'error';
+            return;
         }
 
-        // ============================================
-        // 📤 HANDLE SUBMIT (Login or Signup)
-        // ============================================
-        document.getElementById('auth-form').addEventListener('submit', async function(e) {
-            e.preventDefault(); // Stop page refresh
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const displayName = document.getElementById('display-name').value.trim();
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const msg = document.getElementById('message');
-
-            // Clear previous messages
-            msg.style.display = 'none';
-            msg.className = '';
-
-            // --- VALIDATION ---
-            if (!email || !password) {
-                showMessage('Please fill in all required fields.', 'error');
+        if (!isLogin) {
+            if (password !== confirmPassword) {
+                msg.textContent = '❌ Passwords do not match.';
+                msg.className = 'error';
                 return;
             }
-
-            if (!isLoginMode) {
-                if (password !== confirmPassword) {
-                    showMessage('Passwords do not match.', 'error');
-                    return;
-                }
-                if (password.length < 6) {
-                    showMessage('Password must be at least 6 characters.', 'error');
-                    return;
-                }
-                if (!displayName) {
-                    showMessage('Please enter a display name.', 'error');
-                    return;
-                }
+            if (password.length < 6) {
+                msg.textContent = '❌ Password must be at least 6 characters.';
+                msg.className = 'error';
+                return;
             }
-
-            try {
-                if (isLoginMode) {
-                    // ===== LOGIN =====
-                    const { data, error } = await supabase.auth.signInWithPassword({
-                        email,
-                        password
-                    });
-
-                    if (error) throw error;
-
-                    showMessage('✅ Login successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-
-                } else {
-                    // ===== SIGNUP =====
-                    const { data, error } = await supabase.auth.signUp({
-                        email,
-                        password,
-                        options: {
-                            data: {
-                                display_name: displayName,
-                                username: displayName.toLowerCase().replace(/\s/g, '')
-                            }
-                        }
-                    });
-
-                    if (error) throw error;
-
-                    // Check if email confirmation is required
-                    if (data.user && data.user.identities && data.user.identities.length === 0) {
-                        showMessage('⚠️ This email is already registered. Please sign in.', 'error');
-                        return;
-                    }
-
-                    // If auto-confirm is enabled, the user is created immediately
-                    if (data.user) {
-                        showMessage('✅ Account created! You can now sign in.', 'success');
-                        // Switch to login mode after successful signup
-                        setTimeout(() => {
-                            if (isLoginMode === false) toggleMode();
-                            // Clear password fields for security
-                            document.getElementById('password').value = '';
-                            document.getElementById('confirm-password').value = '';
-                        }, 2000);
-                    } else {
-                        showMessage('✅ Account created! Please check your email to confirm.', 'success');
-                    }
-                }
-
-            } catch (error) {
-                showMessage('❌ ' + error.message, 'error');
-                console.error('Auth error:', error);
+            if (!displayName) {
+                msg.textContent = '❌ Please enter a display name.';
+                msg.className = 'error';
+                return;
             }
-        });
-
-        // ============================================
-        // 💬 SHOW MESSAGE
-        // ============================================
-        function showMessage(text, type) {
-            const msg = document.getElementById('message');
-            msg.textContent = text;
-            msg.className = type;
-            msg.style.display = 'block';
         }
-    </script>
+
+        try {
+            if (isLogin) {
+                // ===== SIGN IN =====
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                msg.textContent = '✅ Welcome back! Redirecting...';
+                msg.className = 'success';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+
+            } else {
+                // ===== SIGN UP =====
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            display_name: displayName,
+                            username: displayName.toLowerCase().replace(/\s/g, '')
+                        }
+                    }
+                });
+
+                if (error) throw error;
+
+                if (data.user) {
+                    msg.textContent = '✅ Account created! You can now sign in.';
+                    msg.className = 'success';
+                    // Switch to login mode
+                    if (!isLogin) toggleMode();
+                    document.getElementById('password').value = '';
+                    document.getElementById('confirm-password').value = '';
+                } else {
+                    msg.textContent = '⚠️ Please check your email to confirm.';
+                    msg.className = 'error';
+                }
+            }
+
+        } catch (error) {
+            msg.textContent = '❌ ' + error.message;
+            msg.className = 'error';
+            console.error('Auth error:', error);
+        }
+    });
+
+    // ============================================
+    // 🔄 TOGGLE LOGIN / SIGNUP
+    // ============================================
+    function toggleMode() {
+        isLogin = !isLogin;
+
+        document.getElementById('form-title').textContent = isLogin ? 'Sign In' : 'Create Account';
+        document.getElementById('submit-btn').textContent = isLogin ? 'Sign In' : 'Sign Up';
+        document.getElementById('toggle-text').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
+        document.getElementById('toggle-link').textContent = isLogin ? 'Sign Up' : 'Sign In';
+
+        document.getElementById('name-group').classList.toggle('hidden', isLogin);
+        document.getElementById('confirm-group').classList.toggle('hidden', isLogin);
+    }
+
+    document.getElementById('toggle-link').addEventListener('click', toggleMode);
+</script>
+
 </body>
 </html>
