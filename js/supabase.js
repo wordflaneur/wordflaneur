@@ -4,7 +4,7 @@
 // ============================================
 
 const SUPABASE_URL = "https://ugrmqwgjcisufcpjqhzy.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncm1xd2dqY2lzdWZjcGpxaHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ5OTgsImV4cCI6MjA5ODU5MDk5OH0.Es9YQsuAPQqTGl4vZRotsEaWk9DBv3qmn8C2WfONffM";
+const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
 
 // Create Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
