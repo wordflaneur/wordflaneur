@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login — WordFlaneur</title>
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -57,7 +56,6 @@
             border-radius: 8px;
             font-size: 15px;
             background: #faf8f5;
-            transition: 0.2s;
         }
         .form-group input:focus {
             outline: 2px solid #b8860b;
@@ -107,9 +105,6 @@
             font-weight: 600;
             cursor: pointer;
             text-decoration: underline;
-        }
-        .toggle-link a:hover {
-            color: #b8860b;
         }
         #message {
             margin-top: 15px;
@@ -171,31 +166,31 @@
         <p class="subtitle" id="form-subtitle">Sign in to continue your journey.</p>
 
         <!-- ===== FORM ===== -->
-        <form id="auth-form" onsubmit="event.preventDefault(); handleSubmit();">
-        <!-- Display Name (only for signup) -->
-        <div class="form-group" id="name-group" style="display:none;">
+        <form id="auth-form">
+            <!-- Display Name (only for signup) -->
+            <div class="form-group" id="name-group" style="display:none;">
                 <label>Display Name</label>
                 <input type="text" id="display-name" placeholder="e.g. Elara Vance">
-        </div>
+            </div>
 
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="email" placeholder="you@example.com" required>
-        </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="you@example.com" required>
+            </div>
 
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="Min 6 characters" required minlength="6">
-        </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Min 6 characters" required minlength="6">
+            </div>
 
-    <!-- Confirm Password (only for signup) -->
-        <div class="form-group" id="confirm-group" style="display:none;">
-            <label>Confirm Password</label>
-            <input type="password" id="confirm-password" placeholder="Confirm your password">
-        </div>
+            <!-- Confirm Password (only for signup) -->
+            <div class="form-group" id="confirm-group" style="display:none;">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm your password">
+            </div>
 
-        <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
-    </form>
+            <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
+        </form>
 
         <!-- ===== TOGGLE ===== -->
         <div class="toggle-link">
@@ -222,7 +217,7 @@
         // 🔐 SUPABASE CONFIG
         // ============================================
         const SUPABASE_URL = "https://ugrmqwgjcisufcpjqhzy.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncm1xd2dqY2lzdWZjcGpxaHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ5OTgsImV4cCI6MjA5ODU5MDk5OH0.Es9YQsuAPQqTGl4vZRotsEaWk9DBv3qmn8C2WfONffM";
+        const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -272,7 +267,9 @@
         // ============================================
         // 📤 HANDLE SUBMIT (Login or Signup)
         // ============================================
-        async function handleSubmit() {
+        document.getElementById('auth-form').addEventListener('submit', async function(e) {
+            e.preventDefault(); // Stop page refresh
+
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const displayName = document.getElementById('display-name').value.trim();
@@ -359,7 +356,7 @@
                 showMessage('❌ ' + error.message, 'error');
                 console.error('Auth error:', error);
             }
-        }
+        });
 
         // ============================================
         // 💬 SHOW MESSAGE
@@ -370,21 +367,6 @@
             msg.className = type;
             msg.style.display = 'block';
         }
-
-        // ============================================
-        // 🔄 AUTO-TOGGLE FOR DEMO
-        // ============================================
-        // If you want signup to be the default, change this to false
-        // isLoginMode = false; // Uncomment to start in signup mode
-
-        // ============================================
-        // 🚀 ENTER KEY SUPPORT
-        // ============================================
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                handleSubmit();
-            }
-        });
     </script>
 </body>
 </html>
