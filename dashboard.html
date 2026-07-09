@@ -78,20 +78,28 @@
         async function handleLogin() { window.location.href = 'login.html'; }
         async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
         async function checkAuth() {
-            const r = await getCurrentUser();
-            if (r.success && r.user) {
-                const p = await getUserProfile(r.user.id);
-                if (p.success && p.profile) {
-                    document.getElementById('user-greeting').textContent = `👋 ${p.profile.display_name || p.profile.username || 'User'}`;
-                    document.getElementById('login-btn').classList.add('hidden');
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                    if (p.profile.role === 'admin' || p.profile.role === 'author') {
-                        document.getElementById('publish-btn').style.display = 'inline-block';
-                    }
-                    return;
-                }
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.auth) {
+                renderGuestState();
+                return;
             }
 
+            const { data: { session }, error } = await client.auth.getSession();
+            if (error || !session?.user) {
+                renderGuestState();
+                return;
+            }
+
+            const user = session.user;
+            const profileResult = await getUserProfile(user.id);
+            const profile = profileResult.success && profileResult.profile ? profileResult.profile : null;
+            document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('publish-btn').style.display = (profile?.role === 'admin' || profile?.role === 'author') ? 'inline-block' : 'none';
+        }
+
+        function renderGuestState() {
             document.getElementById('user-greeting').textContent = 'Guest';
             document.getElementById('login-btn').classList.remove('hidden');
             document.getElementById('logout-btn').classList.add('hidden');
