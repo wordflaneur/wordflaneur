@@ -18,6 +18,7 @@
       <nav>
         <a href="index.html" class="active">Home</a>
         <a href="library.html">Library</a>
+        <a href="publish.html">Write</a>
         <a href="about.html">About</a>
         <a href="dashboard.html">Dashboard</a>
       </nav>
@@ -25,7 +26,7 @@
         <span id="user-greeting">Guest</span>
         <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
         <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
-        <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:none;">✍️ Publish</button>
+        <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
       </div>
     </header>
 
@@ -35,7 +36,10 @@
     <section class="hero" id="hero-section">
       <h1 id="hero-title">It's <span>OK</span> to Be Slower.</h1>
       <p id="hero-subtitle">A sanctuary for slow-burn stories. Where fantasy breathes. Where romance unfolds. Where every chapter is savored.</p>
-      <button class="btn" id="hero-button" onclick="window.location.href='library.html'">Explore Stories</button>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;">
+        <button class="btn" id="hero-button" onclick="window.location.href='library.html'">Explore Stories</button>
+        <button class="btn-outline" id="hero-publish" onclick="window.location.href='publish.html'">✍️ Start Writing</button>
+      </div>
     </section>
 
     <!-- ============================================
@@ -193,9 +197,7 @@
           document.getElementById('user-greeting').textContent = `👋 ${profile.display_name || 'User'}`;
           document.getElementById('login-btn').classList.add('hidden');
           document.getElementById('logout-btn').classList.remove('hidden');
-          if (profile.role === 'admin' || profile.role === 'author') {
-            document.getElementById('publish-btn').style.display = 'inline-block';
-          }
+          document.getElementById('publish-btn').style.display = 'inline-block';
         }
       }
     }

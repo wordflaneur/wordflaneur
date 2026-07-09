@@ -18,6 +18,7 @@
       <nav>
         <a href="index.html">Home</a>
         <a href="library.html" class="active">Library</a>
+        <a href="publish.html">Write</a>
         <a href="about.html">About</a>
         <a href="dashboard.html">Dashboard</a>
       </nav>
@@ -25,7 +26,7 @@
         <span id="user-greeting">Guest</span>
         <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
         <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
-        <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:none;">✍️ Publish</button>
+        <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
       </div>
     </header>
 
@@ -250,9 +251,7 @@
           document.getElementById('user-greeting').textContent = `👋 ${profile.display_name || 'User'}`;
           document.getElementById('login-btn').classList.add('hidden');
           document.getElementById('logout-btn').classList.remove('hidden');
-          if (profile.role === 'admin' || profile.role === 'author') {
-            document.getElementById('publish-btn').style.display = 'inline-block';
-          }
+          document.getElementById('publish-btn').style.display = 'inline-block';
         }
       }
     }

@@ -26,51 +26,52 @@
         </header>
 
         <!-- ===== PUBLISH FORM ===== -->
-        <div style="max-width: 800px; margin: 30px auto; background: #ffffff; padding: 30px; border-radius: 20px; border: 1px solid #e8ddd0;">
-            <h2 style="color: #3d2b1f;">📖 Publish a New Story</h2>
-            <p style="color: #7a6b5a;">Share your story with the world. Take your time—weekly updates are enough.</p>
+        <div style="max-width: 920px; margin: 30px auto; background: #ffffff; padding: 30px; border-radius: 20px; border: 1px solid #e8ddd0;">
+            <h2 style="color: #3d2b1f;">✍️ Chapter-by-Chapter Publishing</h2>
+            <p style="color: #7a6b5a;">Treat each update like a new chapter release. Add a synopsis, then write and publish chapters one at a time, just like readers expect on webnovel-style platforms.</p>
+            <div id="publish-status" style="margin: 15px 0; padding: 12px 14px; border-radius: 12px; background: #f8f2e8; color: #6b4f3c; display: none;"></div>
             <hr style="margin: 20px 0; border: 1px solid #ede6db;">
 
             <form id="publish-form">
                 <div class="form-group">
-                    <label>Title *</label>
+                    <label>Story Title *</label>
                     <input type="text" id="story-title" placeholder="Enter story title">
                 </div>
                 <div class="form-group">
-                    <label>Pen Name *</label>
-                    <input type="text" id="story-author" placeholder="Your pen name">
+                    <label>Synopsis</label>
+                    <textarea id="story-desc" rows="4" placeholder="Give readers a quick overview of your story..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="story-desc" rows="4" placeholder="Describe your story..."></textarea>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                    <div class="form-group">
+                        <label>Cover Image URL</label>
+                        <input type="url" id="cover-url" placeholder="https://example.com/cover.jpg">
+                        <p style="font-size: 12px; color: #7a6b5a;">Upload to ImgBB for free and paste the direct link here.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (comma separated)</label>
+                        <input type="text" id="story-tags" placeholder="e.g. Dark Fantasy, Political, Slow Burn">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Cover Image URL</label>
-                    <input type="url" id="cover-url" placeholder="https://example.com/cover.jpg">
-                    <p style="font-size: 12px; color: #7a6b5a;">Upload to ImgBB for free and paste the direct link here.</p>
-                </div>
-                <div class="form-group">
-                    <label>Tags (comma separated)</label>
-                    <input type="text" id="story-tags" placeholder="e.g. Dark Fantasy, Political, Slow Burn">
-                </div>
-                <div class="form-group">
-                    <label>AI Disclosure *</label>
-                    <select id="ai-disclosure">
-                        <option value="human">100% Human-Written</option>
-                        <option value="ai-assisted">AI-Assisted (Editing Only)</option>
-                        <option value="ai-generated-edited">AI-Generated (With Human Editing)</option>
-                        <option value="ai-generated-minimal">AI-Generated (Minimal Editing)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Translation Disclosure</label>
-                    <select id="translation-disclosure">
-                        <option value="none">Original English</option>
-                        <option value="human-ai">Human-Written, AI-Translated</option>
-                        <option value="human-human">Human-Written, Human-Translated</option>
-                        <option value="ai-ai">AI-Generated, AI-Translated</option>
-                        <option value="ai-human">AI-Generated, Human-Translated</option>
-                    </select>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                    <div class="form-group">
+                        <label>AI Disclosure *</label>
+                        <select id="ai-disclosure">
+                            <option value="human">100% Human-Written</option>
+                            <option value="ai-assisted">AI-Assisted (Editing Only)</option>
+                            <option value="ai-generated-edited">AI-Generated (With Human Editing)</option>
+                            <option value="ai-generated-minimal">AI-Generated (Minimal Editing)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Translation Disclosure</label>
+                        <select id="translation-disclosure">
+                            <option value="none">Original English</option>
+                            <option value="human-ai">Human-Written, AI-Translated</option>
+                            <option value="human-human">Human-Written, Human-Translated</option>
+                            <option value="ai-ai">AI-Generated, AI-Translated</option>
+                            <option value="ai-human">AI-Generated, Human-Translated</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Content Warnings (optional)</label>
@@ -82,7 +83,20 @@
                         <label><input type="checkbox" value="trauma"> Trauma</label>
                     </div>
                 </div>
-                <button type="button" class="btn-gold" onclick="handlePublish()" style="width: 100%; padding: 14px;">📤 Publish Story</button>
+
+                <div class="form-group">
+                    <label>Chapter Release Editor</label>
+                    <div style="background: #f9f4ea; border: 1px solid #e8ddd0; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; color: #6b4f3c; font-size: 14px;">
+                        Writers can publish chapter by chapter. Each chapter is a separate update, so readers can follow the story as it unfolds.
+                    </div>
+                    <div id="chapter-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                    <button type="button" class="btn-outline" onclick="addChapterBlock()" style="margin-top: 10px;">+ Add Another Chapter</button>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px;">
+                    <button type="button" class="btn-outline" onclick="handleSaveDraft()" style="flex: 1; min-width: 180px;">📝 Save Draft</button>
+                    <button type="button" class="btn-gold" onclick="handlePublish()" style="flex: 1; min-width: 180px;">📤 Publish Story</button>
+                </div>
             </form>
         </div>
 
@@ -98,11 +112,126 @@
     <script src="js/supabase.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/database.js"></script>
+    <script src="js/publish.js"></script>
     <script>
-        async function handlePublish() {
-            alert('Story published! (Demo)');
-            window.location.href = 'library.html';
+        let chapterCounter = 1;
+
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('publish-status');
+            status.textContent = message;
+            status.style.display = 'block';
+            status.style.background = type === 'error' ? '#fde8e8' : '#f8f2e8';
+            status.style.color = type === 'error' ? '#a33b3b' : '#6b4f3c';
         }
+
+        function createChapterBlock(index = 1, initial = { title: '', content: '' }) {
+            return `
+                <div data-chapter-block style="border: 1px solid #e8ddd0; border-radius: 16px; padding: 16px; background: #fcfaf7; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong style="color: #3d2b1f;">Chapter ${index}</strong>
+                        <span style="font-size: 12px; color: #7a6b5a;">Reader-facing chapter update</span>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label>Chapter Title</label>
+                        <input type="text" data-chapter-title value="${initial.title.replace(/"/g, '&quot;')}" placeholder="e.g. The First Door">
+                    </div>
+                    <div class="form-group">
+                        <label>Chapter Body</label>
+                        <textarea data-chapter-content rows="12" placeholder="Write the chapter content here. This appears to readers as a chapter page.">${initial.content}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function addChapterBlock() {
+            chapterCounter += 1;
+            document.getElementById('chapter-list').insertAdjacentHTML('beforeend', createChapterBlock(chapterCounter));
+        }
+
+        function getSelectedWarnings() {
+            return Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        }
+
+        function collectChapters() {
+            return Array.from(document.querySelectorAll('[data-chapter-block]')).map((block, index) => ({
+                title: block.querySelector('[data-chapter-title]').value.trim(),
+                content: block.querySelector('[data-chapter-content]').value.trim(),
+                order_number: index + 1
+            })).filter(chapter => chapter.title || chapter.content);
+        }
+
+        async function submitStory(status) {
+            const currentUserResult = await getCurrentUser();
+            if (!currentUserResult.success || !currentUserResult.user) {
+                showStatus('Please sign in before publishing.', 'error');
+                return;
+            }
+
+            const title = document.getElementById('story-title').value.trim();
+            const description = document.getElementById('story-desc').value.trim();
+            const coverUrl = document.getElementById('cover-url').value.trim();
+            const tags = document.getElementById('story-tags').value.trim();
+            const aiDisclosure = document.getElementById('ai-disclosure').value;
+            const translationDisclosure = document.getElementById('translation-disclosure').value;
+
+            if (!title) {
+                showStatus('Please add a title before saving.', 'error');
+                return;
+            }
+
+            const storyPayload = buildStoryPayload({
+                title,
+                description,
+                coverUrl,
+                tags,
+                aiDisclosure,
+                translationDisclosure,
+                contentWarnings: getSelectedWarnings(),
+                status,
+                authorId: currentUserResult.user.id
+            });
+
+            const storyResult = await createStory(storyPayload);
+            if (!storyResult.success) {
+                showStatus('Could not save your story: ' + storyResult.error, 'error');
+                return;
+            }
+
+            const story = storyResult.data;
+            const chapters = collectChapters();
+            for (const [index, chapter] of chapters.entries()) {
+                if (!chapter.title && !chapter.content) continue;
+                const chapterResult = await createChapter({
+                    story_id: story.id,
+                    title: chapter.title || `Chapter ${index + 1}`,
+                    content: chapter.content,
+                    order_number: index + 1
+                });
+                if (!chapterResult.success) {
+                    showStatus('Your story was created, but one chapter could not be saved.', 'error');
+                    return;
+                }
+            }
+
+            await updateStory(story.id, {
+                chapter_count: chapters.length,
+                last_updated: new Date().toISOString()
+            });
+
+            showStatus(status === 'published' ? 'Story published successfully.' : 'Story saved as a draft.');
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 700);
+        }
+
+        async function handlePublish() {
+            await submitStory('published');
+        }
+
+        async function handleSaveDraft() {
+            await submitStory('draft');
+        }
+
         async function handleLogin() { window.location.href = 'login.html'; }
         async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
         async function checkAuth() {
@@ -119,7 +248,11 @@
                 }
             }
         }
-        checkAuth();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('chapter-list').innerHTML = createChapterBlock(1);
+            checkAuth();
+        });
     </script>
 </body>
 </html>

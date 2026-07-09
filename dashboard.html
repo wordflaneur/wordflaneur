@@ -14,6 +14,7 @@
             <nav>
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
+                <a href="publish.html">Write</a>
                 <a href="about.html">About</a>
                 <a href="dashboard.html" class="active">Dashboard</a>
             </nav>
@@ -21,7 +22,7 @@
                 <span id="user-greeting">Guest</span>
                 <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
                 <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
-                <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:none;">✍️ Publish</button>
+                <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
             </div>
         </header>
 
@@ -93,7 +94,7 @@
             document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
             document.getElementById('login-btn').classList.add('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
-            document.getElementById('publish-btn').style.display = (profile?.role === 'admin' || profile?.role === 'author') ? 'inline-block' : 'none';
+            document.getElementById('publish-btn').style.display = 'inline-block';
             await loadUserDashboardData(user.id);
         }
 
