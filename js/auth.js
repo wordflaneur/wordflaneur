@@ -6,6 +6,52 @@ function getSupabaseClient() {
   return window.getSupabaseClient ? window.getSupabaseClient() : (window.supabaseClient || window.supabase || null);
 }
 
+async function ensureUserProfile(user) {
+  if (!user?.id) {
+    return { success: false, error: 'No user available.' };
+  }
+
+  const client = getSupabaseClient();
+  if (!client?.from) {
+    return { success: false, error: 'Supabase client is not ready.' };
+  }
+
+  const profileData = {
+    user_id: user.id,
+    username: user.user_metadata?.username || user.user_metadata?.preferred_username || (user.email ? user.email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase() : `user${user.id.slice(0, 8)}`),
+    display_name: user.user_metadata?.display_name || user.user_metadata?.full_name || user.user_metadata?.name || (user.email ? user.email.split('@')[0] : 'User'),
+    role: 'reader',
+    joined_at: new Date().toISOString()
+  };
+
+  try {
+    const { data: existingProfile, error: selectError } = await client
+      .from('profiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (selectError && selectError.code !== 'PGRST116') {
+      throw selectError;
+    }
+
+    if (existingProfile) {
+      return { success: true, profile: existingProfile };
+    }
+
+    const { data, error } = await client
+      .from('profiles')
+      .upsert([profileData], { onConflict: 'user_id' })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { success: true, profile: data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 // Sign up with email and password
 async function signUp(email, password, username, displayName) {
   try {
@@ -63,6 +109,11 @@ async function signIn(email, password) {
     });
 
     if (error) throw error;
+
+    const profileResult = await ensureUserProfile(data.user);
+    if (!profileResult.success) {
+      console.warn('Profile sync warning:', profileResult.error);
+    }
 
     return { success: true, user: data.user };
   } catch (error) {
@@ -137,10 +188,24 @@ async function getUserProfile(userId) {
       .from('profiles')
       .select('*')
       .eq('user_id', userId)
-      .single();
+      .maybeSingle();
 
-    if (error) throw error;
-    return { success: true, profile: data };
+    if (error && error.code !== 'PGRST116') throw error;
+
+    if (data) {
+      return { success: true, profile: data };
+    }
+
+    const currentUserResult = await getCurrentUser();
+    if (currentUserResult.success && currentUserResult.user?.id === userId) {
+      const profileResult = await ensureUserProfile(currentUserResult.user);
+      if (profileResult.success) {
+        return { success: true, profile: profileResult.profile };
+      }
+      return { success: false, error: profileResult.error };
+    }
+
+    return { success: false, error: 'Profile not found.' };
   } catch (error) {
     return { success: false, error: error.message };
   }
@@ -179,5 +244,6 @@ window.signInWithGoogle = signInWithGoogle;
 window.signOut = signOut;
 window.getCurrentUser = getCurrentUser;
 window.getUserProfile = getUserProfile;
+window.ensureUserProfile = ensureUserProfile;
 window.updateProfile = updateProfile;
 window.isAuthenticated = isAuthenticated;

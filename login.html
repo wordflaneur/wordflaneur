@@ -6,6 +6,7 @@
     <title>Login — WordFlaneur</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -160,15 +161,10 @@
         }
 
         try {
-            const client = window.supabase || window.supabaseClient;
-            if (!client?.auth) {
-                throw new Error('Supabase client is not ready. Please refresh and try again.');
-            }
-
             if (isLogin) {
-                // ===== SIGN IN =====
-                const { data, error } = await client.auth.signInWithPassword({ email, password });
-                if (error) throw error;
+                const result = await window.signIn(email, password);
+                if (!result.success) throw new Error(result.error);
+
                 msg.textContent = '✅ Welcome back! Redirecting...';
                 msg.className = 'success';
                 setTimeout(() => {
@@ -176,31 +172,14 @@
                 }, 1500);
 
             } else {
-                // ===== SIGN UP =====
-                const { data, error } = await client.auth.signUp({
-                    email,
-                    password,
-                    options: {
-                        data: {
-                            display_name: displayName,
-                            username: displayName.toLowerCase().replace(/\s/g, '')
-                        }
-                    }
-                });
+                const result = await window.signUp(email, password, displayName.toLowerCase().replace(/\s/g, ''), displayName);
+                if (!result.success) throw new Error(result.error);
 
-                if (error) throw error;
-
-                if (data.user) {
-                    msg.textContent = '✅ Account created! You can now sign in.';
-                    msg.className = 'success';
-                    // Switch to login mode
-                    if (!isLogin) toggleMode();
-                    document.getElementById('password').value = '';
-                    document.getElementById('confirm-password').value = '';
-                } else {
-                    msg.textContent = '⚠️ Please check your email to confirm.';
-                    msg.className = 'error';
-                }
+                msg.textContent = '✅ Account created! You can now sign in.';
+                msg.className = 'success';
+                if (!isLogin) toggleMode();
+                document.getElementById('password').value = '';
+                document.getElementById('confirm-password').value = '';
             }
 
         } catch (error) {
