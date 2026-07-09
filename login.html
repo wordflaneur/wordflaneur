@@ -116,7 +116,10 @@
     // 🔐 YOUR SUPABASE CREDENTIALS
     // ============================================
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.supabase.createClient(
+        process.env.SUPABASE_URL, 
+        process.env.SUPABASE_ANON_KEY
+    );
 
     // ============================================
     // 🧠 STATE
