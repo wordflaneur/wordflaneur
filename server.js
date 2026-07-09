@@ -19,8 +19,8 @@ app.use(express.static('.')); // Serve your HTML, CSS, and JS files
 // ============================================
 // SUPABASE CLIENT
 // ============================================
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL || 'https://ugrmqwgjcisufcpjqhzy.supabase.co';
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ============================================
@@ -142,6 +142,6 @@ app.post('/api/spotlight', async (req, res) => {
 // ============================================
 // START SERVER
 // ============================================
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 WordFlaneur server running on port ${PORT}`);
 });
