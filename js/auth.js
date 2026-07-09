@@ -2,11 +2,20 @@
 // 🔐 AUTH.JS — Authentication Functions
 // ============================================
 
+function getSupabaseClient() {
+  return window.supabase || window.supabaseClient;
+}
+
 // Sign up with email and password
 async function signUp(email, password, username, displayName) {
   try {
+    const client = getSupabaseClient();
+    if (!client?.auth) {
+      throw new Error('Supabase client is not ready.');
+    }
+
     // Create auth user
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    const { data: authData, error: authError } = await client.auth.signUp({
       email,
       password,
       options: {
@@ -20,7 +29,7 @@ async function signUp(email, password, username, displayName) {
     if (authError) throw authError;
 
     // Create profile
-    const { error: profileError } = await supabase
+    const { error: profileError } = await client
       .from('profiles')
       .insert([
         {
@@ -43,7 +52,12 @@ async function signUp(email, password, username, displayName) {
 // Sign in with email and password
 async function signIn(email, password) {
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const client = getSupabaseClient();
+    if (!client?.auth) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { data, error } = await client.auth.signInWithPassword({
       email,
       password
     });
@@ -59,7 +73,12 @@ async function signIn(email, password) {
 // Sign in with Google
 async function signInWithGoogle() {
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const client = getSupabaseClient();
+    if (!client?.auth) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { data, error } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: window.location.origin
@@ -77,7 +96,12 @@ async function signInWithGoogle() {
 // Sign out
 async function signOut() {
   try {
-    const { error } = await supabase.auth.signOut();
+    const client = getSupabaseClient();
+    if (!client?.auth) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { error } = await client.auth.signOut();
     if (error) throw error;
     return { success: true };
   } catch (error) {
@@ -88,7 +112,12 @@ async function signOut() {
 // Get current user
 async function getCurrentUser() {
   try {
-    const { data, error } = await supabase.auth.getUser();
+    const client = getSupabaseClient();
+    if (!client?.auth) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { data, error } = await client.auth.getUser();
     if (error) throw error;
     return { success: true, user: data.user };
   } catch (error) {
@@ -99,7 +128,12 @@ async function getCurrentUser() {
 // Get user profile
 async function getUserProfile(userId) {
   try {
-    const { data, error } = await supabase
+    const client = getSupabaseClient();
+    if (!client?.from) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { data, error } = await client
       .from('profiles')
       .select('*')
       .eq('user_id', userId)
@@ -115,7 +149,12 @@ async function getUserProfile(userId) {
 // Update user profile
 async function updateProfile(userId, updates) {
   try {
-    const { data, error } = await supabase
+    const client = getSupabaseClient();
+    if (!client?.from) {
+      throw new Error('Supabase client is not ready.');
+    }
+
+    const { data, error } = await client
       .from('profiles')
       .update(updates)
       .eq('user_id', userId);
@@ -129,7 +168,8 @@ async function updateProfile(userId, updates) {
 
 // Check if user is authenticated
 function isAuthenticated() {
-  return supabase.auth.session() !== null;
+  const client = getSupabaseClient();
+  return client?.auth?.session() !== null && client?.auth?.session() !== undefined;
 }
 
 // Export functions

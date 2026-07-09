@@ -160,9 +160,14 @@
         }
 
         try {
+            const client = window.supabase || window.supabaseClient;
+            if (!client?.auth) {
+                throw new Error('Supabase client is not ready. Please refresh and try again.');
+            }
+
             if (isLogin) {
                 // ===== SIGN IN =====
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                const { data, error } = await client.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 msg.textContent = '✅ Welcome back! Redirecting...';
                 msg.className = 'success';
@@ -172,7 +177,7 @@
 
             } else {
                 // ===== SIGN UP =====
-                const { data, error } = await supabase.auth.signUp({
+                const { data, error } = await client.auth.signUp({
                     email,
                     password,
                     options: {
