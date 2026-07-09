@@ -8,5 +8,9 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
+      - key: SUPABASE_URL
+        # Set this to your Supabase project URL in the Render dashboard (secret)
+        isSecret: true
+      - key: SUPABASE_ANON_KEY
+        # Set this to your Supabase anon/public key in the Render dashboard (secret)
+        isSecret: true
