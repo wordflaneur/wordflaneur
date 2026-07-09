@@ -163,7 +163,19 @@
         try {
             if (isLogin) {
                 const result = await window.signIn(email, password);
-                if (!result.success) throw new Error(result.error);
+                if (!result.success) {
+                    const fallbackResult = await window.signUp(email, password, email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase(), email.split('@')[0]);
+                    if (!fallbackResult.success) {
+                        throw new Error(result.error || fallbackResult.error || 'Unable to sign in.');
+                    }
+
+                    msg.textContent = '✅ Account created and signed in! Redirecting...';
+                    msg.className = 'success';
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                    return;
+                }
 
                 msg.textContent = '✅ Welcome back! Redirecting...';
                 msg.className = 'success';
@@ -175,11 +187,11 @@
                 const result = await window.signUp(email, password, displayName.toLowerCase().replace(/\s/g, ''), displayName);
                 if (!result.success) throw new Error(result.error);
 
-                msg.textContent = '✅ Account created! You can now sign in.';
+                msg.textContent = '✅ Account created and signed in! Redirecting...';
                 msg.className = 'success';
-                if (!isLogin) toggleMode();
-                document.getElementById('password').value = '';
-                document.getElementById('confirm-password').value = '';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
             }
 
         } catch (error) {

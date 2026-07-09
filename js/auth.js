@@ -85,6 +85,15 @@ async function signUp(email, password, username, displayName) {
       console.warn('Profile sync warning:', profileResult.error);
     }
 
+    if (authData.session) {
+      return { success: true, user: authData.user, session: authData.session };
+    }
+
+    const signInResult = await signIn(email, password);
+    if (signInResult.success) {
+      return { success: true, user: signInResult.user };
+    }
+
     return { success: true, user: authData.user };
   } catch (error) {
     return { success: false, error: error.message };
