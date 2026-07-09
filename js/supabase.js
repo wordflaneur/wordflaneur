@@ -24,7 +24,7 @@ const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
   }
 
   window.supabaseGlobal = window.supabase;
-  window.getSupabaseClient = function getSupabaseClient() {
+  window.getSupabaseClient = function getSupabaseClientHelper() {
     return window.supabaseClient || window.supabase || null;
   };
 })();

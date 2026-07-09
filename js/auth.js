@@ -3,7 +3,13 @@
 // ============================================
 
 function getSupabaseClient() {
-  return window.getSupabaseClient ? window.getSupabaseClient() : (window.supabaseClient || window.supabase || null);
+  if (window.supabaseClient && typeof window.supabaseClient.from === 'function' && window.supabaseClient.auth) {
+    return window.supabaseClient;
+  }
+  if (window.supabase && typeof window.supabase.from === 'function' && window.supabase.auth) {
+    return window.supabase;
+  }
+  return null;
 }
 
 async function ensureUserProfile(user) {
