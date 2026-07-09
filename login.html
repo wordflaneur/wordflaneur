@@ -113,13 +113,14 @@
 
 <script>
     // ============================================
-    // 🔐 YOUR SUPABASE CREDENTIALS
+    // 🔐 SUPABASE CREDENTIALS
     // ============================================
 
-    const supabase = window.supabase.createClient(
-        process.env.SUPABASE_URL, 
-        process.env.SUPABASE_ANON_KEY
-    );
+    // REPLACE these with your actual values from Supabase
+    const SUPABASE_URL = 'https://ugrmqwgjcisufcpjqhzy.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncm1xd2dqY2lzdWZjcGpxaHp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMTQ5OTgsImV4cCI6MjA5ODU5MDk5OH0.Es9YQsuAPQqTGl4vZRotsEaWk9DBv3qmn8C2WfONffM';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================
     // 🧠 STATE
@@ -130,7 +131,7 @@
     // 📤 FORM SUBMIT
     // ============================================
     document.getElementById('auth-form').addEventListener('submit', async function(e) {
-        e.preventDefault(); // ✅ Prevents page reload
+        e.preventDefault();
 
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
