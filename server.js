@@ -19,9 +19,14 @@ app.use(express.static('.')); // Serve your HTML, CSS, and JS files
 // ============================================
 // SUPABASE CLIENT
 // ============================================
-const supabaseUrl = process.env.SUPABASE_URL || 'https://ugrmqwgjcisufcpjqhzy.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+    console.error('Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables.');
+}
+
+const supabase = createClient(supabaseUrl || 'https://ugrmqwgjcisufcpjqhzy.supabase.co', supabaseKey || 'sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp');
 
 // ============================================
 // HEALTH CHECK

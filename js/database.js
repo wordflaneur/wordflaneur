@@ -2,6 +2,8 @@
 // 📊 DATABASE.JS — Database Operations
 // ============================================
 
+const supabase = window.supabaseClient || window.supabase;
+
 // ============================================
 // STORY OPERATIONS
 // ============================================

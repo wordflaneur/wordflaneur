@@ -2,6 +2,8 @@
 // 📊 DASHBOARD.JS — User Dashboard Logic
 // ============================================
 
+const supabase = window.supabaseClient || window.supabase;
+
 // ============================================
 // GET USER DASHBOARD DATA
 // ============================================

@@ -3,7 +3,7 @@
 // ============================================
 
 function getSupabaseClient() {
-  return window.supabase || window.supabaseClient;
+  return window.getSupabaseClient ? window.getSupabaseClient() : (window.supabaseClient || window.supabase || null);
 }
 
 // Sign up with email and password
@@ -169,7 +169,7 @@ async function updateProfile(userId, updates) {
 // Check if user is authenticated
 function isAuthenticated() {
   const client = getSupabaseClient();
-  return client?.auth?.session() !== null && client?.auth?.session() !== undefined;
+  return Boolean(client?.auth?.session());
 }
 
 // Export functions

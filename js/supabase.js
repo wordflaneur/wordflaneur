@@ -18,9 +18,13 @@ const SUPABASE_ANON_KEY = "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
     window.supabaseClient = supabaseClient;
   } else {
     console.error('Supabase SDK failed to load. Authentication will not work until the script is available.');
+    window.supabase = null;
+    window.supabaseClient = null;
     return;
   }
 
-  // Expose a global variable for pages that reference `supabase` directly.
   window.supabaseGlobal = window.supabase;
+  window.getSupabaseClient = function getSupabaseClient() {
+    return window.supabaseClient || window.supabase || null;
+  };
 })();
