@@ -32,22 +32,22 @@
         <div class="dashboard-grid" style="margin-top: 15px;">
             <div class="dashboard-card">
                 <h3>📖 Stories</h3>
-                <p class="stat">3</p>
+                <p class="stat" id="stories-count">0</p>
                 <p class="stat-label">Published</p>
             </div>
             <div class="dashboard-card">
                 <h3>📝 Chapters</h3>
-                <p class="stat">15</p>
+                <p class="stat" id="chapters-count">0</p>
                 <p class="stat-label">Written</p>
             </div>
             <div class="dashboard-card">
                 <h3>🔦 Spotlights</h3>
-                <p class="stat">12</p>
+                <p class="stat" id="spotlights-count">0</p>
                 <p class="stat-label">Received</p>
             </div>
             <div class="dashboard-card">
                 <h3>⭐ RIS</h3>
-                <p class="stat">247</p>
+                <p class="stat" id="ris-score">0</p>
                 <p class="stat-label">Reader Investment Score</p>
             </div>
         </div>
@@ -55,11 +55,8 @@
         <!-- Recent Activity -->
         <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 20px;">
             <h3 style="color: #3d2b1f;">📋 Recent Activity</h3>
-            <ul style="list-style: none; padding: 0; color: #5a4d3e;">
-                <li style="padding: 8px 0; border-bottom: 1px solid #ede6db;">✅ Published "The Ember Crown" Chapter 5</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #ede6db;">🔦 Received a Spotlight from @BookWorm42</li>
-                <li style="padding: 8px 0; border-bottom: 1px solid #ede6db;">💬 @FantasyFanatic commented on Chapter 3</li>
-                <li style="padding: 8px 0;">📖 "The Ember Crown" reached RIS 247</li>
+            <ul id="activity-list" style="list-style: none; padding: 0; color: #5a4d3e;">
+                <li style="padding: 8px 0;">🌱 No activity yet. Publish your first story to get started.</li>
             </ul>
         </div>
 
@@ -97,6 +94,35 @@
             document.getElementById('login-btn').classList.add('hidden');
             document.getElementById('logout-btn').classList.remove('hidden');
             document.getElementById('publish-btn').style.display = (profile?.role === 'admin' || profile?.role === 'author') ? 'inline-block' : 'none';
+            await loadUserDashboardData(user.id);
+        }
+
+        async function loadUserDashboardData(userId) {
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.from) return;
+
+            const { data: stories = [] } = await client
+                .from('stories')
+                .select('id, chapter_count, spotlight_count, ris_score')
+                .eq('author_id', userId);
+
+            const storyCount = stories.length;
+            const chapterCount = stories.reduce((sum, story) => sum + (story.chapter_count || 0), 0);
+            const spotlightCount = stories.reduce((sum, story) => sum + (story.spotlight_count || 0), 0);
+            const risScore = stories.reduce((sum, story) => sum + (story.ris_score || 0), 0);
+
+            document.getElementById('stories-count').textContent = storyCount;
+            document.getElementById('chapters-count').textContent = chapterCount;
+            document.getElementById('spotlights-count').textContent = spotlightCount;
+            document.getElementById('ris-score').textContent = risScore;
+
+            const activityList = document.getElementById('activity-list');
+            if (!storyCount) {
+                activityList.innerHTML = '<li style="padding: 8px 0;">🌱 No activity yet. Publish your first story to get started.</li>';
+                return;
+            }
+
+            activityList.innerHTML = stories.slice(0, 3).map(story => `<li style="padding: 8px 0; border-bottom: 1px solid #ede6db;">✍️ ${story.id ? 'Published story' : 'Activity recorded'} (${story.chapter_count || 0} chapters)</li>`).join('');
         }
 
         function renderGuestState() {
