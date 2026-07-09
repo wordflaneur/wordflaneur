@@ -74,20 +74,10 @@ async function signUp(email, password, username, displayName) {
 
     if (authError) throw authError;
 
-    // Create profile
-    const { error: profileError } = await client
-      .from('profiles')
-      .insert([
-        {
-          user_id: authData.user.id,
-          username: username,
-          display_name: displayName,
-          role: 'reader',
-          joined_at: new Date().toISOString()
-        }
-      ]);
-
-    if (profileError) throw profileError;
+    const profileResult = await ensureUserProfile(authData.user);
+    if (!profileResult.success) {
+      console.warn('Profile sync warning:', profileResult.error);
+    }
 
     return { success: true, user: authData.user };
   } catch (error) {
