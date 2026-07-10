@@ -19,8 +19,8 @@ app.use(express.static('.')); // Serve your HTML, CSS, and JS files
 // ============================================
 // SUPABASE CLIENT
 // ============================================
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL || process.env.SUPABASE_PROJECT_URL || process.env.DATABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLIC_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
     console.error('Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables.');
