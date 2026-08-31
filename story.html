@@ -1,0 +1,2284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Read — The Shadow's Heir — WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* LIGHT THEME — subtle top shading */
+        /* ============================================================ */
+        body,
+        .container,
+        .reading-page,
+        .reading-main,
+        .chapter-block .chapter-content,
+        .story-header,
+        .comments-sidebar,
+        .highlights-sidebar,
+        .interaction-bar,
+        .progress-container,
+        .site-header,
+        .site-header *,
+        .header-right,
+        .auth-section,
+        .chapter-block,
+        .chapter-block .chapter-divider,
+        .author-note,
+        .end-message {
+            background: #ffffff !important;
+            color: #2d2a24 !important;
+        }
+
+        .chapter-block .chapter-content p,
+        .chapter-block .chapter-content .chapter-title-display,
+        .story-header .info .title,
+        .story-header .info .author,
+        .story-header .info .meta,
+        .story-header .info .tags span,
+        .comments-sidebar *,
+        .highlights-sidebar *,
+        .interaction-bar * {
+            color: #2d2a24 !important;
+        }
+
+        /* TOP BAR SHADING — subtle */
+        .site-header {
+            border-bottom: 1px solid #e8e2d8 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+            background: #ffffff !important;
+            position: relative;
+            z-index: 10;
+        }
+
+        .site-header .logo,
+        .site-header .nav,
+        .header-right {
+            background: transparent !important;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.92) !important;
+            backdrop-filter: blur(4px);
+        }
+
+        .support-btn {
+            background: #2d2a24 !important;
+            color: white !important;
+        }
+        .support-btn .heart {
+            color: #e06b6b !important;
+        }
+
+        /* ============================================================ */
+        /* HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8e2d8;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #2d2a24;
+        }
+        .site-header .logo span {
+            color: #b08a6b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5e5546;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+        .site-header .nav a:hover {
+            color: #2d2a24;
+        }
+        .site-header .nav a.active {
+            color: #2d2a24;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header-right .auth-section #user-greeting {
+            color: #5e5546;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .support-btn {
+            background: #2d2a24;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 18px 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 4px rgba(45,42,36,0.06);
+            white-space: nowrap;
+        }
+        .support-btn:hover {
+            background: #1f1c17;
+            transform: translateY(-1px);
+        }
+        .support-btn .heart {
+            color: #e06b6b;
+            font-size: 15px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ede8df;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #2d2a24;
+            font-size: 18px;
+        }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: #b09a84;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: #f9f6f1;
+            border-radius: 12px;
+            border: 1px solid #ede8df;
+            margin-bottom: 8px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover {
+            border-color: #b08a6b;
+            background: #f5efe8;
+        }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .support-option .left .icon { font-size: 22px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #2d2a24;
+            font-size: 14px;
+        }
+        .support-option .left .info .sub {
+            font-size: 12px;
+            color: #7a6e5e;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b08a6b;
+            font-size: 15px;
+        }
+        .support-modal-footer {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 12px;
+            color: #7a6e5e;
+        }
+        .support-modal-footer a { color: #b08a6b; text-decoration: none; font-weight: 500; }
+
+        /* ============================================================ */
+        /* READING PAGE LAYOUT */
+        /* ============================================================ */
+        .reading-page {
+            display: flex;
+            gap: 28px;
+            margin-top: 12px;
+            align-items: flex-start;
+            background: #ffffff !important;
+        }
+
+        .reading-main {
+            flex: 1;
+            min-width: 0;
+            max-width: 820px;
+            background: #ffffff !important;
+        }
+
+        /* ============================================================ */
+        /* PROGRESS BAR */
+        /* ============================================================ */
+        .progress-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255,255,255,0.92) !important;
+            backdrop-filter: blur(4px);
+            padding: 4px 20px 8px 20px;
+            border-top: 1px solid #ede8df;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 820px;
+            margin: 0 auto;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.02);
+        }
+        @media (min-width: 820px) {
+            .progress-container {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 820px;
+                border-radius: 12px 12px 0 0;
+            }
+        }
+        @media (max-width: 820px) {
+            .progress-container { left: 0; transform: none; width: 100%; border-radius: 0; padding: 4px 16px 8px; }
+        }
+        .progress-bar-track {
+            flex: 1;
+            height: 2px;
+            background: #ede8df;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #b08a6b;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            font-size: 11px;
+            color: #b09a84;
+            min-width: 34px;
+            text-align: right;
+            font-weight: 500;
+        }
+        .progress-label {
+            font-size: 11px;
+            color: #b09a84;
+            font-weight: 400;
+        }
+
+        /* ============================================================ */
+        /* STORY HEADER */
+        /* ============================================================ */
+        .story-header {
+            display: flex;
+            gap: 18px;
+            padding: 14px 32px 16px 32px;
+            background: #ffffff !important;
+            border-bottom: 1px solid #ede8df;
+        }
+
+        .story-header .cover {
+            flex: 0 0 90px;
+        }
+        .story-header .cover img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .story-header .info {
+            flex: 1;
+            min-width: 0;
+        }
+        .story-header .info .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d2a24;
+            margin: 0 0 2px 0;
+        }
+        .story-header .info .author {
+            color: #2d2a24;
+            font-size: 14px;
+            margin: 0 0 2px 0;
+        }
+        .story-header .info .author .co-author {
+            color: #5e5546;
+        }
+        /* Removed translator line — now showing original language */
+        .story-header .info .language-info {
+            font-size: 13px;
+            color: #7a6e5e;
+            margin: 0 0 4px 0;
+        }
+        .story-header .info .language-info strong {
+            color: #5e5546;
+        }
+        .story-header .info .meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: #b09a84;
+            flex-wrap: wrap;
+        }
+        .story-header .info .tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+        /* Different colors for tags by type */
+        .story-header .info .tags .tag-genre {
+            background: #e8d9c4;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #5e4a3a;
+            font-weight: 500;
+        }
+        .story-header .info .tags .tag-subgenre {
+            background: #c8dce8;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #2a4a5a;
+            font-weight: 500;
+        }
+        .story-header .info .tags .tag-trope {
+            background: #d4c8e8;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #4a3a6a;
+            font-weight: 500;
+        }
+        .story-header .info .tags .tag-theme {
+            background: #c8e8d4;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #2a5a4a;
+            font-weight: 500;
+        }
+        .story-header .info .tags .tag-pace {
+            background: #f0d8c8;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #6a4a3a;
+            font-weight: 500;
+        }
+
+        /* Credentials — now with "MP" badge */
+        .credentials-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .credential-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #f5f0ea;
+            border: 1px solid #e6dfd6;
+            border-radius: 30px;
+            padding: 2px 12px 2px 4px;
+            font-size: 12px;
+            color: #5e5546;
+            transition: 0.15s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .credential-badge:hover {
+            background: #ede8df;
+            border-color: #b08a6b;
+        }
+        .credential-badge .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #d9d0c4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: #2d2a24;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .credential-badge .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .credential-badge .cred-label {
+            font-weight: 400;
+            color: #7a6e5e;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+        .credential-badge .cred-name {
+            font-weight: 500;
+            color: #2d2a24;
+            font-size: 12px;
+        }
+        .credential-badge .marketplace-tag {
+            font-size: 7px;
+            background: #b08a6b;
+            color: white;
+            padding: 1px 5px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Marketplace banner with action buttons */
+        .marketplace-section {
+            margin-top: 10px;
+        }
+        .marketplace-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f9f6f1;
+            border: 1px solid #ede8df;
+            border-radius: 12px;
+            padding: 8px 14px;
+            transition: 0.2s;
+            cursor: pointer;
+            max-width: 100%;
+            text-decoration: none;
+        }
+        .marketplace-card:hover {
+            background: #f5efe8;
+            border-color: #b08a6b;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .marketplace-card .icon { font-size: 18px; line-height: 1; }
+        .marketplace-card .content { flex: 1; }
+        .marketplace-card .title {
+            font-weight: 600;
+            font-size: 13px;
+            color: #2d2a24;
+            margin: 0;
+        }
+        .marketplace-card .subtitle {
+            font-size: 11px;
+            color: #7a6e5e;
+            margin: 0;
+        }
+        .marketplace-card .arrow { color: #b08a6b; font-size: 15px; transition: 0.2s; }
+        .marketplace-card:hover .arrow { transform: translateX(4px); }
+
+        /* Action buttons under marketplace */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            padding: 4px 0;
+        }
+        .action-buttons button {
+            background: none;
+            border: 1px solid #e6dfd6;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            color: #5e5546;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .action-buttons button:hover {
+            background: #f5f0ea;
+            border-color: #b08a6b;
+        }
+        .action-buttons button.active {
+            background: #b08a6b;
+            color: white;
+            border-color: #b08a6b;
+        }
+
+        /* Next update banner — below marketplace, above chapters */
+        .next-update-banner {
+            background: #f5f0ea;
+            border-radius: 12px;
+            padding: 10px 20px;
+            margin: 12px 32px 8px 32px;
+            border: 1px solid #ede8df;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .next-update-banner .update-label {
+            font-size: 13px;
+            color: #5e5546;
+        }
+        .next-update-banner .update-countdown {
+            font-weight: 700;
+            font-size: 16px;
+            color: #b06b4a;
+        }
+        .next-update-banner .update-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #5a8f6c;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        /* ============================================================ */
+        /* CHAPTER BLOCK */
+        /* ============================================================ */
+        .chapter-block {
+            margin-bottom: 0;
+            animation: fadeIn 0.4s ease;
+            scroll-margin-top: 80px;
+            background: #ffffff !important;
+        }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+        .chapter-block .chapter-divider {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 16px 32px 10px 32px;
+            color: #b09a84;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            background: #ffffff !important;
+        }
+        .chapter-block .chapter-divider::before {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e6dfd6;
+            min-width: 16px;
+        }
+        .chapter-block .chapter-divider .divider-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+            padding: 0 10px;
+        }
+        .chapter-block .chapter-divider .chapter-number {
+            color: #5e5546;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .chapter-block .chapter-divider .chapter-author {
+            font-size: 13px;
+            color: #7a6e5e;
+            font-weight: 400;
+        }
+        .chapter-block .chapter-divider .chapter-author strong { color: #2d2a24; }
+
+        .chapter-block .chapter-content {
+            background: #ffffff !important;
+            padding: 4px 32px 20px 32px;
+            border: none;
+            border-radius: 0;
+            line-height: 2;
+            font-size: 18px;
+            color: #2d2a24;
+            font-family: Georgia, 'Times New Roman', serif;
+            position: relative;
+        }
+        .chapter-block .chapter-content .chapter-title-display {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-indent: 0;
+            color: #2d2a24;
+        }
+        .chapter-block .chapter-content p {
+            margin: 0 0 1.2em 0;
+            text-indent: 2em;
+            position: relative;
+            padding-right: 36px;
+            transition: background 0.2s;
+            border-radius: 4px;
+            padding: 4px 40px 4px 8px;
+            margin: 0 -8px 1.2em -8px;
+            color: #2d2a24 !important;
+            font-size: 17px;
+        }
+        .chapter-block .chapter-content p:first-of-type { text-indent: 0; }
+        .chapter-block .chapter-content p.highlighted {
+            background: #f5f0ea;
+            border-left: 3px solid #b08a6b;
+        }
+
+        /* ===== TEXT HIGHLIGHT (public/private) ===== */
+        .chapter-block .chapter-content p .highlight {
+            padding: 2px 0;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.15s;
+            color: #2d2a24 !important;
+        }
+        .chapter-block .chapter-content p .highlight.public {
+            background: #e8d9c4;
+        }
+        .chapter-block .chapter-content p .highlight.private {
+            background: #c8dce8;
+        }
+        .chapter-block .chapter-content p .highlight:hover {
+            opacity: 0.8;
+        }
+
+        /* comment trigger */
+        .comment-trigger {
+            position: absolute;
+            right: 4px;
+            top: 0.3em;
+            opacity: 0;
+            background: none;
+            border: none;
+            color: #b09a84;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: 0.2s;
+            font-family: inherit;
+            line-height: 1;
+        }
+        .comment-trigger .count { font-size: 10px; color: #b09a84; margin-left: 1px; }
+        p:hover .comment-trigger { opacity: 1; }
+        .comment-trigger:hover { background: #ede8df; color: #5e5546; }
+        .comment-trigger.has-comments { opacity: 1; color: #b08a6b; }
+        .comment-trigger.has-comments .count { color: #b08a6b; }
+
+        /* Author note */
+        .author-note {
+            background: rgba(249,246,241,0.5) !important;
+            border-left: 3px solid #b08a6b;
+            padding: 12px 32px;
+            margin: 8px 0 16px 0;
+        }
+        .author-note .note-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #7a6e5e;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .author-note .note-text {
+            margin: 4px 0 0 0;
+            font-size: 15px;
+            color: #5e5546;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* ============================================================ */
+        /* SIDEBARS — with support snippets */
+        /* ============================================================ */
+        .highlights-sidebar {
+            flex: 0 0 260px;
+            width: 260px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            background: #ffffff !important;
+            border: 1px solid #ede8df;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            align-self: flex-start;
+            transition: 0.3s ease;
+        }
+        .highlights-sidebar.collapsed {
+            flex: 0 0 48px;
+            width: 48px;
+            min-height: 48px;
+            max-height: 48px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .highlights-sidebar.collapsed .sidebar-body,
+        .highlights-sidebar.collapsed .support-author-snippet { display: none; }
+        .highlights-sidebar .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid #ede8df;
+            flex-shrink: 0;
+            background: #ffffff !important;
+            cursor: pointer;
+            user-select: none;
+        }
+        .highlights-sidebar .sidebar-header h3 {
+            font-size: 14px;
+            color: #2d2a24;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .highlights-sidebar .sidebar-header h3 span {
+            font-size: 12px;
+            color: #b09a84;
+            font-weight: 400;
+        }
+        .highlights-sidebar .sidebar-header .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            color: #b09a84;
+            padding: 0 4px;
+            transition: 0.3s;
+        }
+        .highlights-sidebar.collapsed .sidebar-header .toggle-btn { transform: rotate(180deg); }
+
+        /* Support author snippet — above highlights */
+        .support-author-snippet {
+            padding: 10px 14px;
+            border-bottom: 1px solid #ede8df;
+            background: #f9f6f1;
+            flex-shrink: 0;
+        }
+        .support-author-snippet .label {
+            font-size: 12px;
+            color: #5e5546;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .support-author-snippet .toggle-group {
+            display: flex;
+            gap: 4px;
+        }
+        .support-author-snippet .toggle-btn {
+            background: none;
+            border: 1px solid #e6dfd6;
+            padding: 3px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            color: #5e5546;
+            transition: 0.2s;
+        }
+        .support-author-snippet .toggle-btn.active {
+            background: #b08a6b;
+            color: white;
+            border-color: #b08a6b;
+            font-weight: 600;
+        }
+        .support-author-snippet .toggle-btn:hover:not(.active) {
+            background: #ede8df;
+        }
+
+        .highlights-sidebar .sidebar-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 14px 14px;
+            background: #ffffff !important;
+        }
+        .highlights-sidebar .sidebar-body::-webkit-scrollbar { width: 3px; }
+        .highlights-sidebar .sidebar-body::-webkit-scrollbar-track { background: #f5f0ea; border-radius: 4px; }
+        .highlights-sidebar .sidebar-body::-webkit-scrollbar-thumb { background: #d9d0c4; border-radius: 4px; }
+
+        .highlight-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f0ea;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .highlight-item:hover { background: #f9f6f1; margin: 0 -6px; padding: 8px 6px; border-radius: 6px; }
+        .highlight-item .text {
+            font-size: 13px;
+            color: #5e5546;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .highlight-item .meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 3px;
+            font-size: 11px;
+            color: #b09a84;
+            flex-wrap: wrap;
+        }
+        .highlight-item .meta .public-tag {
+            background: #e8d9c4;
+            padding: 1px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            color: #5e5546;
+        }
+        .highlight-item .meta .private-tag {
+            background: #c8dce8;
+            padding: 1px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            color: #3a5e6e;
+        }
+        .highlight-item .meta .chapter-ref { color: #b08a6b; }
+        .highlight-item .actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 3px;
+        }
+        .highlight-item .actions button {
+            background: none;
+            border: none;
+            font-size: 11px;
+            color: #b09a84;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 0;
+        }
+        .highlight-item .actions button:hover { color: #5e5546; }
+        .highlight-item .actions .delete-btn:hover { color: #b05a4a; }
+        .no-highlights-msg {
+            text-align: center;
+            padding: 30px 10px;
+            color: #b09a84;
+            font-size: 13px;
+        }
+        .no-highlights-msg .icon { font-size: 28px; display: block; margin-bottom: 6px; }
+
+        /* ===== COMMENTS SIDEBAR ===== */
+        .comments-sidebar {
+            flex: 0 0 300px;
+            width: 300px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            background: #ffffff !important;
+            border: 1px solid #ede8df;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            align-self: flex-start;
+            transition: 0.3s ease;
+        }
+        .comments-sidebar.collapsed {
+            flex: 0 0 48px;
+            width: 48px;
+            min-height: 48px;
+            max-height: 48px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .comments-sidebar.collapsed .sidebar-body,
+        .comments-sidebar.collapsed .comment-input-area,
+        .comments-sidebar.collapsed .support-platform-snippet { display: none; }
+        .comments-sidebar.collapsed .sidebar-header h3 span { display: none; }
+
+        /* Support platform snippet — above comments */
+        .support-platform-snippet {
+            padding: 10px 14px;
+            border-bottom: 1px solid #ede8df;
+            background: #f9f6f1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .support-platform-snippet .support-text {
+            font-size: 12px;
+            color: #5e5546;
+        }
+        .support-platform-snippet .support-text strong {
+            color: #2d2a24;
+        }
+        .support-platform-snippet .support-btn-small {
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 3px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .support-platform-snippet .support-btn-small:hover {
+            background: #9d7a5d;
+        }
+
+        .comments-sidebar .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid #ede8df;
+            flex-shrink: 0;
+            background: #ffffff !important;
+            cursor: pointer;
+            user-select: none;
+        }
+        .comments-sidebar .sidebar-header h3 {
+            font-size: 14px;
+            color: #2d2a24;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .comments-sidebar .sidebar-header h3 span {
+            font-size: 12px;
+            color: #b09a84;
+            font-weight: 400;
+        }
+        .comments-sidebar .sidebar-header .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .comments-sidebar .sidebar-header .chapter-filter {
+            font-size: 11px;
+            color: #b09a84;
+            background: #f5f0ea;
+            padding: 2px 10px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        .comments-sidebar .sidebar-header .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            color: #b09a84;
+            padding: 0 4px;
+            transition: 0.3s;
+        }
+        .comments-sidebar.collapsed .sidebar-header .toggle-btn { transform: rotate(180deg); }
+        .comments-sidebar .sidebar-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 14px 14px;
+            background: #ffffff !important;
+        }
+        .comments-sidebar .sidebar-body::-webkit-scrollbar { width: 3px; }
+        .comments-sidebar .sidebar-body::-webkit-scrollbar-track { background: #f5f0ea; border-radius: 4px; }
+        .comments-sidebar .sidebar-body::-webkit-scrollbar-thumb { background: #d9d0c4; border-radius: 4px; }
+
+        .comments-sidebar .comment-input-area {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .comments-sidebar .comment-input-area input {
+            flex: 1;
+            padding: 6px 10px;
+            border: 2px solid #ede8df;
+            border-radius: 8px;
+            font-size: 13px;
+            background: #f9f6f1;
+            font-family: inherit;
+        }
+        .comments-sidebar .comment-input-area input:focus {
+            outline: none;
+            border-color: #b08a6b;
+        }
+        .comments-sidebar .comment-input-area button {
+            padding: 6px 14px;
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            font-family: inherit;
+        }
+        .comments-sidebar .comment-input-area button:hover { background: #9d7a5d; }
+
+        /* Comment items */
+        .comment-thread { margin-bottom: 2px; }
+        .comment {
+            padding: 8px 0;
+            border-bottom: 1px solid #f5f0ea;
+        }
+        .comment:last-child { border-bottom: none; }
+        .comment .comment-user {
+            font-weight: 600;
+            font-size: 13px;
+            color: #2d2a24;
+            cursor: pointer;
+        }
+        .comment .comment-user:hover { color: #b08a6b; }
+        .comment .comment-time {
+            font-size: 11px;
+            color: #b09a84;
+            margin-left: 6px;
+        }
+        .comment .comment-text {
+            margin: 2px 0 4px 0;
+            font-size: 13px;
+            color: #5e5546;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        .comment .comment-text:hover { color: #2d2a24; }
+        .comment .comment-context {
+            font-size: 11px;
+            color: #b09a84;
+            background: #f5f0ea;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+            font-style: italic;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .comment .comment-context:hover { background: #ede8df; }
+        .comment .comment-actions {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #b09a84;
+        }
+        .comment .comment-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #b09a84;
+            font-size: 11px;
+            font-family: inherit;
+            padding: 0;
+        }
+        .comment .comment-actions button:hover { color: #5e5546; }
+        .comment .comment-actions .liked { color: #b05a4a; }
+        .comment .comment-actions .reply-btn { color: #b08a6b; font-weight: 500; }
+        .comment .comment-actions .reply-btn:hover { color: #9d7a5d; }
+        .replies {
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #ede8df;
+            margin-top: 4px;
+        }
+        .replies .comment { border-bottom: none; padding: 6px 0; }
+        .replies .comment .comment-user { font-size: 12px; }
+        .replies .comment .comment-text { font-size: 12px; }
+        .reply-input-area {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+            margin-left: 20px;
+        }
+        .reply-input-area input {
+            flex: 1;
+            padding: 4px 8px;
+            border: 2px solid #ede8df;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: inherit;
+            background: #f9f6f1;
+        }
+        .reply-input-area input:focus { outline: none; border-color: #b08a6b; }
+        .reply-input-area button {
+            padding: 4px 12px;
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: inherit;
+        }
+        .reply-input-area button:hover { background: #9d7a5d; }
+        .no-comments-msg {
+            text-align: center;
+            padding: 30px 10px;
+            color: #b09a84;
+            font-size: 14px;
+        }
+        .no-comments-msg .icon { font-size: 28px; display: block; margin-bottom: 8px; }
+
+        /* ============================================================ */
+        /* INTERACTION BAR — at end of each chapter */
+        /* ============================================================ */
+        .interaction-bar {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-start;
+            padding: 10px 0 4px 8px;
+            background: transparent !important;
+            border: none;
+            margin: 4px 32px 12px 32px;
+            flex-wrap: wrap;
+            position: relative;
+            bottom: auto;
+            z-index: auto;
+            box-shadow: none;
+            border-top: 1px solid #ede8df;
+        }
+        .interaction-bar button {
+            background: none;
+            border: none;
+            padding: 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5e5546;
+            transition: 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .interaction-bar button:hover { color: #2d2a24; }
+        .interaction-bar button .count {
+            font-size: 13px;
+            color: #b09a84;
+            font-weight: 500;
+        }
+        .interaction-bar button.active .count { color: #2d2a24; }
+
+        /* ============================================================ */
+        /* END OF CONTENT */
+        /* ============================================================ */
+        .end-message {
+            text-align: center;
+            padding: 24px 32px 24px 32px;
+            color: #b09a84;
+            font-size: 14px;
+            border-top: 1px solid #ede8df;
+            background: #ffffff !important;
+        }
+        .end-message p { margin: 0; }
+        .end-message .sub { font-size: 13px; margin-top: 4px; }
+
+        /* ============================================================ */
+        /* FLOATING COMMENT BTN (mobile) + overlay */
+        /* ============================================================ */
+        .floating-comment-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 16px;
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(176,138,107,0.25);
+            z-index: 40;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .floating-comment-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #b05a4a;
+            color: white;
+            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .comment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1000;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .comment-overlay.active { display: flex; }
+        .comment-overlay-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            border-radius: 20px 20px 0 0;
+            padding: 14px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .comment-overlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ede8df;
+            font-weight: 600;
+            font-size: 16px;
+            color: #2d2a24;
+            flex-shrink: 0;
+        }
+        .comment-overlay-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #b09a84;
+        }
+        .comment-overlay-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+            max-height: 45vh;
+        }
+        .comment-overlay-body::-webkit-scrollbar { width: 3px; }
+        .comment-overlay-body::-webkit-scrollbar-thumb { background: #d9d0c4; border-radius: 4px; }
+        .comment-overlay-footer {
+            display: flex;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid #ede8df;
+            flex-shrink: 0;
+        }
+        .comment-overlay-footer input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #ede8df;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #f9f6f1;
+        }
+        .comment-overlay-footer input:focus { outline: none; border-color: #b08a6b; }
+        .comment-overlay-footer button {
+            padding: 8px 18px;
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .comment-overlay-footer button:hover { background: #9d7a5d; }
+
+        /* ============================================================ */
+        /* SCROLL TOP */
+        /* ============================================================ */
+        .scroll-top {
+            position: fixed;
+            bottom: 150px;
+            right: 16px;
+            background: #b08a6b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(176,138,107,0.18);
+            transition: 0.3s;
+            z-index: 35;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(16px);
+        }
+        .scroll-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .scroll-top:hover { transform: translateY(-2px); }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 1024px) {
+            .reading-page { flex-direction: column; gap: 0; }
+            .comments-sidebar { display: none !important; }
+            .highlights-sidebar { display: none !important; }
+            .floating-comment-btn { display: flex; }
+            .reading-main { max-width: 100%; }
+            .interaction-bar { margin: 4px 16px 12px 16px; }
+            .story-header { padding: 12px 16px; }
+            .chapter-block .chapter-content { padding: 4px 16px 16px; font-size: 17px; }
+            .chapter-block .chapter-divider { padding: 12px 16px 8px; }
+            .author-note { padding: 10px 16px; }
+            .chapter-block .chapter-content p { font-size: 16px; }
+            .next-update-banner { margin: 12px 16px 8px 16px; }
+        }
+        @media (max-width: 768px) {
+            .site-header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .site-header .nav { justify-content: center; gap: 12px; }
+            .header-right { justify-content: center; }
+            .story-header .cover { flex: 0 0 70px; }
+            .story-header .cover img { height: 100px; }
+            .story-header .info .title { font-size: 18px; }
+            .chapter-block .chapter-content { font-size: 16px; padding: 2px 12px 14px; }
+            .chapter-block .chapter-content p { font-size: 15px; padding-right: 28px; }
+            .interaction-bar { gap: 12px; margin: 2px 12px 10px; }
+            .interaction-bar button { font-size: 13px; }
+            .floating-comment-btn { width: 44px; height: 44px; font-size: 16px; bottom: 76px; }
+            .credential-badge .avatar { width: 20px; height: 20px; font-size: 10px; }
+            .next-update-banner { flex-direction: column; text-align: center; padding: 10px 14px; }
+            .action-buttons { justify-content: center; }
+            .support-platform-snippet { flex-direction: column; text-align: center; }
+            .support-author-snippet { text-align: center; }
+            .support-author-snippet .toggle-group { justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .story-header .cover { flex: 0 0 56px; }
+            .story-header .cover img { height: 80px; }
+            .story-header .info .title { font-size: 16px; }
+            .chapter-block .chapter-content { font-size: 15px; }
+            .chapter-block .chapter-content p { font-size: 14px; padding-right: 22px; }
+        }
+        @media (min-width: 1025px) {
+            .floating-comment-btn { display: none !important; }
+            .comment-overlay { display: none !important; }
+        }
+        @media (min-width: 1025px) and (max-width: 1300px) {
+            .comments-sidebar { flex: 0 0 260px; width: 260px; }
+            .highlights-sidebar { flex: 0 0 220px; width: 220px; }
+        }
+
+        /* highlight tooltip */
+        .highlight-tooltip {
+            display: none;
+            position: fixed;
+            background: #2d2a24;
+            color: white;
+            border-radius: 10px;
+            padding: 6px 10px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            z-index: 100;
+            font-size: 12px;
+            gap: 6px;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .highlight-tooltip.active { display: flex; }
+        .highlight-tooltip button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+        .highlight-tooltip button:hover { background: rgba(255,255,255,0.08); }
+        .highlight-tooltip .divider { width: 1px; height: 18px; background: rgba(255,255,255,0.12); }
+        .highlight-tooltip .public-btn { color: #e8d9c4; }
+        .highlight-tooltip .public-btn.active { color: #e8d9c4; font-weight: 600; }
+        .highlight-tooltip .private-btn { color: #a8c8d8; }
+        .highlight-tooltip .private-btn.active { color: #a8c8d8; font-weight: 600; }
+        .highlight-tooltip .remove-btn { color: #e08a7a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()"><span class="heart">❤️</span> Support</button>
+            </div>
+        </header>
+
+        <!-- SUPPORT MODAL -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header"><h3>❤️ Support WordFlaneur</h3><button class="close-btn" onclick="closeSupportModal()">×</button></div>
+                <div class="support-option" onclick="alert('☕ Thank you!')"><div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div><span class="price">$5</span></div>
+                <div class="support-option" onclick="alert('🌟 Thank you!')"><div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly · Ad-free</div></div></div><span class="price">$7.99/mo</span></div>
+                <div class="support-option" onclick="alert('💪 Thank you!')"><div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Exclusive content</div></div></div><span class="price">$14.99/mo</span></div>
+                <div class="support-option" onclick="alert('💎 Thank you!')"><div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Lifetime recognition</div></div></div><span class="price">$49</span></div>
+                <div class="support-modal-footer"><p>Your support helps keep the platform ad-free. <a href="#" onclick="alert('Learn more')">Learn more →</a></p></div>
+            </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-container" id="progress-container">
+            <span class="progress-label">Reading</span>
+            <div class="progress-bar-track"><div class="progress-bar-fill" id="reading-progress"></div></div>
+            <span class="progress-text" id="progress-text">0%</span>
+        </div>
+
+        <!-- READING PAGE -->
+        <div class="reading-page">
+
+            <!-- MAIN CONTENT -->
+            <div class="reading-main">
+
+                <!-- STORY HEADER -->
+                <div class="story-header">
+                    <div class="cover"><img src="https://picsum.photos/seed/darkfantasy/200/280" alt="Cover"></div>
+                    <div class="info">
+                        <h1 class="title">The Shadow's Heir</h1>
+                        <p class="author">by <strong>Elara Voss</strong> <span class="co-author">&amp; <strong>Marcus Chen</strong></span></p>
+                        <!-- Removed "Translated by" — now showing original language -->
+                        <div class="language-info">🌐 Original: <strong>English</strong> · Translated from <strong>English</strong></div>
+                        <div class="meta"><span>⭐ 4.8</span><span>📖 342K reads</span><span>💬 1.2K comments</span><span>📅 Updated 2 days ago</span></div>
+                        <!-- Tags with different colors by type -->
+                        <div class="tags">
+                            <span class="tag-genre">Dark Fantasy</span>
+                            <span class="tag-genre">Action</span>
+                            <span class="tag-subgenre">Adventure</span>
+                            <span class="tag-trope">Slow Burn</span>
+                            <span class="tag-theme">Redemption</span>
+                            <span class="tag-pace">Weekly Updates</span>
+                        </div>
+
+                        <!-- CREDENTIALS with "MP" badge instead of icon -->
+                        <div class="credentials-row">
+                            <a href="marketplace.html" class="credential-badge" onclick="event.preventDefault(); alert('Marketplace coming soon')">
+                                <span class="avatar">MP</span>
+                                <span class="cred-label">Editor</span>
+                                <span class="cred-name">Sarah Mitchell</span>
+                                <span class="marketplace-tag">📦</span>
+                            </a>
+                            <a href="marketplace.html" class="credential-badge" onclick="event.preventDefault(); alert('Marketplace coming soon')">
+                                <span class="avatar">MP</span>
+                                <span class="cred-label">Cover Artist</span>
+                                <span class="cred-name">Art by Luna</span>
+                                <span class="marketplace-tag">📦</span>
+                            </a>
+                            <a href="marketplace.html" class="credential-badge" onclick="event.preventDefault(); alert('Marketplace coming soon')">
+                                <span class="avatar">MP</span>
+                                <span class="cred-label">Translator</span>
+                                <span class="cred-name">Yuki Tanaka</span>
+                                <span class="marketplace-tag">📦</span>
+                            </a>
+                        </div>
+
+                        <!-- MARKETPLACE BANNER with action buttons -->
+                        <div class="marketplace-section">
+                            <a href="marketplace.html" class="marketplace-card" onclick="event.preventDefault(); alert('Marketplace coming soon')">
+                                <span class="icon">💼</span>
+                                <div class="content"><div class="title">Find Editors &amp; Cover Artists</div><div class="subtitle">Connect with professionals in our Marketplace</div></div>
+                                <span class="arrow">→</span>
+                            </a>
+                            <!-- Action buttons: Like | Share | Review | Vote -->
+                            <div class="action-buttons">
+                                <button class="active" onclick="alert('❤️ Liked!')">❤️ <span>Like</span></button>
+                                <button onclick="shareStory()">📤 <span>Share</span></button>
+                                <button onclick="alert('⭐ Review this story')">⭐ <span>Review</span></button>
+                                <button onclick="alert('🗳️ Vote for this story')">🗳️ <span>Vote</span></button>
+                            </div>
+                        </div>
+
+                        <!-- Next update banner — below marketplace, above chapters -->
+                        <div class="next-update-banner">
+                            <span class="update-label"><span class="update-dot"></span> Next chapter arrives in</span>
+                            <span class="update-countdown">3 days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHAPTERS -->
+                <div id="chapters-container">
+
+                    <!-- Chapter 7 -->
+                    <div class="chapter-block" data-chapter="7">
+                        <div class="chapter-divider">
+                            <span class="divider-content"><span class="chapter-number">Chapter 7 — The First Trial</span><span class="chapter-author">by <strong>Elara Voss</strong> &amp; <strong>Marcus Chen</strong></span></span>
+                        </div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">Thank you for reading! This chapter took a while to write. I wanted to capture the tension of the trial perfectly.</p></div>
+                        <div class="chapter-content">
+                            <div class="chapter-title-display">The First Trial</div>
+                            <p data-paragraph="7-1">The air in the chamber was thick with the scent of old stone and something else—something ancient and unspoken. Kaelen stood at the threshold, his hand hovering over the dark iron door, feeling the pulse of magic that hummed beneath the surface.<button class="comment-trigger has-comments" data-paragraph="7-1" onclick="openComments(this)">💬 <span class="count">3</span></button></p>
+                            <p data-paragraph="7-2">"You don't have to do this," Lyra said, her voice barely a whisper. She stood behind him, her fingers twisted in the fabric of her cloak. "There has to be another way."<button class="comment-trigger has-comments" data-paragraph="7-2" onclick="openComments(this)">💬 <span class="count">5</span></button></p>
+                            <p data-paragraph="7-3">Kaelen turned to look at her, a faint smile crossing his lips. "There is no other way. The Council made that clear."<button class="comment-trigger has-comments" data-paragraph="7-3" onclick="openComments(this)">💬 <span class="count">7</span></button></p>
+                            <p data-paragraph="7-4">He pushed open the door. The chamber beyond was vast, its ceiling lost in shadows. At its center stood a single stone pedestal, and upon it, a flame that burned without fuel.<button class="comment-trigger has-comments" data-paragraph="7-4" onclick="openComments(this)">💬 <span class="count">2</span></button></p>
+                            <p data-paragraph="7-5">Kaelen stepped forward, feeling the weight of the moment pressing against his chest. This was the first trial of the Shadow Heir, the test that would determine if he was worthy of the power that had been passed down through generations of his bloodline.<button class="comment-trigger has-comments" data-paragraph="7-5" onclick="openComments(this)">💬 <span class="count">4</span></button></p>
+                            <p data-paragraph="7-6">The flame flickered, and a voice spoke—ancient, resonant, and without a body.<button class="comment-trigger" data-paragraph="7-6" onclick="openComments(this)">💬 <span class="count">1</span></button></p>
+                            <p data-paragraph="7-7">"Kaelen Voss, son of Marcus, grandson of the Shadow. You have come to seek the right to carry the burden of your ancestors."<button class="comment-trigger has-comments" data-paragraph="7-7" onclick="openComments(this)">💬 <span class="count">6</span></button></p>
+                            <p data-paragraph="7-8">Kaelen's heart raced, but he stood firm. "I have."<button class="comment-trigger" data-paragraph="7-8" onclick="openComments(this)">💬 <span class="count">3</span></button></p>
+                            <p data-paragraph="7-9">The voice seemed to smile. "Then let the trial begin."<button class="comment-trigger has-comments" data-paragraph="7-9" onclick="openComments(this)">💬 <span class="count">12</span></button></p>
+                            <p data-paragraph="7-10">And the world around him dissolved into shadow.<button class="comment-trigger has-comments" data-paragraph="7-10" onclick="openComments(this)">💬 <span class="count">8</span></button></p>
+                            <!-- Interaction bar at end of chapter -->
+                            <div class="interaction-bar">
+                                <button class="active">❤️ <span class="count">24</span></button>
+                                <button>📚 <span class="count">12</span></button>
+                                <button>🔖 <span class="count">8</span></button>
+                                <button onclick="toggleComments()">💬 <span class="count">47</span></button>
+                                <button onclick="shareStory()">📤 Share</button>
+                            </div>
+                        </div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">What do you think will happen in the next trial? Let me know your theories!</p></div>
+                    </div>
+
+                    <!-- Chapter 8 -->
+                    <div class="chapter-block" data-chapter="8">
+                        <div class="chapter-divider">
+                            <span class="divider-content"><span class="chapter-number">Chapter 8 — The Shadow's Whisper</span><span class="chapter-author">by <strong>Elara Voss</strong></span></span>
+                        </div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">This chapter introduces the second trial. Things are about to get intense!</p></div>
+                        <div class="chapter-content">
+                            <div class="chapter-title-display">The Shadow's Whisper</div>
+                            <p data-paragraph="8-1">The shadows receded, and Kaelen found himself standing in a vast library. Shelves stretched endlessly in every direction, filled with books that seemed to breathe.<button class="comment-trigger has-comments" data-paragraph="8-1" onclick="openComments(this)">💬 <span class="count">4</span></button></p>
+                            <p data-paragraph="8-2">"Welcome, heir," a voice whispered from the shadows. "The second trial is not of strength—it is of knowledge."<button class="comment-trigger has-comments" data-paragraph="8-2" onclick="openComments(this)">💬 <span class="count">6</span></button></p>
+                            <p data-paragraph="8-3">Kaelen reached for a book, and as his fingers touched the leather binding, the pages began to glow.<button class="comment-trigger" data-paragraph="8-3" onclick="openComments(this)">💬 <span class="count">2</span></button></p>
+                            <p data-paragraph="8-4">"Every page holds a memory of your ancestors. Every word a lesson. Every chapter a piece of the shadow's legacy."<button class="comment-trigger has-comments" data-paragraph="8-4" onclick="openComments(this)">💬 <span class="count">9</span></button></p>
+                            <p data-paragraph="8-5">He opened the book, and the world around him dissolved once more—this time into the past.<button class="comment-trigger has-comments" data-paragraph="8-5" onclick="openComments(this)">💬 <span class="count">5</span></button></p>
+                            <!-- Interaction bar at end of chapter -->
+                            <div class="interaction-bar">
+                                <button class="active">❤️ <span class="count">18</span></button>
+                                <button>📚 <span class="count">9</span></button>
+                                <button>🔖 <span class="count">5</span></button>
+                                <button onclick="toggleComments()">💬 <span class="count">26</span></button>
+                                <button onclick="shareStory()">📤 Share</button>
+                            </div>
+                        </div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">The library is one of my favorite settings in this story. What would you do if you had access to your ancestors' memories?</p></div>
+                    </div>
+                </div>
+
+                <!-- LOADING INDICATOR -->
+                <div class="loading-indicator" id="loading-indicator" style="display: none;"><div class="spinner"></div><div>Loading more chapters...</div></div>
+
+                <!-- END OF CONTENT -->
+                <div class="end-message">
+                    <p>🏁 You've reached the latest chapter.</p>
+                    <p class="sub">Next update in <strong>3 days</strong>. Come back then!</p>
+                    <p class="sub" style="margin-top:6px;font-style:italic;color:#b08a6b;">⏳ Anticipation is part of the experience.</p>
+                    <p class="sub" style="margin-top:10px;font-size:12px;color:#b09a84;">💼 Looking for an editor or cover artist? <a href="marketplace.html" style="color:#b08a6b;text-decoration:none;font-weight:500;">Visit our Marketplace →</a></p>
+                    <button class="support-btn" onclick="openSupportModal()" style="margin-top:12px;width:auto;padding:8px 28px;display:inline-flex;align-items:center;gap:6px;background:#2d2a24;color:white;border:none;border-radius:30px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 1px 4px rgba(45,42,36,0.06);"><span class="heart" style="color:#e06b6b;font-size:15px;">❤️</span> Support WordFlaneur</button>
+                </div>
+
+            </div>
+
+            <!-- HIGHLIGHTS SIDEBAR (Desktop) — with Support Author snippet above -->
+            <div class="highlights-sidebar" id="highlights-sidebar">
+                <!-- Support Author snippet — above highlights -->
+                <div class="support-author-snippet">
+                    <span class="label">💝 Support the <span id="support-label-text">Author</span></span>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" id="support-author-btn" onclick="toggleSupport('author')">Author</button>
+                        <button class="toggle-btn" id="support-scout-btn" onclick="toggleSupport('scout')">Scout</button>
+                    </div>
+                </div>
+                <div class="sidebar-header" onclick="toggleHighlights()">
+                    <h3>📌 Highlights &amp; Notes <span id="highlight-count">(0)</span></h3>
+                    <button class="toggle-btn" id="toggle-highlights-btn" title="Collapse/Expand">◀</button>
+                </div>
+                <div class="sidebar-body" id="highlights-sidebar-body">
+                    <div class="no-highlights-msg" id="no-highlights-msg"><span class="icon">📌</span>Select text to highlight.<br><small style="color:#b09a84;">Public/private toggle available.</small></div>
+                    <div id="highlights-list"></div>
+                </div>
+            </div>
+
+            <!-- COMMENTS SIDEBAR (Desktop) — with Support Platform snippet above -->
+            <div class="comments-sidebar" id="comments-sidebar">
+                <!-- Support Platform snippet — above comments -->
+                <div class="support-platform-snippet">
+                    <span class="support-text">💚 <strong>Support the platform</strong> — keep WordFlaneur ad-free</span>
+                    <button class="support-btn-small" onclick="openSupportModal()">Support →</button>
+                </div>
+                <div class="sidebar-header" onclick="toggleComments()">
+                    <h3>💬 Comments <span id="comment-count">(47)</span></h3>
+                    <div class="header-controls">
+                        <span class="chapter-filter" id="current-chapter-label">Chapter 7</span>
+                        <button class="toggle-btn" id="toggle-comments-btn" title="Collapse/Expand">◀</button>
+                    </div>
+                </div>
+                <div class="sidebar-body" id="comment-sidebar-body">
+                    <div class="comment-input-area">
+                        <input type="text" id="sidebar-comment-input" placeholder="Write a comment...">
+                        <button onclick="postSidebarComment()">Post</button>
+                    </div>
+                    <div id="comments-list"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FLOATING COMMENT BUTTON (Mobile) -->
+        <button class="floating-comment-btn" id="floating-comment-btn" onclick="toggleCommentOverlay()">💬<span class="badge">47</span></button>
+
+        <!-- COMMENT OVERLAY (Mobile) -->
+        <div class="comment-overlay" id="comment-overlay">
+            <div class="comment-overlay-content">
+                <div class="comment-overlay-header"><span>💬 Comments <span style="font-size:13px;color:#b09a84;font-weight:400;" id="mobile-comment-count">(47)</span></span><button class="close-btn" onclick="closeCommentOverlay()">✕</button></div>
+                <div class="comment-overlay-body" id="mobile-comment-body"></div>
+                <div class="comment-overlay-footer"><input type="text" placeholder="Write a comment..."><button onclick="postMobileComment()">Post</button></div>
+            </div>
+        </div>
+
+        <!-- HIGHLIGHT TOOLTIP -->
+        <div class="highlight-tooltip" id="highlight-tooltip">
+            <button class="public-btn active" onclick="createHighlight('public')">📌 Public</button>
+            <button class="private-btn" onclick="createHighlight('private')">🔒 Private</button>
+            <span class="divider"></span>
+            <button class="remove-btn" onclick="removeHighlight()">✕</button>
+        </div>
+
+        <!-- SCROLL TOP -->
+        <button class="scroll-top" id="scroll-top" title="Scroll to top">↑</button>
+
+        <footer style="max-width:1200px;margin:0 auto;padding:20px 20px 0;border-top:1px solid #ede8df;text-align:center;color:#7a6e5e;font-size:13px;">
+            <p>WordFlaneur — where authors create at a reasonable pace.</p>
+            <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // ============================================================
+        // DATA: Comments
+        // ============================================================
+        const commentsData = {
+            '7-1': [
+                { id: 'c1', user: 'ShadowReader', time: '2 hours ago', text: 'This chapter was incredible! The tension was palpable.', likes: 12, replies: [
+                    { id: 'r1', user: 'BookWorm42', time: '1 hour ago', text: 'I agree! The atmosphere was amazing.', likes: 4 }
+                ] },
+                { id: 'c2', user: 'FantasyLover', time: '3 hours ago', text: 'I love how the magic system is being revealed slowly.', likes: 8, replies: [] }
+            ],
+            '7-2': [
+                { id: 'c3', user: 'NightOwl', time: '4 hours ago', text: 'Lyra is such a great character. Her worry for Kaelen feels real.', likes: 6, replies: [] }
+            ],
+            '7-3': [
+                { id: 'c4', user: 'StorySeeker', time: '5 hours ago', text: '"The Council made that clear" — I want to know more about this Council!', likes: 15, replies: [
+                    { id: 'r2', user: 'ShadowReader', time: '3 hours ago', text: 'I think they\'re the ones who set up the trials.', likes: 3 }
+                ] },
+                { id: 'c5', user: 'LunaReads', time: '6 hours ago', text: 'Kaelen\'s determination is inspiring.', likes: 7, replies: [] }
+            ],
+            '7-5': [
+                { id: 'c6', user: 'BookWorm42', time: '7 hours ago', text: 'The world-building is amazing. I love how the Shadow Heir lore is being revealed slowly.', likes: 9, replies: [] }
+            ],
+            '7-7': [
+                { id: 'c7', user: 'FantasyLover', time: '8 hours ago', text: 'I have a theory about the voice—it might be Kaelen\'s grandfather testing him from beyond the grave!', likes: 12, replies: [
+                    { id: 'r3', user: 'NightOwl', time: '6 hours ago', text: 'That would be such a cool twist!', likes: 2 }
+                ] }
+            ],
+            '7-9': [
+                { id: 'c8', user: 'StorySeeker', time: '9 hours ago', text: '"Then let the trial begin" — this line gave me chills!', likes: 18, replies: [
+                    { id: 'r4', user: 'LunaReads', time: '7 hours ago', text: 'Same! I had to read it twice.', likes: 5 }
+                ] },
+                { id: 'c9', user: 'ShadowReader', time: '10 hours ago', text: 'The trials are giving me serious Hunger Games vibes.', likes: 11, replies: [] }
+            ],
+            '7-10': [
+                { id: 'c10', user: 'BookWorm42', time: '11 hours ago', text: '"Dissolved into shadow" — such a powerful image.', likes: 8, replies: [
+                    { id: 'r5', user: 'FantasyLover', time: '9 hours ago', text: 'The writing is so vivid!', likes: 3 }
+                ] }
+            ],
+            '8-1': [
+                { id: 'c11', user: 'LunaReads', time: '12 hours ago', text: 'A library of memories! This is such a cool concept.', likes: 10, replies: [] }
+            ],
+            '8-2': [
+                { id: 'c12', user: 'NightOwl', time: '13 hours ago', text: '"The second trial is not of strength—it is of knowledge" — love this shift.', likes: 7, replies: [] }
+            ],
+            '8-4': [
+                { id: 'c13', user: 'ShadowReader', time: '14 hours ago', text: 'Every chapter a piece of the shadow\'s legacy... poetic.', likes: 9, replies: [] }
+            ],
+            '8-5': [
+                { id: 'c14', user: 'StorySeeker', time: '15 hours ago', text: 'Time travel via books? Yes please!', likes: 13, replies: [
+                    { id: 'r6', user: 'BookWorm42', time: '13 hours ago', text: 'This is my favorite trope.', likes: 4 }
+                ] }
+            ]
+        };
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentChapter = '7';
+        let sidebarCollapsed = false;
+        let highlightsSidebarCollapsed = false;
+        let highlights = [];
+        let selectedText = '';
+        let selectedRange = null;
+        let currentHighlightId = null;
+        let supportMode = 'author'; // 'author' or 'scout'
+
+        // ============================================================
+        // PROGRESS
+        // ============================================================
+        function updateProgress() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            const clamped = Math.min(progress, 100);
+            document.getElementById('reading-progress').style.width = clamped + '%';
+            document.getElementById('progress-text').textContent = Math.round(clamped) + '%';
+        }
+        window.addEventListener('scroll', function() { updateProgress(); detectCurrentChapter(); });
+        window.addEventListener('resize', updateProgress);
+
+        // ============================================================
+        // CHAPTER DETECTION
+        // ============================================================
+        function detectCurrentChapter() {
+            const chapters = document.querySelectorAll('.chapter-block');
+            let detectedChapter = '7';
+            chapters.forEach(chapter => {
+                const rect = chapter.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.4) {
+                    detectedChapter = chapter.getAttribute('data-chapter') || '7';
+                }
+            });
+            if (detectedChapter !== currentChapter) {
+                currentChapter = detectedChapter;
+                renderCommentsForChapter(currentChapter);
+                updateChapterLabel(currentChapter);
+            }
+        }
+        function updateChapterLabel(chapter) {
+            document.getElementById('current-chapter-label').textContent = `Chapter ${chapter}`;
+        }
+
+        // ============================================================
+        // SUPPORT TOGGLE
+        // ============================================================
+        function toggleSupport(mode) {
+            supportMode = mode;
+            const authorBtn = document.getElementById('support-author-btn');
+            const scoutBtn = document.getElementById('support-scout-btn');
+            const label = document.getElementById('support-label-text');
+            if (mode === 'author') {
+                authorBtn.classList.add('active');
+                scoutBtn.classList.remove('active');
+                label.textContent = 'Author';
+            } else {
+                scoutBtn.classList.add('active');
+                authorBtn.classList.remove('active');
+                label.textContent = 'Scout';
+            }
+        }
+
+        // ============================================================
+        // RENDER COMMENTS
+        // ============================================================
+        function renderCommentsForChapter(chapter) {
+            const container = document.getElementById('comments-list');
+            const commentCount = document.getElementById('comment-count');
+            const chapterBlock = document.querySelector(`.chapter-block[data-chapter="${chapter}"]`);
+            if (!chapterBlock) {
+                container.innerHTML = `<div class="no-comments-msg"><span class="icon">💬</span>No comments yet for this chapter.<br>Start the discussion!</div>`;
+                commentCount.textContent = '(0)';
+                return;
+            }
+            const paragraphs = chapterBlock.querySelectorAll('[data-paragraph]');
+            let allComments = [];
+            paragraphs.forEach(p => {
+                const paraId = p.getAttribute('data-paragraph');
+                const comments = commentsData[paraId] || [];
+                comments.forEach(c => {
+                    c.paragraphId = paraId;
+                    c.paragraphText = p.textContent.trim().substring(0, 60) + '...';
+                    allComments.push(c);
+                });
+            });
+            if (allComments.length === 0) {
+                container.innerHTML = `<div class="no-comments-msg"><span class="icon">💬</span>No comments yet for this chapter.<br>Start the discussion!</div>`;
+                commentCount.textContent = '(0)';
+                return;
+            }
+            const total = allComments.length;
+            commentCount.textContent = `(${total})`;
+            let html = '';
+            allComments.forEach(comment => {
+                const replyHtml = comment.replies && comment.replies.length > 0 ?
+                    `<div class="replies">${comment.replies.map(r => `
+                            <div class="comment">
+                                <span class="comment-user">${r.user}</span>
+                                <span class="comment-time">${r.time}</span>
+                                <div class="comment-text" onclick="scrollToParagraph('${comment.paragraphId}')">${r.text}</div>
+                                <div class="comment-actions">
+                                    <button onclick="toggleLike(this)">❤️ <span>${r.likes}</span></button>
+                                </div>
+                            </div>
+                        `).join('')}</div>` : '';
+                html += `
+                        <div class="comment-thread">
+                            <div class="comment" data-comment-id="${comment.id}">
+                                <div class="comment-context" onclick="scrollToParagraph('${comment.paragraphId}')">On: "${comment.paragraphText}"</div>
+                                <span class="comment-user" onclick="scrollToParagraph('${comment.paragraphId}')">${comment.user}</span>
+                                <span class="comment-time">${comment.time}</span>
+                                <div class="comment-text" onclick="scrollToParagraph('${comment.paragraphId}')">${comment.text}</div>
+                                <div class="comment-actions">
+                                    <button onclick="toggleLike(this)">❤️ <span>${comment.likes}</span></button>
+                                    <button class="reply-btn" onclick="showReplyInput(this, '${comment.paragraphId}', '${comment.id}')">Reply</button>
+                                    <button onclick="scrollToParagraph('${comment.paragraphId}')">📍</button>
+                                </div>
+                                ${replyHtml}
+                                <div id="reply-input-${comment.id}" style="display:none;" class="reply-input-area">
+                                    <input type="text" placeholder="Write a reply...">
+                                    <button onclick="postReply(this, '${comment.paragraphId}', '${comment.id}')">Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            });
+            container.innerHTML = html;
+        }
+
+        function scrollToParagraph(paragraphId) {
+            const p = document.querySelector(`p[data-paragraph="${paragraphId}"]`);
+            if (p) {
+                document.querySelectorAll('.chapter-block .chapter-content p').forEach(el => el.classList.remove('highlighted'));
+                p.classList.add('highlighted');
+                p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function toggleComments() {
+            const sidebar = document.getElementById('comments-sidebar');
+            const toggleBtn = document.getElementById('toggle-comments-btn');
+            sidebar.classList.toggle('collapsed');
+            sidebarCollapsed = sidebar.classList.contains('collapsed');
+            toggleBtn.textContent = sidebarCollapsed ? '▶' : '◀';
+        }
+
+        function openComments(btn) {
+            const isMobile = window.innerWidth <= 1024;
+            if (isMobile) {
+                toggleCommentOverlay();
+                if (btn) { const paragraphId = btn.getAttribute('data-paragraph'); renderMobileComments(paragraphId); }
+                else { renderMobileComments(null); }
+                return;
+            }
+            if (sidebarCollapsed) toggleComments();
+            if (btn) { const paragraphId = btn.getAttribute('data-paragraph'); scrollToParagraph(paragraphId); }
+        }
+
+        function renderMobileComments(paragraphId) {
+            const container = document.getElementById('mobile-comment-body');
+            const countEl = document.getElementById('mobile-comment-count');
+            if (paragraphId) {
+                const comments = commentsData[paragraphId] || [];
+                if (comments.length === 0) {
+                    container.innerHTML = '<div class="no-comments-msg"><span class="icon">💬</span>No comments on this paragraph.</div>';
+                    countEl.textContent = '(0)';
+                    return;
+                }
+                let html = '';
+                comments.forEach(comment => { html += renderMobileCommentItem(comment, paragraphId); });
+                container.innerHTML = html;
+                countEl.textContent = `(${comments.length})`;
+            } else {
+                let html = ''; let total = 0;
+                const sortedKeys = Object.keys(commentsData).sort();
+                let currentChapter = '';
+                sortedKeys.forEach(key => {
+                    const chapter = key.split('-')[0];
+                    if (chapter !== currentChapter) { currentChapter = chapter;
+                        html += `<div style="font-weight:600;font-size:13px;color:#5e5546;padding:6px 0 4px 0;border-top:1px solid #ede8df;margin-top:4px;">Chapter ${chapter}</div>`; }
+                    const comments = commentsData[key] || [];
+                    comments.forEach(c => { total++;
+                        html += renderMobileCommentItem(c, key); });
+                });
+                container.innerHTML = html;
+                countEl.textContent = `(${total})`;
+            }
+        }
+        function renderMobileCommentItem(comment, paragraphId) {
+            return `<div class="comment-thread"><div class="comment"><div class="comment-context" onclick="scrollToParagraph('${paragraphId}')">On: "${getParagraphPreview(paragraphId)}"</div><span class="comment-user">${comment.user}</span><span class="comment-time">${comment.time}</span><div class="comment-text" onclick="scrollToParagraph('${paragraphId}')">${comment.text}</div><div class="comment-actions"><button onclick="toggleLike(this)">❤️ <span>${comment.likes}</span></button><button onclick="scrollToParagraph('${paragraphId}')">📍</button></div></div></div>`;
+        }
+        function getParagraphPreview(paragraphId) {
+            const p = document.querySelector(`p[data-paragraph="${paragraphId}"]`);
+            if (p) { const text = p.textContent.trim(); return text.length > 50 ? text.substring(0, 50) + '...' : text; }
+            return paragraphId;
+        }
+        function toggleCommentOverlay() {
+            const overlay = document.getElementById('comment-overlay');
+            const isOpen = overlay.classList.contains('active');
+            if (isOpen) closeCommentOverlay();
+            else { overlay.classList.add('active'); document.body.style.overflow = 'hidden'; renderMobileComments(null); }
+        }
+        function closeCommentOverlay() {
+            document.getElementById('comment-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('comment-overlay').addEventListener('click', function(e) { if (e.target === this) closeCommentOverlay(); });
+
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            const span = btn.querySelector('span');
+            if (span) { const num = parseInt(span.textContent) || 0; span.textContent = btn.classList.contains('liked') ? num + 1 : Math.max(0, num - 1); }
+        }
+        function showReplyInput(btn, paragraphId, commentId) {
+            const replyInput = document.getElementById(`reply-input-${commentId}`);
+            if (replyInput) { replyInput.style.display = replyInput.style.display === 'none' ? 'flex' : 'none'; if (replyInput.style.display === 'flex') replyInput.querySelector('input').focus(); }
+        }
+        function postReply(btn, paragraphId, commentId) {
+            const container = btn.closest('.reply-input-area');
+            const input = container.querySelector('input');
+            if (input && input.value.trim()) {
+                const text = input.value.trim();
+                alert(`Reply posted: "${text}" (Demo)`);
+                input.value = '';
+                container.style.display = 'none';
+                const commentEl = container.closest('.comment');
+                const repliesContainer = commentEl.querySelector('.replies');
+                if (repliesContainer) {
+                    repliesContainer.innerHTML += `<div class="comment"><span class="comment-user">You</span><span class="comment-time">Just now</span><div class="comment-text" onclick="scrollToParagraph('${paragraphId}')">${text}</div><div class="comment-actions"><button onclick="toggleLike(this)">❤️ <span>0</span></button></div></div>`;
+                }
+            }
+        }
+        function postSidebarComment() {
+            const input = document.getElementById('sidebar-comment-input');
+            if (input && input.value.trim()) {
+                const text = input.value.trim();
+                alert(`Comment posted on Chapter ${currentChapter}: "${text}" (Demo)`);
+                input.value = '';
+                renderCommentsForChapter(currentChapter);
+            }
+        }
+        document.getElementById('sidebar-comment-input')?.addEventListener('keydown', function(e) { if (e.key === 'Enter') postSidebarComment(); });
+        function postMobileComment() {
+            const input = document.querySelector('.comment-overlay-footer input');
+            if (input && input.value.trim()) {
+                const text = input.value.trim();
+                alert(`Comment posted: "${text}" (Demo)`);
+                input.value = '';
+                closeCommentOverlay();
+            }
+        }
+        document.querySelector('.comment-overlay-footer input')?.addEventListener('keydown', function(e) { if (e.key === 'Enter') postMobileComment(); });
+
+        function shareStory() {
+            if (navigator.share) {
+                navigator.share({ title: 'The Shadow\'s Heir', text: 'Check out this story on WordFlaneur!', url: window.location.href }).catch(() => {});
+            } else { alert('Share this story! (Demo)'); }
+        }
+
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() { document.getElementById('support-modal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeSupportModal() { document.getElementById('support-modal').classList.remove('active'); document.body.style.overflow = ''; }
+        document.getElementById('support-modal').addEventListener('click', function(e) { if (e.target === this) closeSupportModal(); });
+
+        // ============================================================
+        // SCROLL TOP
+        // ============================================================
+        const scrollBtn = document.getElementById('scroll-top');
+        window.addEventListener('scroll', function() {
+            const isMobile = window.innerWidth <= 768;
+            const threshold = isMobile ? 300 : 500;
+            if (window.scrollY > threshold) scrollBtn.classList.add('visible');
+            else scrollBtn.classList.remove('visible');
+        });
+        scrollBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeCommentOverlay(); if (sidebarCollapsed) toggleComments(); if (highlightsSidebarCollapsed) toggleHighlights(); }
+            if (e.key === 'c' && !e.ctrlKey && !e.metaKey) { const active = document.activeElement; if (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA')) toggleComments(); }
+            if (e.key === 'h' && !e.ctrlKey && !e.metaKey) { const active = document.activeElement; if (!active || (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA')) toggleHighlights(); }
+        });
+
+        // ============================================================
+        // HIGHLIGHTS (renamed to Highlights & Notes)
+        // ============================================================
+        function toggleHighlights() {
+            const sidebar = document.getElementById('highlights-sidebar');
+            const toggleBtn = document.getElementById('toggle-highlights-btn');
+            sidebar.classList.toggle('collapsed');
+            highlightsSidebarCollapsed = sidebar.classList.contains('collapsed');
+            toggleBtn.textContent = highlightsSidebarCollapsed ? '▶' : '◀';
+        }
+
+        document.addEventListener('mouseup', function(e) {
+            const selection = window.getSelection();
+            const text = selection.toString().trim();
+            const parent = selection.anchorNode?.parentElement?.closest?.('.chapter-content p');
+            if (!parent || !text || text.length < 2) {
+                document.getElementById('highlight-tooltip').classList.remove('active');
+                return;
+            }
+            const rect = selection.getRangeAt(0).getBoundingClientRect();
+            const tooltip = document.getElementById('highlight-tooltip');
+            const tooltipRect = tooltip.getBoundingClientRect();
+            let top = rect.top - 10 - tooltipRect.height;
+            if (top < 10) top = rect.bottom + 10;
+            tooltip.style.top = top + 'px';
+            tooltip.style.left = (rect.left + rect.width / 2 - 100) + 'px';
+            tooltip.classList.add('active');
+            selectedText = text;
+            selectedRange = selection.getRangeAt(0);
+            currentHighlightId = null;
+            tooltip.querySelector('.public-btn').classList.add('active');
+            tooltip.querySelector('.private-btn').classList.remove('active');
+        });
+
+        function createHighlight(visibility) {
+            if (!selectedRange || !selectedText) return;
+            const highlight = {
+                id: 'hl_' + Date.now(),
+                text: selectedText,
+                visibility: visibility,
+                chapter: currentChapter,
+                paragraph: selectedRange.commonAncestorContainer?.closest?.('p')?.getAttribute('data-paragraph') || currentChapter,
+                createdAt: new Date().toISOString()
+            };
+            const span = document.createElement('span');
+            span.className = `highlight ${visibility}`;
+            span.dataset.highlightId = highlight.id;
+            span.textContent = selectedText;
+            try { selectedRange.deleteContents(); selectedRange.insertNode(span); } catch (e) { alert('Could not create highlight.'); document.getElementById('highlight-tooltip').classList.remove('active'); return; }
+            highlights.push(highlight);
+            renderHighlights();
+            updateHighlightCount();
+            document.getElementById('highlight-tooltip').classList.remove('active');
+            window.getSelection().removeAllRanges();
+            selectedText = '';
+            selectedRange = null;
+        }
+
+        function removeHighlight() {
+            if (currentHighlightId) {
+                const highlightEl = document.querySelector(`[data-highlight-id="${currentHighlightId}"]`);
+                if (highlightEl) { const text = highlightEl.textContent; const parent = highlightEl.parentNode; const textNode = document.createTextNode(text); parent.replaceChild(textNode, highlightEl); }
+                highlights = highlights.filter(h => h.id !== currentHighlightId);
+                renderHighlights();
+                updateHighlightCount();
+                currentHighlightId = null;
+                document.getElementById('highlight-tooltip').classList.remove('active');
+            }
+        }
+
+        function renderHighlights() {
+            const container = document.getElementById('highlights-list');
+            const noMsg = document.getElementById('no-highlights-msg');
+            if (highlights.length === 0) { container.innerHTML = ''; noMsg.style.display = 'block'; return; }
+            noMsg.style.display = 'none';
+            let html = '';
+            highlights.forEach(h => {
+                const visibilityLabel = h.visibility === 'public' ? 'Public' : 'Private';
+                const visibilityClass = h.visibility === 'public' ? 'public-tag' : 'private-tag';
+                html += `<div class="highlight-item" onclick="scrollToParagraph('${h.paragraph}')">
+                            <div class="text">"${h.text.substring(0, 80)}${h.text.length > 80 ? '...' : ''}"</div>
+                            <div class="meta"><span class="${visibilityClass}">${visibilityLabel}</span><span class="chapter-ref">${h.chapter}</span><span>${new Date(h.createdAt).toLocaleDateString()}</span></div>
+                            <div class="actions"><button onclick="event.stopPropagation(); removeHighlightById('${h.id}')" class="delete-btn">✕ Remove</button></div>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+        function removeHighlightById(id) {
+            const highlightEl = document.querySelector(`[data-highlight-id="${id}"]`);
+            if (highlightEl) { const text = highlightEl.textContent; const parent = highlightEl.parentNode; const textNode = document.createTextNode(text); parent.replaceChild(textNode, highlightEl); }
+            highlights = highlights.filter(h => h.id !== id);
+            renderHighlights();
+            updateHighlightCount();
+        }
+        function updateHighlightCount() {
+            document.getElementById('highlight-count').textContent = `(${highlights.length})`;
+        }
+
+        document.addEventListener('click', function(e) {
+            const highlightEl = e.target.closest('.highlight');
+            if (highlightEl) {
+                currentHighlightId = highlightEl.dataset.highlightId;
+                const tooltip = document.getElementById('highlight-tooltip');
+                const rect = highlightEl.getBoundingClientRect();
+                tooltip.style.top = (rect.top - 10 - tooltip.offsetHeight) + 'px';
+                tooltip.style.left = (rect.left + rect.width / 2 - 100) + 'px';
+                tooltip.classList.add('active');
+                tooltip.querySelector('.public-btn').classList.remove('active');
+                tooltip.querySelector('.private-btn').classList.remove('active');
+                tooltip.querySelector('.remove-btn').style.display = 'block';
+            }
+        });
+
+        // ============================================================
+        // INFINITE SCROLL (minimal)
+        // ============================================================
+        let nextChapter = 9;
+        let isLoading = false;
+        const container = document.getElementById('chapters-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const chapterData = {
+            9: {
+                title: "The Forgotten Oath",
+                authorNoteBefore: "This chapter reveals some important backstory. Pay attention to the details!",
+                authorNoteAfter: "What do you think the forgotten oath means for Kaelen's future?",
+                paragraphs: [
+                    "The past unfolded around him like a tapestry woven from shadow and light. Kaelen found himself standing in a courtyard he had never seen, yet somehow recognized.",
+                    "A woman with silver hair sat on a stone bench, her eyes fixed on the horizon. She was beautiful, ancient, and familiar in a way that made his chest ache.",
+                    "\"You see, Kaelen,\" she said, without turning around, \"the shadow is not a curse. It is a choice.\"",
+                    "Kaelen stepped forward. \"Who are you?\"",
+                    "\"I am the one who made the first covenant. And I am the one who will tell you the truth—if you are ready to hear it.\""
+                ],
+                commentCounts: [3, 5, 7, 2, 4]
+            }
+        };
+        function loadMoreChapters() {
+            if (isLoading || nextChapter > 9) return;
+            isLoading = true;
+            loadingIndicator.style.display = 'block';
+            setTimeout(() => {
+                const data = chapterData[nextChapter];
+                if (!data) { isLoading = false; loadingIndicator.style.display = 'none'; return; }
+                const chapterHTML = createChapterBlock(nextChapter, data);
+                container.insertAdjacentHTML('beforeend', chapterHTML);
+                nextChapter++;
+                isLoading = false;
+                loadingIndicator.style.display = 'none';
+                if (nextChapter > 9) { loadingIndicator.innerHTML = '🏁 No more chapters available'; loadingIndicator.style.display = 'block'; }
+                setTimeout(detectCurrentChapter, 500);
+            }, 800);
+        }
+        function createChapterBlock(chapterNum, data) {
+            let paragraphsHTML = data.paragraphs.map((text, idx) => {
+                const count = data.commentCounts[idx] || 0;
+                const paraId = `${chapterNum}-${idx + 1}`;
+                const hasComments = count > 0 ? 'has-comments' : '';
+                return `<p data-paragraph="${paraId}">${text}<button class="comment-trigger ${hasComments}" data-paragraph="${paraId}" onclick="openComments(this)">💬 <span class="count">${count}</span></button></p>`;
+            }).join('');
+            return `<div class="chapter-block" data-chapter="${chapterNum}">
+                        <div class="chapter-divider"><span class="divider-content"><span class="chapter-number">Chapter ${chapterNum} — ${data.title}</span><span class="chapter-author">by <strong>Elara Voss</strong></span></span></div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">${data.authorNoteBefore}</p></div>
+                        <div class="chapter-content"><div class="chapter-title-display">${data.title}</div>${paragraphsHTML}<div class="interaction-bar"><button class="active">❤️ <span class="count">5</span></button><button>📚 <span class="count">2</span></button><button>🔖 <span class="count">1</span></button><button onclick="toggleComments()">💬 <span class="count">${data.commentCounts.reduce((a,b)=>a+b,0)}</span></button><button onclick="shareStory()">📤 Share</button></div></div>
+                        <div class="author-note"><div class="note-label">📝 Author's Note</div><p class="note-text">${data.authorNoteAfter}</p></div>
+                    </div>`;
+        }
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) loadMoreChapters(); }); }, { rootMargin: '300px', threshold: 0.1 });
+        observer.observe(loadingIndicator);
+
+        // ============================================================
+        // AUTH (dummy)
+        // ============================================================
+        async function handleLogin() { window.location.href = 'login.html'; }
+        async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
+        async function checkAuth() {
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.auth) { renderGuestState(); return; }
+            const { data: { session }, error } = await client.auth.getSession();
+            if (error || !session?.user) { renderGuestState(); return; }
+            const user = session.user;
+            const profileResult = await getUserProfile(user.id);
+            const profile = profileResult.success && profileResult.profile ? profileResult.profile : null;
+            document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('publish-btn').style.display = 'inline-block';
+        }
+        function renderGuestState() {
+            document.getElementById('user-greeting').textContent = 'Guest';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.add('hidden');
+            document.getElementById('publish-btn').style.display = 'none';
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            currentChapter = '7';
+            renderCommentsForChapter('7');
+            renderHighlights();
+            updateHighlightCount();
+            setTimeout(updateProgress, 100);
+            setTimeout(detectCurrentChapter, 300);
+            checkAuth();
+            console.log('📖 WordFlaneur Reading Page loaded — support snippets repositioned');
+        });
+    </script>
+</body>
+</html>
