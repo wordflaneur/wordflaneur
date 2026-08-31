@@ -3,111 +3,1126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — WordFlaneur</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin · WordFlaneur</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* ADMIN DASHBOARD */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ===== ADMIN BADGE ===== */
+        .admin-badge {
+            background: #b8634b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================ */
+        /* ADMIN LAYOUT */
+        /* ============================================================ */
+        .admin-wrapper {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .admin-sidebar {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e8e3dd;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .admin-sidebar .sidebar-header {
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0ebe6;
+            margin-bottom: 16px;
+        }
+
+        .admin-sidebar .sidebar-header .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #b8634b;
+            margin: 0 auto 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            border: 3px solid #b8634b;
+        }
+
+        .admin-sidebar .sidebar-header .name {
+            font-weight: 700;
+            font-size: 15px;
+            color: #1a1614;
+        }
+
+        .admin-sidebar .sidebar-header .role {
+            font-size: 11px;
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .admin-sidebar .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .admin-sidebar .sidebar-nav .nav-label {
+            font-size: 10px;
+            color: #9a9088;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 12px 4px;
+            font-weight: 600;
+        }
+
+        .admin-sidebar .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #5a4f46;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .admin-sidebar .sidebar-nav a:hover {
+            background: #f5f3f0;
+            color: #b8634b;
+        }
+
+        .admin-sidebar .sidebar-nav a.active {
+            background: #f5ede8;
+            color: #b8634b;
+            font-weight: 600;
+            border-left: 3px solid #b8634b;
+        }
+
+        .admin-sidebar .sidebar-nav a .badge {
+            margin-left: auto;
+            background: #b8634b;
+            color: white;
+            font-size: 9px;
+            padding: 1px 8px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .admin-sidebar .sidebar-nav .divider {
+            border: none;
+            border-top: 2px solid #f0ebe6;
+            margin: 6px 0;
+        }
+
+        /* ============================================================ */
+        /* MAIN CONTENT */
+        /* ============================================================ */
+        .admin-main {
+            min-width: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .admin-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-header .date {
+            font-size: 14px;
+            color: #6f655c;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #e8e3dd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-card .stat-label {
+            font-size: 11px;
+            color: #6f655c;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1614;
+            margin: 4px 0 2px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-change.up {
+            color: #2e7d32;
+        }
+
+        .stat-card .stat-change.down {
+            color: #c0392b;
+        }
+
+        .stat-card .stat-change.neutral {
+            color: #f57f17;
+        }
+
+        /* ===== QUICK ACTIONS ===== */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .quick-action {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #e8e3dd;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #1a1614;
+        }
+
+        .quick-action:hover {
+            border-color: #b8634b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .quick-action .icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .quick-action .label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .quick-action .sub {
+            font-size: 11px;
+            color: #6f655c;
+        }
+
+        /* ============================================================ */
+        /* TABLES */
+        /* ============================================================ */
+        .table-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .table-card .table-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .table-card .table-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-card .table-header h3 .badge {
+            background: #b8634b;
+            color: white;
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .table-card .table-header .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .table-card table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .table-card table th {
+            text-align: left;
+            padding: 10px 16px;
+            background: #f8f5f2;
+            color: #5a4f46;
+            font-weight: 600;
+            border-bottom: 2px solid #f0ebe6;
+        }
+
+        .table-card table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f5f3f0;
+            color: #5a4f46;
+        }
+
+        .table-card table tr:hover td {
+            background: #fcfaf7;
+        }
+
+        .table-card table .status {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .table-card table .status.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .table-card table .status.pending {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .table-card table .status.inactive {
+            background: #ffebee;
+            color: #c0392b;
+        }
+
+        .table-card table .status.review {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .table-card table .actions-cell {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .table-card table .actions-cell button {
+            background: none;
+            border: 1px solid #e8e3dd;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #5a4f46;
+        }
+
+        .table-card table .actions-cell button:hover {
+            background: #b8634b;
+            border-color: #b8634b;
+            color: white;
+        }
+
+        .table-card table .actions-cell .view-btn:hover { background: #2e7d32; border-color: #2e7d32; }
+        .table-card table .actions-cell .edit-btn:hover { background: #b8634b; border-color: #b8634b; }
+        .table-card table .actions-cell .delete-btn:hover { background: #c0392b; border-color: #c0392b; }
+
+        .table-card .table-footer {
+            padding: 10px 20px;
+            border-top: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #6f655c;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b8634b;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-modal-footer a {
+            color: #b8634b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 1024px) {
+            .admin-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .admin-sidebar .sidebar-header {
+                grid-column: 1 / -1;
+            }
+            .admin-sidebar .sidebar-nav {
+                grid-column: 1 / -1;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2px;
+            }
+            .admin-sidebar .sidebar-nav .nav-label {
+                grid-column: 1 / -1;
+            }
+            .admin-sidebar .sidebar-nav .divider {
+                display: none;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .admin-header h1 { font-size: 20px; }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card .stat-number { font-size: 22px; }
+
+            .quick-actions { grid-template-columns: 1fr 1fr; }
+
+            .table-card table {
+                font-size: 11px;
+            }
+            .table-card table th,
+            .table-card table td {
+                padding: 6px 10px;
+            }
+
+            .admin-sidebar {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar .sidebar-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-header h1 { font-size: 18px; }
+            .admin-header .date { font-size: 12px; }
+
+            .table-card .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .table-card .table-header .actions {
+                width: 100%;
+            }
+            .table-card .table-header .actions .btn-outline {
+                flex: 1;
+                text-align: center;
+                font-size: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- ===== HEADER ===== -->
-        <header>
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
             <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
-            <nav>
+            <nav class="nav">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
                 <a href="about.html">About</a>
                 <a href="dashboard.html">Dashboard</a>
-                <a href="admin.html" class="active">Admin</a>
+                <a href="#" class="active">Admin</a>
             </nav>
-            <div id="auth-section">
-                <span id="user-greeting">Guest</span>
-                <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
-                <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
+            <div class="header-right">
+                <span class="admin-badge">🔒 Admin</span>
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
             </div>
         </header>
 
-        <!-- ===== ADMIN CONTENT ===== -->
-        <h1 style="margin: 30px 0 10px 0; color: #3d2b1f;">⚙️ Admin Dashboard</h1>
+        <!-- ============================================================ -->
+        <!-- ADMIN DASHBOARD -->
+        <!-- ============================================================ -->
+        <div class="admin-wrapper">
 
-        <!-- Pending Tags -->
-        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
-            <h3 style="color: #3d2b1f;">🏷️ Pending Tags</h3>
-            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
-                <p><strong>"Court Politics"</strong> — submitted by Elara Vance</p>
-                <p style="font-size: 13px; color: #7a6b5a;">Story: "The Ember Crown"</p>
-                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
-                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
-            </div>
-            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
-                <p><strong>"Found Family"</strong> — submitted by Marcus Blackwood</p>
-                <p style="font-size: 13px; color: #7a6b5a;">Story: "A Quiet Life"</p>
-                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
-                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
-            </div>
+            <!-- ===== SIDEBAR ===== -->
+            <aside class="admin-sidebar">
+                <div class="sidebar-header">
+                    <div class="avatar">⚙️</div>
+                    <div class="name">Elara Voss</div>
+                    <div class="role">🔒 Platform Administrator</div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <div class="nav-label">Overview</div>
+                    <a href="#" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                    <a href="#" onclick="alert('Coming soon: Analytics')"><i class="fas fa-chart-line"></i> Analytics</a>
+
+                    <hr class="divider">
+
+                    <div class="nav-label">Management</div>
+                    <a href="#" onclick="alert('Coming soon: Users')"><i class="fas fa-users"></i> Users <span class="badge">1,247</span></a>
+                    <a href="#" onclick="alert('Coming soon: Stories')"><i class="fas fa-book"></i> Stories <span class="badge">847</span></a>
+                    <a href="#" onclick="alert('Coming soon: Chapters')"><i class="fas fa-file-alt"></i> Chapters <span class="badge">12.4K</span></a>
+                    <a href="#" onclick="alert('Coming soon: Scouts')"><i class="fas fa-binoculars"></i> Scouts <span class="badge">89</span></a>
+
+                    <hr class="divider">
+
+                    <div class="nav-label">Financial</div>
+                    <a href="#" onclick="alert('Coming soon: Earnings')"><i class="fas fa-coins"></i> Earnings <span class="badge">$8,450</span></a>
+                    <a href="#" onclick="alert('Coming soon: Payouts')"><i class="fas fa-credit-card"></i> Payouts</a>
+                    <a href="#" onclick="alert('Coming soon: Subscriptions')"><i class="fas fa-crown"></i> Subscriptions <span class="badge">342</span></a>
+
+                    <hr class="divider">
+
+                    <div class="nav-label">System</div>
+                    <a href="#" onclick="alert('Coming soon: Reports')"><i class="fas fa-flag"></i> Reports <span class="badge">12</span></a>
+                    <a href="#" onclick="alert('Coming soon: Settings')"><i class="fas fa-cog"></i> System Settings</a>
+                </nav>
+            </aside>
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <main class="admin-main">
+
+                <!-- ===== HEADER ===== -->
+                <div class="admin-header">
+                    <h1>📊 Admin Dashboard <span style="font-size:14px;font-weight:400;color:#6f655c;">— Platform Overview</span></h1>
+                    <span class="date">📅 <span id="current-date"></span></span>
+                </div>
+
+                <!-- ===== STATS ===== -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">👥 Total Users</div>
+                        <div class="stat-number">1,247</div>
+                        <div class="stat-change up">↑ 12% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">📖 Stories Published</div>
+                        <div class="stat-number">847</div>
+                        <div class="stat-change up">↑ 8% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">📝 Chapters Written</div>
+                        <div class="stat-number">12.4K</div>
+                        <div class="stat-change up">↑ 15% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">💰 Total Earnings</div>
+                        <div class="stat-number">$8,450</div>
+                        <div class="stat-change up">↑ 22% this month</div>
+                    </div>
+                </div>
+
+                <!-- ===== QUICK ACTIONS ===== -->
+                <div class="quick-actions">
+                    <a href="#" class="quick-action" onclick="alert('Coming soon: User Management')">
+                        <span class="icon">👥</span>
+                        <div class="label">Manage Users</div>
+                        <div class="sub">1,247 registered</div>
+                    </a>
+                    <a href="#" class="quick-action" onclick="alert('Coming soon: Content Moderation')">
+                        <span class="icon">📚</span>
+                        <div class="label">Content Moderation</div>
+                        <div class="sub">12 pending reviews</div>
+                    </a>
+                    <a href="#" class="quick-action" onclick="alert('Coming soon: Reports')">
+                        <span class="icon">🚩</span>
+                        <div class="label">Reports</div>
+                        <div class="sub">12 new reports</div>
+                    </a>
+                    <a href="#" class="quick-action" onclick="alert('Coming soon: Support Tickets')">
+                        <span class="icon">🎫</span>
+                        <div class="label">Support Tickets</div>
+                        <div class="sub">8 open tickets</div>
+                    </a>
+                </div>
+
+                <!-- ===== RECENT USERS ===== -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>👥 Recent Users <span class="badge">1,247 total</span></h3>
+                        <div class="actions">
+                            <button class="btn-outline" onclick="alert('View all users')">View All</button>
+                            <button class="btn-outline" onclick="alert('Export users')">📤 Export</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Elara Voss</strong><br><span style="font-size:11px;color:#9a9088;">@elara_writes</span></td>
+                                <td>Author · Scout</td>
+                                <td>Jan 2024</td>
+                                <td><span class="status active">Active</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Marcus Chen</strong><br><span style="font-size:11px;color:#9a9088;">@marcus_chen</span></td>
+                                <td>Author</td>
+                                <td>Mar 2024</td>
+                                <td><span class="status active">Active</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>LunaReads</strong><br><span style="font-size:11px;color:#9a9088;">@luna_scout</span></td>
+                                <td>Scout</td>
+                                <td>Jun 2024</td>
+                                <td><span class="status active">Active</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>BookWanderer</strong><br><span style="font-size:11px;color:#9a9088;">@book_wanderer</span></td>
+                                <td>Reader</td>
+                                <td>Aug 2024</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <span>Showing 4 of 1,247 users</span>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Previous</button>
+                            <span style="padding:2px 8px;background:#b8634b;color:white;border-radius:4px;font-weight:600;">1</span>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">2</button>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">3</button>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== RECENT STORIES ===== -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>📖 Recent Stories <span class="badge">847 total</span></h3>
+                        <div class="actions">
+                            <button class="btn-outline" onclick="alert('View all stories')">View All</button>
+                            <button class="btn-outline" onclick="alert('Export stories')">📤 Export</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Story</th>
+                                <th>Author</th>
+                                <th>Chapters</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>The Shadow's Heir</strong></td>
+                                <td>Elara Voss</td>
+                                <td>34</td>
+                                <td><span class="status active">Ongoing</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button><button class="delete-btn">🗑️</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Starlight &amp; Roses</strong></td>
+                                <td>Elara Voss</td>
+                                <td>25</td>
+                                <td><span class="status active">Ongoing</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button><button class="delete-btn">🗑️</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nexus Protocol</strong></td>
+                                <td>Marcus Chen</td>
+                                <td>18</td>
+                                <td><span class="status inactive">Completed</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button><button class="delete-btn">🗑️</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>The Last Lighthouse</strong></td>
+                                <td>Marcus Webb</td>
+                                <td>42</td>
+                                <td><span class="status review">Review</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button class="edit-btn">✎</button><button class="delete-btn">🗑️</button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <span>Showing 4 of 847 stories</span>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Previous</button>
+                            <span style="padding:2px 8px;background:#b8634b;color:white;border-radius:4px;font-weight:600;">1</span>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">2</button>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">3</button>
+                            <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== RECENT REPORTS ===== -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>🚩 Recent Reports <span class="badge">12 open</span></h3>
+                        <div class="actions">
+                            <button class="btn-outline" onclick="alert('View all reports')">View All</button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Report</th>
+                                <th>Reported By</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Inappropriate Content</strong><br><span style="font-size:11px;color:#9a9088;">On: "Nexus Protocol" Ch. 7</span></td>
+                                <td>Anonymous</td>
+                                <td>Content</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button>✅ Resolve</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Plagiarism Report</strong><br><span style="font-size:11px;color:#9a9088;">On: "Starlight &amp; Roses"</span></td>
+                                <td>Sarah Chen</td>
+                                <td>Copyright</td>
+                                <td><span class="status review">Review</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button>✅ Resolve</button></div></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Spam Comment</strong><br><span style="font-size:11px;color:#9a9088;">On: "The Shadow's Heir"</span></td>
+                                <td>BookWanderer</td>
+                                <td>Spam</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><div class="actions-cell"><button class="view-btn">👁️</button><button>✅ Resolve</button></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <span>Showing 3 of 12 open reports</span>
+                        <button class="btn-outline" style="padding:2px 16px;font-size:11px;">View All Reports</button>
+                    </div>
+                </div>
+
+            </main>
         </div>
 
-        <!-- Pending Scout Applications -->
-        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
-            <h3 style="color: #3d2b1f;">🔦 Pending Scout Applications</h3>
-            <div style="border-bottom: 1px solid #ede6db; padding: 12px 0;">
-                <p><strong>@BookWorm42</strong> — Chapters Read: 12, Comments: 5, Spotlights: 3</p>
-                <p style="font-size: 13px; color: #7a6b5a;">"I love discovering hidden gems."</p>
-                <button class="btn-sm" style="background: #4caf50; color: white;">Approve</button>
-                <button class="btn-sm" style="background: #8b3a3a; color: white;">Reject</button>
-            </div>
-        </div>
-
-        <!-- User Management -->
-        <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-top: 15px;">
-            <h3 style="color: #3d2b1f;">👥 User Management</h3>
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead>
-                    <tr style="border-bottom: 1px solid #ede6db;">
-                        <th style="padding: 8px;">Username</th>
-                        <th style="padding: 8px;">Role</th>
-                        <th style="padding: 8px;">Joined</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid #f0e8de;">
-                        <td style="padding: 8px;">Elara Vance</td>
-                        <td style="padding: 8px;">Author</td>
-                        <td style="padding: 8px;">3 days ago</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #f0e8de;">
-                        <td style="padding: 8px;">BookWorm42</td>
-                        <td style="padding: 8px;">Scout</td>
-                        <td style="padding: 8px;">5 days ago</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- ===== FOOTER ===== -->
-        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
-            <p>📜 WordFlaneur — It's OK to Be Slower.</p>
-            <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+            <p style="font-size:12px;color:#b8a084;margin-top:4px;">
+                <span class="admin-badge" style="background:#b8634b;color:white;font-size:9px;padding:1px 10px;border-radius:20px;font-weight:600;">🔒 Admin Access</span>
+            </p>
         </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/config.js"></script>
-    <script src="js/supabase.js"></script>
-    <script src="js/auth.js"></script>
     <script>
-        async function handleLogin() { window.location.href = 'login.html'; }
-        async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
-        async function checkAuth() {
-            const r = await getCurrentUser();
-            if (r.success && r.user) {
-                const p = await getUserProfile(r.user.id);
-                if (p.success) {
-                    document.getElementById('user-greeting').textContent = `👋 ${p.profile.display_name || 'User'}`;
-                    document.getElementById('login-btn').classList.add('hidden');
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                }
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[0];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you for your support!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // DATE
+        // ============================================================
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
             }
         }
-        checkAuth();
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-greeting').textContent = '👋 Elara Voss';
+            updateDate();
+            console.log('🔒 Admin Dashboard loaded');
+            console.log('📊 Platform Stats: 1,247 users, 847 stories, 12.4K chapters');
+            console.log('💰 Total Earnings: $8,450');
+        });
     </script>
 </body>
 </html>
