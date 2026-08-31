@@ -3,221 +3,592 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login — WordFlaneur</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Sign In · WordFlaneur</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
     <script src="js/auth.js"></script>
     <style>
+        /* ============================================================ */
+        /* LOGIN PAGE - Nausicaä Palette */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4efe6;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #2D4A3E;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(58, 155, 142, 0.06) 0%, transparent 50%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            width: 350px;
-        }
-        h1 {
-            color: #3d2b1f;
-            text-align: center;
-        }
-        input {
+
+        .auth-container {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            max-width: 420px;
+        }
+
+        .auth-card {
+            background: #F5EDE6;
+            border-radius: 24px;
+            padding: 40px 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 168, 67, 0.2);
+        }
+
+        /* Logo */
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-logo a {
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2D4A3E;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-logo a span {
+            color: #D4A843;
+        }
+
+        .auth-logo .tagline {
+            font-size: 13px;
+            color: #7A6B5A;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* Headings */
+        .auth-card h1 {
+            font-size: 26px;
+            color: #2D4A3E;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .auth-card .subtitle {
+            color: #7A6B5A;
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+
+        /* ===== SOCIAL BUTTONS ===== */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: 2px solid #E8DDD0;
+            background: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #2D4A3E;
+            width: 100%;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .social-btn:active {
+            transform: translateY(0);
+        }
+
+        .social-btn .icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .social-btn.google:hover {
+            border-color: #EA4335;
+            background: #FEF6F5;
+        }
+
+        .social-btn.twitter:hover {
+            border-color: #000000;
+            background: #F5F5F5;
+        }
+
+        .social-btn.github:hover {
+            border-color: #24292E;
+            background: #F6F8FA;
+        }
+
+        .social-btn.discord:hover {
+            border-color: #5865F2;
+            background: #F0F1FF;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #B8A084;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #E8DDD0;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2D4A3E;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid #E8DDD0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2D4A3E;
+            background: white;
+            transition: border-color 0.2s;
             box-sizing: border-box;
         }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #6b4f3c;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #D4A843;
+            box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #C4B5A0;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4px 0 16px;
+            font-size: 13px;
+        }
+
+        .form-options .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #6B4F3C;
             cursor: pointer;
-            margin-top: 10px;
         }
-        button:hover {
-            background: #8b6f5a;
-        }
-        #message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .success {
-            background: #d4edda;
-            color: #155724;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .toggle-link {
-            text-align: center;
-            margin-top: 15px;
-        }
-        .toggle-link a {
-            color: #6b4f3c;
+
+        .form-options .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #D4A843;
             cursor: pointer;
+        }
+
+        .form-options .forgot-link {
+            color: #D4A843;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-options .forgot-link:hover {
             text-decoration: underline;
         }
-        .hidden {
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: #D4A843;
+            color: #2D4A3E;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            background: #B8932E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(212, 168, 67, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== MESSAGE ===== */
+        #message {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
             display: none;
+        }
+
+        #message.show {
+            display: block;
+        }
+
+        #message.success {
+            background: #E8F5E9;
+            color: #1B5E20;
+            border: 1px solid #A5D6A7;
+        }
+
+        #message.error {
+            background: #FBE9E7;
+            color: #B71C1C;
+            border: 1px solid #FFAB91;
+        }
+
+        #message.info {
+            background: #E3F2FD;
+            color: #0D47A1;
+            border: 1px solid #90CAF9;
+        }
+
+        /* ===== AUTH SWITCH ===== */
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7A6B5A;
+        }
+
+        .auth-switch a {
+            color: #D4A843;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== DEMO CREDENTIALS ===== */
+        .demo-credentials {
+            margin-top: 20px;
+            padding: 14px 16px;
+            background: #F8F2E8;
+            border-radius: 12px;
+            border: 1px dashed #D4A843;
+            font-size: 13px;
+            color: #6B4F3C;
+            text-align: center;
+        }
+
+        .demo-credentials code {
+            background: #E8DDD0;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #2D4A3E;
+            font-weight: 600;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 28px 20px;
+            }
+
+            .auth-logo a {
+                font-size: 24px;
+            }
+
+            .auth-card h1 {
+                font-size: 22px;
+            }
+
+            .social-btn {
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: 8px;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>📜 WordFlaneur</h1>
-    <h2 id="form-title">Sign In</h2>
+    <div class="auth-container">
+        <div class="auth-card">
 
-    <form id="auth-form">
-        <!-- Display Name (only for signup) -->
-        <div id="name-group" class="hidden">
-            <input type="text" id="display-name" placeholder="Display Name" />
+            <!-- Logo -->
+            <div class="auth-logo">
+                <a href="index.html">📜 Word<span>Flaneur</span></a>
+                <div class="tagline">Where stories take their time</div>
+            </div>
+
+            <!-- Heading -->
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to continue your journey</p>
+
+            <!-- ===== SOCIAL BUTTONS ===== -->
+            <div class="social-buttons">
+                <button class="social-btn google" onclick="handleSocialLogin('google')">
+                    <span class="icon">🔴</span> Continue with Google
+                </button>
+                <button class="social-btn twitter" onclick="handleSocialLogin('twitter')">
+                    <span class="icon">🐦</span> Continue with X (Twitter)
+                </button>
+                <button class="social-btn github" onclick="handleSocialLogin('github')">
+                    <span class="icon">🐙</span> Continue with GitHub
+                </button>
+                <button class="social-btn discord" onclick="handleSocialLogin('discord')">
+                    <span class="icon">💬</span> Continue with Discord
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">or sign in with email</div>
+
+            <!-- ===== EMAIL FORM ===== -->
+            <form id="auth-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="you@example.com" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required />
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember-me" />
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-link" onclick="alert('Password reset link will be sent to your email. (Demo)')">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submit-btn">Sign In</button>
+            </form>
+
+            <!-- Message -->
+            <div id="message"></div>
+
+            <!-- Auth Switch -->
+            <div class="auth-switch">
+                Don't have an account? <a href="signup.html">Sign up →</a>
+            </div>
+
+            <!-- Demo Credentials -->
+            <div class="demo-credentials">
+                🔑 <strong>Demo:</strong> <code>admin@wordflaneur.com</code> / <code>admin123</code>
+            </div>
+
         </div>
-
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-
-        <!-- Confirm Password (only for signup) -->
-        <div id="confirm-group" class="hidden">
-            <input type="password" id="confirm-password" placeholder="Confirm Password" />
-        </div>
-
-        <button type="submit" id="submit-btn">Sign In</button>
-    </form>
-
-    <div id="message"></div>
-
-    <div class="toggle-link">
-        <span id="toggle-text">Don't have an account?</span>
-        <a id="toggle-link">Sign Up</a>
     </div>
 
-    <div style="text-align:center; margin-top:20px; font-size:13px; color:#7a6b5a;">
-        Demo: admin@wordflaneur.com / admin123
-    </div>
-</div>
+    <script>
+        // ============================================================
+        // CONFIGURATION
+        // ============================================================
+        // Make sure supabase is initialized in js/supabase.js
+        // The window.signIn function should be available from auth.js
 
-<script>
+        // ============================================================
+        // SOCIAL LOGIN
+        // ============================================================
+        function handleSocialLogin(provider) {
+            const message = document.getElementById('message');
 
-    // ============================================
-    // 🧠 STATE
-    // ============================================
-    let isLogin = true;
+            // Show loading state
+            message.textContent = `⏳ Redirecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`;
+            message.className = 'show info';
 
-    // ============================================
-    // 📤 FORM SUBMIT
-    // ============================================
-    document.getElementById('auth-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
+            // Disable buttons temporarily
+            document.querySelectorAll('.social-btn').forEach(btn => btn.disabled = true);
 
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-        const displayName = document.getElementById('display-name').value.trim();
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const msg = document.getElementById('message');
+            // In production, you'd use:
+            // const { data, error } = await window.supabaseClient.auth.signInWithOAuth({
+            //     provider: provider,
+            //     options: {
+            //         redirectTo: window.location.origin + '/dashboard.html'
+            //     }
+            // });
 
-        msg.textContent = '';
-        msg.className = '';
+            // For demo purposes:
+            setTimeout(() => {
+                message.textContent = `✅ Signed in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}! Redirecting...`;
+                message.className = 'show success';
 
-        // --- Validation ---
-        if (!email || !password) {
-            msg.textContent = '❌ Please fill in all fields.';
-            msg.className = 'error';
-            return;
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            }, 1000);
+
+            // Log the action (for debugging)
+            console.log(`🔑 Social login initiated with: ${provider}`);
         }
 
-        if (!isLogin) {
-            if (password !== confirmPassword) {
-                msg.textContent = '❌ Passwords do not match.';
-                msg.className = 'error';
-                return;
-            }
-            if (password.length < 6) {
-                msg.textContent = '❌ Password must be at least 6 characters.';
-                msg.className = 'error';
-                return;
-            }
-            if (!displayName) {
-                msg.textContent = '❌ Please enter a display name.';
-                msg.className = 'error';
-                return;
-            }
-        }
+        // ============================================================
+        // EMAIL LOGIN
+        // ============================================================
+        document.getElementById('auth-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-        try {
-            if (isLogin) {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+            const message = document.getElementById('message');
+
+            // Reset message
+            message.textContent = '';
+            message.className = '';
+
+            // Validation
+            if (!email || !password) {
+                message.textContent = '❌ Please fill in all fields.';
+                message.className = 'show error';
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.textContent = '⏳ Signing in...';
+            submitBtn.disabled = true;
+
+            try {
+                // Use your existing auth system
                 const result = await window.signIn(email, password);
+
                 if (!result.success) {
-                    const fallbackResult = await window.signUp(email, password, email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase(), email.split('@')[0]);
+                    // Try to create account if it doesn't exist (fallback)
+                    const username = email.split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase();
+                    const displayName = email.split('@')[0];
+                    const fallbackResult = await window.signUp(email, password, username, displayName);
+
                     if (!fallbackResult.success) {
                         throw new Error(result.error || fallbackResult.error || 'Unable to sign in.');
                     }
 
-                    msg.textContent = '✅ Account created and signed in! Redirecting...';
-                    msg.className = 'success';
+                    message.textContent = '✅ Account created and signed in! Redirecting...';
+                    message.className = 'show success';
+
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
                     }, 1500);
                     return;
                 }
 
-                msg.textContent = '✅ Welcome back! Redirecting...';
-                msg.className = 'success';
+                message.textContent = '✅ Welcome back! Redirecting...';
+                message.className = 'show success';
+
+                // Store remember me preference
+                if (rememberMe) {
+                    localStorage.setItem('remembered_email', email);
+                } else {
+                    localStorage.removeItem('remembered_email');
+                }
+
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 1500);
 
-            } else {
-                const result = await window.signUp(email, password, displayName.toLowerCase().replace(/\s/g, ''), displayName);
-                if (!result.success) throw new Error(result.error);
+            } catch (error) {
+                message.textContent = '❌ ' + error.message;
+                message.className = 'show error';
+                console.error('Auth error:', error);
+            } finally {
+                submitBtn.textContent = 'Sign In';
+                submitBtn.disabled = false;
+            }
+        });
 
-                msg.textContent = '✅ Account created and signed in! Redirecting...';
-                msg.className = 'success';
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1500);
+        // ============================================================
+        // AUTO-FILL REMEMBERED EMAIL
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const rememberedEmail = localStorage.getItem('remembered_email');
+            if (rememberedEmail) {
+                document.getElementById('email').value = rememberedEmail;
+                document.getElementById('remember-me').checked = true;
             }
 
-        } catch (error) {
-            msg.textContent = '❌ ' + error.message;
-            msg.className = 'error';
-            console.error('Auth error:', error);
-        }
-    });
+            // Check if user is already logged in
+            // If so, redirect to dashboard
+            const checkSession = async () => {
+                try {
+                    const client = window.supabaseClient || window.supabase;
+                    if (client?.auth) {
+                        const { data: { session } } = await client.auth.getSession();
+                        if (session?.user) {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }
+                } catch (e) {
+                    // Silent fail - user is not logged in
+                }
+            };
+            // Uncomment for production:
+            // checkSession();
+        });
 
-    // ============================================
-    // 🔄 TOGGLE LOGIN / SIGNUP
-    // ============================================
-    function toggleMode() {
-        isLogin = !isLogin;
+        // ============================================================
+        // KEYBOARD SHORTCUT: Enter to submit
+        // ============================================================
+        document.getElementById('password').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('auth-form').dispatchEvent(new Event('submit'));
+            }
+        });
 
-        document.getElementById('form-title').textContent = isLogin ? 'Sign In' : 'Create Account';
-        document.getElementById('submit-btn').textContent = isLogin ? 'Sign In' : 'Sign Up';
-        document.getElementById('toggle-text').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
-        document.getElementById('toggle-link').textContent = isLogin ? 'Sign Up' : 'Sign In';
-
-        document.getElementById('name-group').classList.toggle('hidden', isLogin);
-        document.getElementById('confirm-group').classList.toggle('hidden', isLogin);
-    }
-
-    document.getElementById('toggle-link').addEventListener('click', toggleMode);
-</script>
+        console.log('🔐 Login page loaded successfully.');
+        console.log('📧 Social login providers: Google, X (Twitter), GitHub, Discord');
+    </script>
 
 </body>
 </html>
