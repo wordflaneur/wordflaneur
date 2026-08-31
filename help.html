@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 2px solid #d4c5a0;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .site-header .logo a {
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+
+        .site-header .logo span {
+            color: #b89a70;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-header .nav a {
+            color: #6b4f3c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+
+        .site-header .nav a:hover {
+            color: #3d2b1f;
+        }
+
+        .site-header .nav a.active {
+            color: #3d2b1f;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-right .auth-section #user-greeting {
+            color: #6b4f3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .support-btn {
+            background: #3d2b1f;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 18px 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.15);
+            white-space: nowrap;
+        }
+
+        .support-btn:hover {
+            background: #2d1f15;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61, 43, 31, 0.2);
+        }
+
+        .support-btn .heart {
+            color: #ff6b6b;
+            font-size: 16px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL (for platform donations) */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal.active {
+            display: flex;
+        }
+
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0e8de;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #3d2b1f;
+            font-size: 20px;
+        }
+
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b8a084;
+        }
+
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #fcfaf7;
+            border-radius: 12px;
+            border: 1px solid #f0e8de;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .support-option:hover {
+            border-color: #b89a70;
+            background: #f8f2e8;
+        }
+
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .support-option .price {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 16px;
+        }
+
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .support-modal-footer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* HELP / FAQ PAGE */
+        /* ============================================================ */
+        .help-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        .help-hero {
+            text-align: center;
+            padding: 30px 20px 25px 20px;
+            border-bottom: 2px solid #f0e8de;
+            margin-bottom: 30px;
+        }
+
+        .help-hero h1 {
+            font-size: 34px;
+            color: #3d2b1f;
+            margin: 0 0 8px 0;
+        }
+
+        .help-hero p {
+            font-size: 16px;
+            color: #7a6b5a;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            max-width: 550px;
+            margin: 16px auto 0;
+            background: #fcfaf7;
+            border: 2px solid #f0e8de;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus-within {
+            border-color: #b89a70;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            color: #3d2b1f;
+        }
+
+        .search-bar input::placeholder {
+            color: #b8a084;
+        }
+
+        .search-bar button {
+            background: #b89a70;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .search-bar button:hover {
+            background: #a0845a;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .quick-link-card {
+            background: #ffffff;
+            border: 1px solid #f0e8de;
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+
+        .quick-link-card:hover {
+            border-color: #b89a70;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(184, 154, 112, 0.12);
+        }
+
+        .quick-link-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .quick-link-card .label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .quick-link-card .desc {
+            font-size: 12px;
+            color: #7a6b5a;
+            margin-top: 4px;
+        }
+
+        /* FAQ Sections */
+        .faq-section {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 28px 35px;
+            margin-bottom: 20px;
+        }
+
+        .faq-section .section-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .faq-section h2 {
+            font-size: 20px;
+            color: #3d2b1f;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #f5f0e9;
+            padding: 14px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-item .question {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .faq-item .question:hover {
+            color: #b89a70;
+        }
+
+        .faq-item .question .toggle {
+            font-size: 18px;
+            color: #b8a084;
+            transition: transform 0.3s;
+        }
+
+        .faq-item .question .toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .faq-item .answer {
+            font-size: 14px;
+            color: #6b4f3c;
+            line-height: 1.7;
+            padding-top: 8px;
+            display: none;
+        }
+
+        .faq-item .answer.open {
+            display: block;
+        }
+
+        .faq-item .answer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .faq-item .answer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Still need help? */
+        .still-need-help {
+            background: #fcfaf7;
+            border-radius: 16px;
+            border: 2px solid #f0e8de;
+            padding: 28px 35px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .still-need-help h2 {
+            font-size: 20px;
+            color: #3d2b1f;
+            margin: 0 0 8px 0;
+        }
+
+        .still-need-help p {
+            color: #7a6b5a;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .still-need-help .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .still-need-help .contact-buttons a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3d2b1f;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid #f0e8de;
+            transition: all 0.2s;
+        }
+
+        .still-need-help .contact-buttons a:hover {
+            border-color: #b89a70;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 154, 112, 0.12);
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .header-right {
+                justify-content: center;
+            }
+
+            .help-hero h1 {
+                font-size: 28px;
+            }
+
+            .help-hero p {
+                font-size: 16px;
+            }
+
+            .faq-section {
+                padding: 20px;
+            }
+
+            .still-need-help {
+                padding: 20px;
+            }
+
+            .quick-links {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .site-header .nav a {
+                font-size: 13px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+            }
+
+            .help-hero h1 {
+                font-size: 24px;
+            }
+
+            .help-hero p {
+                font-size: 14px;
+            }
+
+            .faq-section h2 {
+                font-size: 18px;
+            }
+
+            .faq-section {
+                padding: 16px;
+            }
+
+            .still-need-help {
+                padding: 16px;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                border-radius: 16px;
+            }
+
+            .search-bar input {
+                padding: 12px 16px;
+            }
+
+            .search-bar button {
+                padding: 10px;
+            }
+
+            .still-need-help .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .still-need-help .contact-buttons a {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="help.html" class="active">Help</a>
+                <a href="support.html">Support</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL (Platform Donations) -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
+                </div>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- HELP CONTENT -->
+        <!-- ============================================================ -->
+        <div class="help-container">
+
+            <!-- Hero -->
+            <div class="help-hero">
+                <h1>❓ How can we help?</h1>
+                <p>Find answers to common questions, learn about the platform, or get in touch with our support team.</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for help articles, topics, or questions..." id="search-input">
+                    <button onclick="searchHelp()">🔍 Search</button>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <a class="quick-link-card" href="#authors">
+                    <span class="icon">✍️</span>
+                    <div class="label">For Authors</div>
+                    <div class="desc">Publishing, earnings, and tips</div>
+                </a>
+                <a class="quick-link-card" href="#scouts">
+                    <span class="icon">🔦</span>
+                    <div class="label">For Scouts</div>
+                    <div class="desc">Recommendations, Trust Value, earnings</div>
+                </a>
+                <a class="quick-link-card" href="#readers">
+                    <span class="icon">📚</span>
+                    <div class="label">For Readers</div>
+                    <div class="desc">Reading, subscriptions, library</div>
+                </a>
+                <a class="quick-link-card" href="#account">
+                    <span class="icon">👤</span>
+                    <div class="label">Account &amp; Billing</div>
+                    <div class="desc">Profile, settings, payments</div>
+                </a>
+                <a class="quick-link-card" href="#marketplace">
+                    <span class="icon">🛍️</span>
+                    <div class="label">Marketplace</div>
+                    <div class="desc">Services, vendors, transactions</div>
+                </a>
+                <a class="quick-link-card" href="#contact">
+                    <span class="icon">📧</span>
+                    <div class="label">Contact Us</div>
+                    <div class="desc">Get in touch with our team</div>
+                </a>
+            </div>
+
+            <!-- ===== AUTHORS FAQ ===== -->
+            <div class="faq-section" id="authors">
+                <h2><span class="section-icon">✍️</span> For Authors</h2>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I publish a story?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Go to your <a href="dashboard.html">Dashboard</a> and click "New Story". Fill in the title, description, genre, tags, and upload a cover image. You can then add chapters one by one. Stories are published immediately unless you save them as drafts.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I earn money?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        You can earn through three main channels: <strong>Chapter Unlocks</strong> (readers pay to unlock chapters, you keep 80%), <strong>Reader Tips</strong> (you keep 90%), and <strong>Subscriptions</strong> (you keep 80%). All earnings are tracked in your dashboard in real-time.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        Do I need to publish daily?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        No! WordFlaneur is built for <strong>slow-burn storytelling</strong>. There is no minimum publishing frequency. You publish when you're ready. We encourage regular updates (e.g., once a week) to build trust with your readers, but you set your own pace.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        Who owns my stories?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        <strong>You do.</strong> WordFlaneur does not claim ownership of your stories. You retain all rights. By publishing, you grant us a non-exclusive license to host and distribute your content on the platform.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I get paid?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Earnings are tracked in coins. You can convert coins to real money via our payment partners. The minimum payout threshold is $10. Payouts are processed monthly. Check your <a href="dashboard.html">Dashboard</a> for details.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SCOUTS FAQ ===== -->
+            <div class="faq-section" id="scouts">
+                <h2><span class="section-icon">🔦</span> For Scouts</h2>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I become a Scout?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Anyone can become a Scout! Simply start recommending stories you love. Write a personal review explaining why you recommend each story. Build a following of readers who trust your taste. You'll start earning as readers tip you and as your Trust Value grows.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        What is Trust Value?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        <strong>Trust Value</strong> is a metric that measures how much readers trust your recommendations. It's built through <strong>sincerity</strong> (recommending stories you genuinely love), <strong>consistency</strong> (regular recommendations), and <strong>engagement</strong> (hearts, votes, comments on your recommendations). Higher Trust Value = more visibility = more followers = more rewards.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do Scouts earn money?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Scouts earn through two channels: <strong>Reader Tips</strong> (you keep 90%) and <strong>Platform Rewards</strong> (based on your Trust Value and platform contributions). You earn 100% of platform rewards (no fee).
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        Can I recommend my own stories?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        No. Scouts should recommend stories they genuinely love. Recommending your own work undermines trust and will negatively affect your Trust Value. If you're an author, focus on writing great stories — Scouts will find you.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== READERS FAQ ===== -->
+            <div class="faq-section" id="readers">
+                <h2><span class="section-icon">📚</span> For Readers</h2>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I discover new stories?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Follow <strong>Scouts</strong> whose taste you trust. Browse the <a href="rankings.html">Rankings</a> for trending, popular, and top-rated stories. Use the <a href="browse.html">Browse</a> page to filter by genre, trope, and tags.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        Can I read stories for free?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Yes! Many stories offer free chapters. Authors decide how many chapters to make free and which to lock. You can read free chapters without any cost. To unlock locked chapters, you can pay per chapter or subscribe to the author.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        What is a Reader Subscription?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        The Reader Subscription is a premium membership ($4.99/mo) that gives you unlimited reading of locked chapters, early access to new chapters, and exclusive content. You also support the platform and the authors you love.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I follow a Scout?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Go to a Scout's profile and click the "Follow" button. You'll see their recommendations in your feed. Following Scouts helps you discover great stories through people you trust.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ACCOUNT FAQ ===== -->
+            <div class="faq-section" id="account">
+                <h2><span class="section-icon">👤</span> Account &amp; Billing</h2>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I delete my account?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Go to <a href="settings.html">Settings</a> → Account → "Delete Account". Follow the confirmation prompts. Deleting your account will permanently remove all your data from WordFlaneur. This action cannot be undone.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I update my billing information?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Go to <a href="settings.html">Settings</a> → Billing. You can update your payment method, view your subscription status, and manage your earnings payouts here.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        Is my data secure?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Yes. We use industry-standard security measures including SSL encryption, secure payment processing, and regular security audits. We never sell your personal data to third parties. Read our <a href="privacy.html">Privacy Policy</a> for more details.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MARKETPLACE FAQ ===== -->
+            <div class="faq-section" id="marketplace">
+                <h2><span class="section-icon">🛍️</span> Marketplace</h2>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        What is the Marketplace?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        The Marketplace is a directory of vetted service providers including editors, cover artists, translators, and more. Authors can find professionals to help with their stories. All providers are vetted by the WordFlaneur team.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        How do I list my services?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        If you're a service provider (editor, cover artist, translator, etc.), you can apply to list your services in the Marketplace. Go to <a href="dashboard.html">Dashboard</a> → Marketplace → "Apply as a Provider". You'll need to submit your portfolio and credentials for review.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="question" onclick="toggleFaq(this)">
+                        What fees apply to Marketplace transactions?
+                        <span class="toggle">▼</span>
+                    </div>
+                    <div class="answer">
+                        Service providers keep 85% of transaction revenue. The platform takes a 15% fee to cover vetting, hosting, and transaction processing. All fees are transparently shown before you confirm a transaction.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== STILL NEED HELP? ===== -->
+            <div class="still-need-help" id="contact">
+                <h2>📧 Still need help?</h2>
+                <p>Our support team is here to assist you. Choose your preferred way to get in touch.</p>
+                <div class="contact-buttons">
+                    <a href="contact.html">
+                        <span>📧</span> Contact Us
+                    </a>
+                    <a href="#" onclick="alert('Chat support is available 24/7! (Demo)')">
+                        <span>💬</span> Live Chat
+                    </a>
+                    <a href="#" onclick="alert('Submit a ticket and our team will respond within 24 hours. (Demo)')">
+                        <span>🎫</span> Submit Ticket
+                    </a>
+                    <a href="https://discord.gg/wordflaneur" target="_blank">
+                        <span>💬</span> Discord Community
+                    </a>
+                </div>
+            </div>
+
+            <!-- ===== FOOTER ===== -->
+            <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+                <p>WordFlaneur — where authors create at a reasonable pace.</p>
+                <p><a href="about.html" style="color:#b89a70;text-decoration:none;font-weight:600;">About</a> · <a href="privacy.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Privacy</a> · <a href="terms.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Terms</a> · <a href="help.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Help</a> · <a href="support.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Support</a></p>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL (Platform Donations)
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // FAQ Toggle
+        // ============================================================
+        function toggleFaq(element) {
+            const answer = element.parentElement.querySelector('.answer');
+            const toggle = element.querySelector('.toggle');
+
+            if (answer) {
+                answer.classList.toggle('open');
+                if (toggle) toggle.classList.toggle('open');
+            }
+        }
+
+        // ============================================================
+        // Search
+        // ============================================================
+        function searchHelp() {
+            const query = document.getElementById('search-input').value.trim().toLowerCase();
+            if (!query) {
+                alert('Please enter a search term.');
+                return;
+            }
+
+            const faqItems = document.querySelectorAll('.faq-item');
+            let found = false;
+            let firstMatch = null;
+
+            faqItems.forEach((item) => {
+                const question = item.querySelector('.question');
+                const answer = item.querySelector('.answer');
+                const questionText = question ? question.textContent.toLowerCase() : '';
+                const answerText = answer ? answer.textContent.toLowerCase() : '';
+
+                // Always collapse first
+                if (answer) answer.classList.remove('open');
+                if (question) {
+                    const toggle = question.querySelector('.toggle');
+                    if (toggle) toggle.classList.remove('open');
+                }
+
+                if (questionText.includes(query) || answerText.includes(query)) {
+                    found = true;
+                    if (!firstMatch) {
+                        firstMatch = item;
+                    }
+                    item.style.background = '#fcfaf7';
+                    item.style.borderRadius = '8px';
+                    item.style.padding = '0 8px';
+                } else {
+                    item.style.background = '';
+                    item.style.borderRadius = '';
+                    item.style.padding = '';
+                }
+            });
+
+            if (firstMatch) {
+                const answer = firstMatch.querySelector('.answer');
+                const question = firstMatch.querySelector('.question');
+                if (answer) answer.classList.add('open');
+                if (question) {
+                    const toggle = question.querySelector('.toggle');
+                    if (toggle) toggle.classList.add('open');
+                }
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            if (!found) {
+                alert('No results found for "' + query + '". Please try a different search term.');
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.style.background = '';
+                    item.style.borderRadius = '';
+                    item.style.padding = '';
+                });
+            }
+        }
+
+        document.getElementById('search-input').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                searchHelp();
+            }
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogin() { window.location.href = 'login.html'; }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                alert('Logged out successfully!');
+            }
+        }
+
+        // ============================================================
+        // CHECK AUTH (demo)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const greeting = document.getElementById('user-greeting');
+            if (greeting) {
+                greeting.textContent = '👋 Elara Voss';
+            }
+
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

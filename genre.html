@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genres · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GENRE PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ============================================================ */
+        /* PAGE HEADER */
+        /* ============================================================ */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        .page-header p {
+            color: #6f655c;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        /* ============================================================ */
+        /* GENRE GRID */
+        /* ============================================================ */
+        .genre-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .genre-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 16px;
+            border: 1px solid #e8e3dd;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #1a1614;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .genre-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border-color: #b8634b;
+        }
+
+        .genre-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .genre-card .name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1a1614;
+        }
+
+        .genre-card .count {
+            font-size: 12px;
+            color: #6f655c;
+            margin-top: 2px;
+        }
+
+        .genre-card .popular-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #b8634b;
+            color: white;
+            font-size: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left { display: flex; align-items: center; gap: 12px; }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub { font-size: 13px; color: #6f655c; }
+        .support-option .price { font-weight: 700; color: #b8634b; font-size: 16px; }
+        .support-modal-footer { margin-top: 16px; text-align: center; font-size: 13px; color: #6f655c; }
+        .support-modal-footer a { color: #b8634b; text-decoration: none; font-weight: 500; }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .page-header h1 { font-size: 22px; }
+
+            .genre-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+
+            .genre-card { padding: 16px 12px; }
+            .genre-card .icon { font-size: 28px; }
+            .genre-card .name { font-size: 14px; }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .genre-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .genre-card { padding: 12px 8px; }
+            .genre-card .icon { font-size: 24px; }
+            .genre-card .name { font-size: 12px; }
+            .genre-card .count { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="#" class="active">Genres</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- PAGE CONTENT -->
+        <!-- ============================================================ -->
+        <div class="page-header">
+            <h1>📚 Genres</h1>
+            <p>Browse stories by genre. Find your next favorite read.</p>
+        </div>
+
+        <div class="genre-grid">
+            <a href="genre.html?genre=fantasy" class="genre-card">
+                <span class="icon">🧙</span>
+                <span class="name">Fantasy</span>
+                <span class="count">847 stories</span>
+                <span class="popular-badge">🔥 Popular</span>
+            </a>
+
+            <a href="genre.html?genre=romance" class="genre-card">
+                <span class="icon">❤️</span>
+                <span class="name">Romance</span>
+                <span class="count">634 stories</span>
+            </a>
+
+            <a href="genre.html?genre=sci-fi" class="genre-card">
+                <span class="icon">🚀</span>
+                <span class="name">Sci-Fi</span>
+                <span class="count">421 stories</span>
+            </a>
+
+            <a href="genre.html?genre=mystery" class="genre-card">
+                <span class="icon">🔍</span>
+                <span class="name">Mystery</span>
+                <span class="count">378 stories</span>
+            </a>
+
+            <a href="genre.html?genre=horror" class="genre-card">
+                <span class="icon">👻</span>
+                <span class="name">Horror</span>
+                <span class="count">289 stories</span>
+                <span class="popular-badge">📈 Trending</span>
+            </a>
+
+            <a href="genre.html?genre=adventure" class="genre-card">
+                <span class="icon">🗺️</span>
+                <span class="name">Adventure</span>
+                <span class="count">245 stories</span>
+            </a>
+
+            <a href="genre.html?genre=drama" class="genre-card">
+                <span class="icon">🎭</span>
+                <span class="name">Drama</span>
+                <span class="count">198 stories</span>
+            </a>
+
+            <a href="genre.html?genre=comedy" class="genre-card">
+                <span class="icon">😂</span>
+                <span class="name">Comedy</span>
+                <span class="count">167 stories</span>
+            </a>
+
+            <a href="genre.html?genre=thriller" class="genre-card">
+                <span class="icon">🔪</span>
+                <span class="name">Thriller</span>
+                <span class="count">156 stories</span>
+            </a>
+
+            <a href="genre.html?genre=historical" class="genre-card">
+                <span class="icon">🏛️</span>
+                <span class="name">Historical Fiction</span>
+                <span class="count">134 stories</span>
+            </a>
+
+            <a href="genre.html?genre=young-adult" class="genre-card">
+                <span class="icon">📖</span>
+                <span class="name">Young Adult</span>
+                <span class="count">123 stories</span>
+            </a>
+
+            <a href="genre.html?genre=romantasy" class="genre-card">
+                <span class="icon">🌹</span>
+                <span class="name">Romantasy</span>
+                <span class="count">98 stories</span>
+                <span class="popular-badge">⭐ Rising</span>
+            </a>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[0];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-greeting').textContent = '👋 Elara Voss';
+            console.log('📚 Genre page loaded');
+        });
+    </script>
+</body>
+</html>
