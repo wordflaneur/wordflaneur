@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankings — WordFlaneur</title>
+    <style>
+        /* ============================================================ */
+        /* COMPLETE MACARON COLOR SCHEME                                */
+        /* ============================================================ */
+        :root {
+            /* Base colors */
+            --white: #FBFBF6;
+            --yellow-light: #FFFD8E;
+            --yellow-shadow: #F9E133;
+            --orange-light: #FCAB6A;      /* ★ Preferred */
+            --orange-shadow: #F75630;      /* ★ Preferred */
+            --red-dark: #A1180D;            /* ★ Preferred */
+            --red-dark-2: #BD2419;           /* ★ Preferred */
+            --aqua-light: #94FEF5;
+            --aqua-shadow: #36E7C7;         /* ★ Preferred */
+            --brown-dark: #7D4212;           /* ★ Preferred */
+            --brown-dark-cool: #69423C;
+            --brown-dark-2: #82463A;
+            --yellow-ribbon: #E0D776;
+            --blue-light: #284F84;
+            --blue-dark: #132D44;
+
+            /* Semantic colors */
+            --text-primary: #2d2a24;
+            --text-secondary: #4a4540;
+            --text-light: #7a7068;
+            --bg-body: #FBFBF6;
+            --bg-card: #ffffff;
+            --shadow-soft: rgba(45, 42, 36, 0.06);
+            --shadow-hover: rgba(247, 86, 48, 0.15);
+            --border-color: #e8e3dd;
+            --brand: #F75630;
+            --brand-hover: #A1180D;
+            --success: #2e7d32;
+            --success-bg: #e8f5e9;
+            --warning: #f57f17;
+            --warning-bg: #fff8e1;
+            --info: #0d47a1;
+            --info-bg: #e3f2fd;
+            --purple: #7b1fa2;
+            --purple-bg: #f3e5f5;
+        }
+
+        /* ============================================================ */
+        /* DARK MODE - Macaron Dark                                     */
+        /* ============================================================ */
+        [data-theme="dark"] {
+            --bg-body: #1a1a20;
+            --bg-card: #28282e;
+            --text-primary: #F0EAE0;
+            --text-secondary: #C4BDB5;
+            --text-light: #9A9490;
+            --shadow-soft: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(247, 86, 48, 0.25);
+            --border-color: #4a4a52;
+            --brand: #F75630;
+            --brand-hover: #A1180D;
+            --success: #4caf50;
+            --success-bg: #1e3a1e;
+            --warning: #ffa726;
+            --warning-bg: #3a2a1a;
+            --info: #42a5f5;
+            --info-bg: #1a2a3a;
+            --purple: #ab47bc;
+            --purple-bg: #2a1a3a;
+        }
+
+        /* ============================================================ */
+        /* RESET & BASE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================ */
+        /* SCROLLBAR */
+        /* ============================================================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--orange-light);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--orange-shadow);
+        }
+
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow-soft);
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+            position: relative;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo a {
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.2s;
+        }
+
+        .site-header .logo a:hover {
+            color: var(--brand);
+        }
+
+        .site-header .logo span {
+            color: var(--orange-shadow);
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: nowrap;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .site-header .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .site-header .nav a:hover {
+            color: var(--orange-shadow);
+            border-bottom-color: var(--orange-shadow);
+        }
+
+        .site-header .nav a.active {
+            color: var(--orange-shadow);
+            font-weight: 600;
+            border-bottom-color: var(--orange-shadow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--orange-light);
+            border-color: var(--orange-shadow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-dropdown .lang-btn {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .lang-dropdown .lang-btn:hover {
+            background: var(--orange-light);
+            border-color: var(--orange-shadow);
+            color: var(--text-primary);
+        }
+
+        .lang-dropdown .lang-btn .arrow {
+            font-size: 10px;
+            margin-left: 2px;
+        }
+
+        .lang-dropdown .lang-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 140px;
+            box-shadow: 0 8px 24px var(--shadow-soft);
+            z-index: 100;
+            margin-top: 4px;
+        }
+
+        .lang-dropdown .lang-menu.open {
+            display: block;
+        }
+
+        .lang-dropdown .lang-menu button {
+            display: block;
+            width: 100%;
+            padding: 8px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .lang-dropdown .lang-menu button:hover {
+            background: rgba(247, 86, 48, 0.08);
+            color: var(--orange-shadow);
+        }
+
+        .lang-dropdown .lang-menu button.active {
+            color: var(--orange-shadow);
+            font-weight: 600;
+            background: rgba(247, 86, 48, 0.08);
+        }
+
+        .lang-dropdown .lang-menu .lang-divider {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 4px 12px;
+        }
+
+        /* Auth */
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-right .auth-section #user-greeting {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--orange-light);
+            color: var(--orange-shadow);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-outline:hover {
+            background: var(--orange-light);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .btn {
+            background: var(--orange-shadow);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(247, 86, 48, 0.25);
+        }
+
+        .btn:hover {
+            background: var(--red-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(161, 13, 13, 0.3);
+        }
+
+        .support-btn {
+            background: var(--yellow-light);
+            color: var(--text-primary);
+            border: 2px solid var(--yellow-shadow);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(249, 225, 51, 0.2);
+        }
+
+        .support-btn:hover {
+            background: var(--yellow-shadow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(249, 225, 51, 0.3);
+        }
+
+        .support-btn .heart {
+            color: var(--red-dark);
+            font-size: 15px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal.active {
+            display: flex;
+        }
+
+        .support-modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--orange-light);
+            box-shadow: 0 20px 60px var(--shadow-soft);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 20px;
+        }
+
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .support-modal-content .modal-header .close-btn:hover {
+            color: var(--orange-shadow);
+        }
+
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-body);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .support-option:hover {
+            border-color: var(--orange-light);
+            background: rgba(247, 86, 48, 0.04);
+            transform: translateX(4px);
+        }
+
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .support-option .price {
+            font-weight: 700;
+            color: var(--orange-shadow);
+            font-size: 16px;
+        }
+
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .support-modal-footer a {
+            color: var(--orange-shadow);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .support-modal-footer a:hover {
+            color: var(--red-dark);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* PAGE LAYOUT — Support block on the right */
+        /* ============================================================ */
+        .page-layout {
+            display: flex;
+            gap: 30px;
+            margin-top: 16px;
+            align-items: flex-start;
+        }
+
+        .page-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .page-sidebar {
+            flex: 0 0 280px;
+            min-width: 0;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT BLOCK — Compact, squared, on the right */
+        /* ============================================================ */
+        .support-block {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 16px var(--shadow-soft);
+            position: relative;
+            margin-bottom: 20px;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .support-block-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .support-item {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .support-item:hover {
+            border-color: var(--orange-light);
+            background: rgba(247, 86, 48, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .support-item .support-icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .support-item .support-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .support-item .support-desc {
+            font-size: 11px;
+            color: var(--text-light);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        .support-item .support-cta {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--orange-shadow);
+            transition: color 0.2s;
+        }
+
+        .support-item:hover .support-cta {
+            color: var(--red-dark);
+        }
+
+        .support-block-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .support-block-footer .support-count {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .support-block-footer .support-dismiss {
+            background: none;
+            border: none;
+            font-size: 14px;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0 4px;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+
+        .support-block-footer .support-dismiss:hover {
+            color: var(--orange-shadow);
+        }
+
+        /* ============================================================ */
+        /* RANKINGS PAGE STYLES */
+        /* ============================================================ */
+        .rankings-header {
+            margin-bottom: 24px;
+        }
+
+        .rankings-header h1 {
+            font-size: 28px;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+        }
+
+        .rankings-header p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .rankings-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0;
+            flex-wrap: wrap;
+        }
+
+        .rankings-tabs .tab {
+            padding: 8px 18px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .rankings-tabs .tab:hover {
+            color: var(--text-primary);
+            background: rgba(247, 86, 48, 0.04);
+        }
+
+        .rankings-tabs .tab.active {
+            color: var(--orange-shadow);
+            border-bottom-color: var(--orange-shadow);
+            font-weight: 600;
+        }
+
+        .rankings-filters {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .rankings-filters .filter-btn {
+            padding: 4px 14px;
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-light);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .rankings-filters .filter-btn:hover {
+            background: rgba(247, 86, 48, 0.06);
+            color: var(--text-primary);
+        }
+
+        .rankings-filters .filter-btn.active {
+            background: var(--orange-shadow);
+            color: white;
+            border-color: var(--orange-shadow);
+        }
+
+        /* ===== BANNERS / FEATURED SLIDESHOW ===== */
+        .banner-container {
+            margin-bottom: 30px;
+        }
+
+        .banner-container h3 {
+            color: var(--text-secondary);
+            margin: 0 0 12px 0;
+        }
+
+        .banner-scroll {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 4px 0 12px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .banner-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .banner-scroll::-webkit-scrollbar-track {
+            background: var(--bg-body);
+            border-radius: 4px;
+        }
+
+        .banner-scroll::-webkit-scrollbar-thumb {
+            background: var(--orange-light);
+            border-radius: 4px;
+        }
+
+        .banner-card {
+            flex: 0 0 280px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 2px solid var(--border-color);
+            scroll-snap-align: start;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow-soft);
+        }
+
+        .banner-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--orange-light);
+            box-shadow: 0 6px 20px var(--shadow-hover);
+        }
+
+        .banner-card .badge {
+            font-size: 10px;
+            background: var(--orange-shadow);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .banner-card .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .banner-card .sub {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 2px 0 4px 0;
+        }
+
+        .banner-card .meta {
+            font-size: 12px;
+            color: var(--text-light);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .banner-card .signal {
+            font-size: 10px;
+            background: var(--bg-body);
+            padding: 1px 8px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            display: inline-block;
+        }
+
+        /* ===== RANKINGS GRID ===== */
+        .rankings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .rankings-grid .card-featured {
+            grid-column: span 2;
+            grid-row: span 2;
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--orange-shadow), var(--red-dark));
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 16px var(--shadow-soft);
+            min-height: 320px;
+        }
+
+        .rankings-grid .card-featured:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px var(--shadow-hover);
+        }
+
+        .card-featured .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .card-featured .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+            min-height: 320px;
+        }
+
+        .card-featured .rank-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 10px;
+            align-self: flex-start;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-featured .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            line-height: 1.3;
+        }
+
+        .card-featured .card-author {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 0 6px 0;
+        }
+
+        .card-featured .card-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            flex-wrap: wrap;
+        }
+
+        .card-featured .card-tags {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .card-featured .card-tags span {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+        }
+
+        .rankings-grid .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-soft);
+        }
+
+        .rankings-grid .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--orange-light);
+            box-shadow: 0 8px 20px var(--shadow-hover);
+        }
+
+        .card .card-image-wrap {
+            position: relative;
+            padding-top: 140%;
+            overflow: hidden;
+            background: var(--bg-body);
+        }
+
+        .card .card-image-wrap img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-image-wrap img {
+            transform: scale(1.05);
+        }
+
+        .card .rank-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(247, 86, 48, 0.85);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+        }
+
+        .card .badge-overlay {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 9px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .card .card-body {
+            padding: 10px 12px 12px 12px;
+        }
+
+        .card .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 2px 0;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card .card-author {
+            font-size: 11px;
+            color: var(--text-light);
+            margin: 0 0 4px 0;
+        }
+
+        .card .card-stats {
+            display: flex;
+            gap: 8px;
+            font-size: 10px;
+            color: var(--text-light);
+        }
+
+        .card .card-stats span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .card .signals {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .card .signals .signal {
+            font-size: 8px;
+            background: var(--bg-body);
+            padding: 1px 6px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .card .signals .signal.gold {
+            background: var(--yellow-light);
+            color: var(--brown-dark);
+            border: 1px solid var(--yellow-shadow);
+        }
+
+        .card .actions {
+            margin-top: 6px;
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .card .actions button {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 10px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .card .actions button:hover {
+            background: rgba(247, 86, 48, 0.06);
+            border-color: var(--orange-light);
+        }
+
+        .card .actions .read-btn {
+            background: var(--orange-shadow);
+            color: white;
+            border-color: var(--orange-shadow);
+        }
+
+        .card .actions .read-btn:hover {
+            background: var(--red-dark);
+            border-color: var(--red-dark);
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 12px 0;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .section-header .view-all {
+            color: var(--orange-shadow);
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .section-header .view-all:hover {
+            color: var(--red-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== SCROLL ROWS ===== */
+        .scroll-row {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0 10px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-row::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .scroll-row::-webkit-scrollbar-track {
+            background: var(--bg-body);
+            border-radius: 6px;
+        }
+
+        .scroll-row::-webkit-scrollbar-thumb {
+            background: var(--orange-light);
+            border-radius: 6px;
+        }
+
+        .scroll-row .scroll-card {
+            flex: 0 0 140px;
+            scroll-snap-align: start;
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-soft);
+        }
+
+        .scroll-row .scroll-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--orange-light);
+            box-shadow: 0 8px 20px var(--shadow-hover);
+        }
+
+        .scroll-card .card-image-wrap {
+            position: relative;
+            padding-top: 140%;
+            overflow: hidden;
+            background: var(--bg-body);
+        }
+
+        .scroll-card .card-image-wrap img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .scroll-card .card-body {
+            padding: 8px 10px 10px 10px;
+        }
+
+        .scroll-card .card-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 2px 0;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .scroll-card .card-author {
+            font-size: 10px;
+            color: var(--text-light);
+            margin: 0 0 2px 0;
+        }
+
+        .scroll-card .card-stats {
+            display: flex;
+            gap: 6px;
+            font-size: 9px;
+            color: var(--text-light);
+        }
+
+        /* ============================================================ */
+        /* SCOUT RANKINGS */
+        /* ============================================================ */
+        .scout-rankings {
+            margin-top: 30px;
+        }
+
+        .scout-rankings .section-header {
+            margin-bottom: 12px;
+        }
+
+        .scout-rank-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow-soft);
+        }
+
+        .scout-rank-item:hover {
+            border-color: var(--orange-light);
+            background: rgba(247, 86, 48, 0.04);
+            transform: translateX(4px);
+        }
+
+        .scout-rank-item .rank {
+            font-weight: 700;
+            color: var(--orange-shadow);
+            font-size: 16px;
+            min-width: 30px;
+        }
+
+        .scout-rank-item .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .scout-rank-item:hover .avatar {
+            border-color: var(--orange-light);
+        }
+
+        .scout-rank-item .info {
+            flex: 1;
+        }
+
+        .scout-rank-item .info .name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .scout-rank-item .info .name .trust-badge {
+            font-size: 10px;
+            background: var(--orange-shadow);
+            color: white;
+            padding: 1px 8px;
+            border-radius: 12px;
+            margin-left: 6px;
+        }
+
+        .scout-rank-item .info .name .signal {
+            font-size: 10px;
+            background: var(--bg-body);
+            padding: 1px 8px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            margin-left: 4px;
+        }
+
+        .scout-rank-item .info .stats {
+            font-size: 12px;
+            color: var(--text-light);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .scout-rank-item .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .scout-rank-item .actions button {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .scout-rank-item .actions button:hover {
+            background: rgba(247, 86, 48, 0.06);
+            border-color: var(--orange-light);
+        }
+
+        .scout-rank-item .actions .follow-btn {
+            background: var(--orange-shadow);
+            color: white;
+            border-color: var(--orange-shadow);
+        }
+
+        .scout-rank-item .actions .follow-btn:hover {
+            background: var(--red-dark);
+            border-color: var(--red-dark);
+        }
+
+        /* ============================================================ */
+        /* TAB CONTENT */
+        /* ============================================================ */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================ */
+        /* FOOTER */
+        /* ============================================================ */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--orange-shadow);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--red-dark);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 1024px) {
+            .rankings-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+            .rankings-grid .card-featured {
+                grid-column: span 2;
+                grid-row: span 2;
+                min-height: 280px;
+            }
+            .card-featured .card-content {
+                min-height: 280px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page-layout {
+                flex-direction: column;
+            }
+
+            .page-sidebar {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+
+            .support-block {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                padding: 14px 16px;
+            }
+
+            .support-block-inner {
+                display: contents;
+            }
+
+            .support-block-footer {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 14px 16px;
+            }
+
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+
+            .header-right {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .support-block {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .rankings-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 12px;
+            }
+            .rankings-grid .card-featured {
+                grid-column: span 3;
+                grid-row: span 1;
+                min-height: 180px;
+            }
+            .card-featured .card-content {
+                min-height: 180px;
+                padding: 16px;
+            }
+            .card-featured .card-title {
+                font-size: 17px;
+            }
+            .rankings-tabs .tab {
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+            .rankings-header h1 {
+                font-size: 22px;
+            }
+            .scroll-row .scroll-card {
+                flex: 0 0 120px;
+            }
+            .banner-card {
+                flex: 0 0 220px;
+            }
+            .scout-rank-item {
+                flex-wrap: wrap;
+            }
+            .scout-rank-item .actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px 16px;
+            }
+
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .site-header .nav a {
+                font-size: 13px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .support-block {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                padding: 12px;
+            }
+
+            .support-item {
+                padding: 10px 8px;
+            }
+
+            .support-item .support-icon {
+                font-size: 20px;
+            }
+
+            .support-item .support-title {
+                font-size: 12px;
+            }
+
+            .support-item .support-desc {
+                font-size: 10px;
+            }
+
+            .support-item .support-cta {
+                font-size: 11px;
+            }
+
+            .rankings-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .rankings-grid .card-featured {
+                grid-column: span 2;
+                min-height: 160px;
+            }
+            .card-featured .card-content {
+                min-height: 160px;
+                padding: 12px;
+            }
+            .card-featured .card-title {
+                font-size: 15px;
+            }
+            .rankings-filters .filter-btn {
+                padding: 3px 10px;
+                font-size: 11px;
+            }
+            .scroll-row .scroll-card {
+                flex: 0 0 100px;
+            }
+            .card .card-title {
+                font-size: 11px;
+            }
+            .card .card-stats {
+                font-size: 9px;
+            }
+            .banner-card {
+                flex: 0 0 160px;
+                padding: 12px 14px;
+            }
+            .banner-card .title {
+                font-size: 13px;
+            }
+            .scout-rank-item .info .stats {
+                font-size: 11px;
+                gap: 8px;
+            }
+            .scout-rank-item .info .name {
+                font-size: 13px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html" class="active">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                    <span id="theme-icon">🌙</span>
+                </button>
+
+                <!-- Language Dropdown -->
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" onclick="toggleLanguageDropdown()">🌐 EN <span class="arrow">▼</span></button>
+                    <div class="lang-menu" id="langMenu">
+                        <button class="active" data-lang="en" onclick="switchLanguage('en')">🇬🇧 English</button>
+                        <button data-lang="es" onclick="switchLanguage('es')">🇪🇸 Español</button>
+                        <hr class="lang-divider">
+                        <button data-lang="fr" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                        <button data-lang="de" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                    </div>
+                </div>
+
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+
+                <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- PAGE LAYOUT — Support block on the right -->
+        <!-- ============================================================ -->
+        <div class="page-layout">
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <div class="page-main">
+                <div class="rankings-header">
+                    <h1>🏆 Rankings</h1>
+                    <p>Discover the most popular stories on WordFlaneur, updated daily.</p>
+                </div>
+
+                <div class="rankings-tabs">
+                    <button class="tab active" data-tab="popular" onclick="switchTab('popular')">🔥 Popular</button>
+                    <button class="tab" data-tab="trending" onclick="switchTab('trending')">📈 Trending</button>
+                    <button class="tab" data-tab="new" onclick="switchTab('new')">✨ New</button>
+                    <button class="tab" data-tab="top-rated" onclick="switchTab('top-rated')">⭐ Top Rated</button>
+                    <button class="tab" data-tab="scout-picks" onclick="switchTab('scout-picks')">🔦 Scout Picks</button>
+                    <button class="tab" data-tab="following" onclick="switchTab('following')">👥 Following</button>
+                </div>
+
+                <div class="rankings-filters">
+                    <button class="filter-btn active" onclick="filterRankings('today')">Today</button>
+                    <button class="filter-btn" onclick="filterRankings('week')">Week</button>
+                    <button class="filter-btn" onclick="filterRankings('month')">Month</button>
+                    <button class="filter-btn" onclick="filterRankings('year')">Year</button>
+                    <button class="filter-btn" onclick="filterRankings('all')">All Time</button>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- BANNERS / FEATURED SLIDESHOW -->
+                <!-- ============================================ -->
+                <div class="banner-container">
+                    <h3>🏆 Featured This Week</h3>
+                    <div class="banner-scroll">
+                        <div class="banner-card" onclick="alert('Opening The Shadow\'s Heir')">
+                            <span class="badge">📚 Top Stories</span>
+                            <div class="title">The Shadow's Heir</div>
+                            <div class="sub">by Elara Voss · ⭐ 4.9</div>
+                            <div class="meta">1.2K reads · 247 hearts · 🔦 12 scouts</div>
+                            <span class="signal">🏆 Top 5% Author</span>
+                        </div>
+                        <div class="banner-card" onclick="alert('View Elara Voss profile')">
+                            <span class="badge">🔦 Top Scouts</span>
+                            <div class="title">Elara Voss</div>
+                            <div class="sub">47 recommendations · 3.2K followers</div>
+                            <div class="meta">❤️ 1.2K hearts · ⭐ 4.9/5</div>
+                            <span class="signal">⭐ High Trust Scout</span>
+                            <span class="signal">🏆 Top 1% Scout</span>
+                        </div>
+                        <div class="banner-card" onclick="alert('View Marcus Chen profile')">
+                            <span class="badge">🌟 Rising Scout</span>
+                            <div class="title">Marcus Chen</div>
+                            <div class="sub">12 recommendations · 847 followers</div>
+                            <div class="meta">❤️ 342 hearts · ⭐ 4.7/5</div>
+                            <span class="signal">📈 +45% this month</span>
+                        </div>
+                        <div class="banner-card" onclick="alert('View Elara Voss profile')">
+                            <span class="badge">🏆 Author of the Month</span>
+                            <div class="title">Elara Voss</div>
+                            <div class="sub">5 stories · 127 chapters · 8.4K coins</div>
+                            <div class="meta">📖 1.2K reads · ❤️ 247 hearts</div>
+                            <span class="signal">💎 Premium Supporter</span>
+                        </div>
+                        <div class="banner-card" onclick="alert('Opening Nexus Protocol')">
+                            <span class="badge">🔦 Most Recommended</span>
+                            <div class="title">Nexus Protocol</div>
+                            <div class="sub">by Marcus Chen · ⭐ 4.7</div>
+                            <div class="meta">47 scouts · 89 hearts</div>
+                            <span class="signal">🔥 Trending</span>
+                        </div>
+                        <div class="banner-card" onclick="alert('Opening Ember & Ash')">
+                            <span class="badge">🔥 Trending</span>
+                            <div class="title">Ember & Ash</div>
+                            <div class="sub">by Cinder Rose · ⭐ 4.8</div>
+                            <div class="meta">421 reads · 98 hearts · +30% this month</div>
+                            <span class="signal">📈 Rising</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================ -->
+                <!-- TAB CONTENT WRAPPER -->
+                <!-- ============================================ -->
+                <div id="tab-content-wrapper">
+                    <!-- Content rendered by JavaScript -->
+                </div>
+
+                <!-- ============================================ -->
+                <!-- TOP SCOUTS (Always visible) -->
+                <!-- ============================================ -->
+                <div class="scout-rankings">
+                    <div class="section-header">
+                        <h2>🏆 Top Scouts</h2>
+                        <a class="view-all" onclick="alert('View all scouts')">View All →</a>
+                    </div>
+
+                    <div class="scout-rank-item" onclick="alert('View Elara Voss profile')">
+                        <span class="rank">#1</span>
+                        <div class="avatar">🧙</div>
+                        <div class="info">
+                            <div class="name">
+                                Elara Voss
+                                <span class="trust-badge">⭐ High Trust</span>
+                                <span class="signal">🏆 Top 1% Scout</span>
+                            </div>
+                            <div class="stats">
+                                <span>👥 3.2K followers</span>
+                                <span>📤 47 recommendations</span>
+                                <span>❤️ 1.2K hearts</span>
+                                <span>🔒 92 Trust Value</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="follow-btn" onclick="event.stopPropagation(); alert('Following Elara Voss')">+ Follow</button>
+                            <button onclick="event.stopPropagation(); alert('View profile')">👤</button>
+                        </div>
+                    </div>
+
+                    <div class="scout-rank-item" onclick="alert('View RomanceGuru profile')">
+                        <span class="rank">#2</span>
+                        <div class="avatar">❤️</div>
+                        <div class="info">
+                            <div class="name">
+                                RomanceGuru
+                                <span class="trust-badge">⭐ High Trust</span>
+                                <span class="signal">🏆 Top 5% Scout</span>
+                            </div>
+                            <div class="stats">
+                                <span>👥 2.4K followers</span>
+                                <span>📤 67 recommendations</span>
+                                <span>❤️ 2.1K hearts</span>
+                                <span>🔒 89 Trust Value</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="follow-btn" onclick="event.stopPropagation(); alert('Following RomanceGuru')">+ Follow</button>
+                            <button onclick="event.stopPropagation(); alert('View profile')">👤</button>
+                        </div>
+                    </div>
+
+                    <div class="scout-rank-item" onclick="alert('View BookWanderer profile')">
+                        <span class="rank">#3</span>
+                        <div class="avatar">📚</div>
+                        <div class="info">
+                            <div class="name">
+                                BookWanderer
+                                <span class="trust-badge">⭐ High Trust</span>
+                                <span class="signal">🏆 Top 10% Scout</span>
+                            </div>
+                            <div class="stats">
+                                <span>👥 1.2K followers</span>
+                                <span>📤 45 recommendations</span>
+                                <span>❤️ 847 hearts</span>
+                                <span>🔒 87 Trust Value</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="follow-btn" onclick="event.stopPropagation(); alert('Following BookWanderer')">+ Follow</button>
+                            <button onclick="event.stopPropagation(); alert('View profile')">👤</button>
+                        </div>
+                    </div>
+
+                    <div class="scout-rank-item" onclick="alert('View FantasyFinder profile')">
+                        <span class="rank">#4</span>
+                        <div class="avatar">⚔️</div>
+                        <div class="info">
+                            <div class="name">
+                                FantasyFinder
+                                <span class="trust-badge">⭐ High Trust</span>
+                                <span class="signal">🌟 Rising Scout</span>
+                            </div>
+                            <div class="stats">
+                                <span>👥 890 followers</span>
+                                <span>📤 32 recommendations</span>
+                                <span>❤️ 567 hearts</span>
+                                <span>🔒 85 Trust Value</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="follow-btn" onclick="event.stopPropagation(); alert('Following FantasyFinder')">+ Follow</button>
+                            <button onclick="event.stopPropagation(); alert('View profile')">👤</button>
+                        </div>
+                    </div>
+
+                    <div class="scout-rank-item" onclick="alert('View DarkFiction profile')">
+                        <span class="rank">#5</span>
+                        <div class="avatar">🖤</div>
+                        <div class="info">
+                            <div class="name">
+                                DarkFiction
+                                <span class="trust-badge">⭐ High Trust</span>
+                                <span class="signal">🔦 Rising</span>
+                            </div>
+                            <div class="stats">
+                                <span>👥 560 followers</span>
+                                <span>📤 23 recommendations</span>
+                                <span>❤️ 342 hearts</span>
+                                <span>🔒 82 Trust Value</span>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="follow-btn" onclick="event.stopPropagation(); alert('Following DarkFiction')">+ Follow</button>
+                            <button onclick="event.stopPropagation(); alert('View profile')">👤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SIDEBAR — Support Block on the Right ===== -->
+            <div class="page-sidebar">
+                <div class="support-block" id="support-block">
+                    <div class="support-block-inner">
+
+                        <div class="support-item" onclick="openSupportModal('coffee')">
+                            <div class="support-icon">☕</div>
+                            <div class="support-title">Buy us a coffee</div>
+                            <div class="support-desc">One‑time — $5</div>
+                            <div class="support-cta">Support now →</div>
+                        </div>
+
+                        <div class="support-item" onclick="openSupportModal('circle')">
+                            <div class="support-icon">🌟</div>
+                            <div class="support-title">Supporter's Circle</div>
+                            <div class="support-desc">Monthly — $7.99/mo</div>
+                            <div class="support-cta">Join →</div>
+                        </div>
+
+                        <div class="support-item" onclick="openSupportModal('patron')">
+                            <div class="support-icon">💪</div>
+                            <div class="support-title">Patron</div>
+                            <div class="support-desc">Everything — $14.99/mo</div>
+                            <div class="support-cta">Become →</div>
+                        </div>
+
+                        <div class="support-item" onclick="openSupportModal('founding')">
+                            <div class="support-icon">💎</div>
+                            <div class="support-title">Founding Supporter</div>
+                            <div class="support-desc">Lifetime — $49</div>
+                            <div class="support-cta">Claim →</div>
+                        </div>
+
+                    </div>
+
+                    <div class="support-block-footer">
+                        <span class="support-count">✨ 342 supporters</span>
+                        <button class="support-dismiss" onclick="dismissSupportBlock()">✕</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left">
+                        <span class="icon">☕</span>
+                        <div class="info">
+                            <div class="title">Buy us a coffee</div>
+                            <div class="sub">One-time donation</div>
+                        </div>
+                    </div>
+                    <span class="price">$5</span>
+                </div>
+
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left">
+                        <span class="icon">🌟</span>
+                        <div class="info">
+                            <div class="title">Supporter's Circle</div>
+                            <div class="sub">Monthly subscription · Ad-free reading</div>
+                        </div>
+                    </div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left">
+                        <span class="icon">💪</span>
+                        <div class="info">
+                            <div class="title">Patron</div>
+                            <div class="sub">Everything + exclusive content &amp; perks</div>
+                        </div>
+                    </div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left">
+                        <span class="icon">💎</span>
+                        <div class="info">
+                            <div class="title">Founding Supporter</div>
+                            <div class="sub">Early supporter — lifetime recognition</div>
+                        </div>
+                    </div>
+                    <span class="price">$49</span>
+                </div>
+
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="#" onclick="alert('Learn more about supporting WordFlaneur')">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer>
+            <p>📜 WordFlaneur — It's OK to Be Slower.</p>
+            <p>
+                <a href="about.html">About</a> ·
+                <a href="privacy.html">Privacy</a> ·
+                <a href="terms.html">Terms</a> ·
+                <a href="support.html">Support</a> ·
+                <a href="marketplace.html">Marketplace</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        // THEME TOGGLE
+        // ============================================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const icon = document.getElementById('theme-icon');
+                if (icon) {
+                    icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+                }
+            }
+        });
+
+        // ============================================================
+        // LANGUAGE DROPDOWN
+        // ============================================================
+        function toggleLanguageDropdown() {
+            document.getElementById('langMenu').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            var dropdown = document.getElementById('langDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                document.getElementById('langMenu').classList.remove('open');
+            }
+        });
+
+        // ============================================================
+        // LANGUAGE SWITCHER
+        // ============================================================
+        function switchLanguage(lang) {
+            document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            var label = document.querySelector('.lang-btn');
+            var langNames = {
+                'en': '🌐 EN',
+                'es': '🌐 ES',
+                'fr': '🌐 FR',
+                'de': '🌐 DE'
+            };
+            if (label) {
+                label.innerHTML = langNames[lang] + ' <span class="arrow">▼</span>';
+            }
+
+            localStorage.setItem('preferred_language', lang);
+            document.getElementById('langMenu').classList.remove('open');
+
+            alert('🌐 Language switched to ' + langNames[lang] + ' (Demo)');
+        }
+
+        // ============================================================
+        // SUPPORT BLOCK
+        // ============================================================
+        function dismissSupportBlock() {
+            document.getElementById('support-block').style.display = 'none';
+            localStorage.setItem('supportBlockDismissed', 'true');
+        }
+
+        (function() {
+            if (localStorage.getItem('supportBlockDismissed') === 'true') {
+                const block = document.getElementById('support-block');
+                if (block) block.style.display = 'none';
+            }
+        })();
+
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal(type) {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (type) {
+                console.log('Support type selected:', type);
+            }
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // TAB DATA
+        // ============================================================
+        const tabData = {
+
+            // ===== POPULAR =====
+            'popular': {
+                title: '🔥 Popular',
+                description: 'The most-read stories on WordFlaneur this week.',
+                featured: {
+                    title: 'The Shadow\'s Heir',
+                    author: 'Elara Voss',
+                    rank: '#1 This Week',
+                    rating: '4.8',
+                    reads: '342K reads',
+                    comments: '1.2K comments',
+                    tags: ['Dark Fantasy', 'Action', 'Adventure'],
+                    image: 'darkfantasy'
+                },
+                cards: [
+                    { rank: 2, title: 'Starlight & Roses', author: 'Amelia Hart', rating: '4.7', reads: '289K', tag: '❤️ Romance', scouts: 15 },
+                    { rank: 3, title: 'Nexus Protocol', author: 'Kai Chen', rating: '4.6', reads: '215K', tag: '🔦 Scout Pick', scouts: 8 },
+                    { rank: 4, title: 'The Last Alchemist', author: 'Marcus Bell', rating: '4.8', reads: '178K', tag: '', scouts: 6 },
+                    { rank: 5, title: 'Beyond the Veil', author: 'Lyra Moon', rating: '4.5', reads: '156K', tag: '', scouts: 4 },
+                    { rank: 6, title: 'Whispers in the Dark', author: 'S.T. Graves', rating: '4.4', reads: '134K', tag: '', scouts: 3 },
+                    { rank: 7, title: 'Ember & Ash', author: 'Cinder Rose', rating: '4.6', reads: '121K', tag: '📈 Trending', scouts: 5 },
+                    { rank: 8, title: 'The Duke\'s Secret', author: 'Victoria Lane', rating: '4.3', reads: '98K', tag: '', scouts: 2 },
+                    { rank: 9, title: 'Iron Dragon', author: 'R.J. Steel', rating: '4.5', reads: '87K', tag: '', scouts: 2 },
+                    { rank: 10, title: 'Mind Games', author: 'Alex Cross', rating: '4.2', reads: '76K', tag: '', scouts: 1 }
+                ],
+                scrollTitle: '🔥 Also Trending'
+            },
+
+            // ===== TRENDING =====
+            'trending': {
+                title: '📈 Trending',
+                description: 'Stories gaining the most momentum right now.',
+                featured: {
+                    title: 'Ember & Ash',
+                    author: 'Cinder Rose',
+                    rank: '🔥 #1 Trending',
+                    rating: '4.8',
+                    reads: '421 reads',
+                    comments: '98 comments',
+                    tags: ['Fantasy', 'Romance', 'Slow Burn'],
+                    image: 'trending1'
+                },
+                cards: [
+                    { rank: 2, title: 'The Crimson Crown', author: 'L.A. Knight', rating: '4.9', reads: '45K', tag: '📈 +45%', scouts: 7 },
+                    { rank: 3, title: 'Digital Dreams', author: 'Zero Cool', rating: '4.7', reads: '38K', tag: '📈 +38%', scouts: 5 },
+                    { rank: 4, title: 'The Witch\'s Daughter', author: 'Morgan Le Fay', rating: '4.8', reads: '32K', tag: '📈 +32%', scouts: 6 },
+                    { rank: 5, title: 'Starfall', author: 'Orion Sky', rating: '4.6', reads: '28K', tag: '📈 +28%', scouts: 4 },
+                    { rank: 6, title: 'Blood & Honor', author: 'K. Tanaka', rating: '4.5', reads: '24K', tag: '📈 +24%', scouts: 3 },
+                    { rank: 7, title: 'Moonlit Kingdom', author: 'Selene Night', rating: '4.7', reads: '21K', tag: '📈 +21%', scouts: 4 },
+                    { rank: 8, title: 'Shadow Dance', author: 'Dusk Walker', rating: '4.4', reads: '18K', tag: '📈 +18%', scouts: 2 },
+                    { rank: 9, title: 'The Silent Watcher', author: 'Echo Park', rating: '4.3', reads: '15K', tag: '📈 +15%', scouts: 2 },
+                    { rank: 10, title: 'Neon City', author: 'Pixel Smith', rating: '4.2', reads: '12K', tag: '📈 +12%', scouts: 1 }
+                ],
+                scrollTitle: '🚀 Fastest Growing'
+            },
+
+            // ===== NEW =====
+            'new': {
+                title: '✨ New',
+                description: 'Fresh stories just published on WordFlaneur.',
+                featured: {
+                    title: 'Echoes of Eternity',
+                    author: 'Nova Quinn',
+                    rank: '🆕 Just Published',
+                    rating: '4.9',
+                    reads: '18K reads',
+                    comments: '45 comments',
+                    tags: ['Epic Fantasy', 'New', 'Rising Star'],
+                    image: 'new1'
+                },
+                cards: [
+                    { rank: 2, title: 'The Alchemist\'s Apprentice', author: 'Mira Stone', rating: '4.8', reads: '15K', tag: '🆕 3 days old', scouts: 3 },
+                    { rank: 3, title: 'Shadow & Steel', author: 'Jax Rivers', rating: '4.7', reads: '12K', tag: '🆕 5 days old', scouts: 2 },
+                    { rank: 4, title: 'Celestial Tides', author: 'Luna Star', rating: '4.6', reads: '10K', tag: '🆕 1 week old', scouts: 2 },
+                    { rank: 5, title: 'The Gilded Cage', author: 'Aria Rose', rating: '4.5', reads: '8K', tag: '🆕 1 week old', scouts: 1 },
+                    { rank: 6, title: 'The Night Weaver', author: 'Elara Night', rating: '4.4', reads: '6K', tag: '🆕 2 weeks old', scouts: 1 },
+                    { rank: 7, title: 'Dragon\'s Breath', author: 'Ember Flame', rating: '4.6', reads: '5.5K', tag: '🆕 2 weeks old', scouts: 1 },
+                    { rank: 8, title: 'The Last Page', author: 'Book Hunter', rating: '4.3', reads: '4.8K', tag: '🆕 3 weeks old', scouts: 0 },
+                    { rank: 9, title: 'Midnight Rose', author: 'Rose Thorn', rating: '4.4', reads: '4.2K', tag: '🆕 3 weeks old', scouts: 0 },
+                    { rank: 10, title: 'Fractured Sky', author: 'Sky Weaver', rating: '4.2', reads: '3.8K', tag: '🆕 3 weeks old', scouts: 0 }
+                ],
+                scrollTitle: '🌟 Fresh Discoveries'
+            },
+
+            // ===== TOP RATED =====
+            'top-rated': {
+                title: '⭐ Top Rated',
+                description: 'The highest-rated stories on WordFlaneur.',
+                featured: {
+                    title: 'The Shadow\'s Heir',
+                    author: 'Elara Voss',
+                    rank: '⭐ #1 Rated',
+                    rating: '4.9',
+                    reads: '342K reads',
+                    comments: '1.2K comments',
+                    tags: ['Dark Fantasy', 'Action', 'Adventure'],
+                    image: 'darkfantasy'
+                },
+                cards: [
+                    { rank: 2, title: 'Starlight & Roses', author: 'Amelia Hart', rating: '4.9', reads: '289K', tag: '⭐ 4.9', scouts: 15 },
+                    { rank: 3, title: 'The Last Alchemist', author: 'Marcus Bell', rating: '4.8', reads: '178K', tag: '⭐ 4.8', scouts: 6 },
+                    { rank: 4, title: 'The Crimson Crown', author: 'L.A. Knight', rating: '4.8', reads: '45K', tag: '⭐ 4.8', scouts: 7 },
+                    { rank: 5, title: 'The Witch\'s Daughter', author: 'Morgan Le Fay', rating: '4.8', reads: '32K', tag: '⭐ 4.8', scouts: 6 },
+                    { rank: 6, title: 'Nexus Protocol', author: 'Kai Chen', rating: '4.7', reads: '215K', tag: '⭐ 4.7', scouts: 8 },
+                    { rank: 7, title: 'Ember & Ash', author: 'Cinder Rose', rating: '4.7', reads: '121K', tag: '⭐ 4.7', scouts: 5 },
+                    { rank: 8, title: 'Moonlit Kingdom', author: 'Selene Night', rating: '4.7', reads: '21K', tag: '⭐ 4.7', scouts: 4 },
+                    { rank: 9, title: 'The Alchemist\'s Apprentice', author: 'Mira Stone', rating: '4.8', reads: '15K', tag: '⭐ 4.8', scouts: 3 },
+                    { rank: 10, title: 'Beyond the Veil', author: 'Lyra Moon', rating: '4.5', reads: '156K', tag: '⭐ 4.5', scouts: 4 }
+                ],
+                scrollTitle: '🏆 Critic\'s Choice'
+            },
+
+            // ===== SCOUT PICKS =====
+            'scout-picks': {
+                title: '🔦 Scout Picks',
+                description: 'The most recommended stories by trusted scouts.',
+                featured: {
+                    title: 'Nexus Protocol',
+                    author: 'Kai Chen',
+                    rank: '🔦 Most Recommended',
+                    rating: '4.7',
+                    reads: '215K reads',
+                    comments: '847 comments',
+                    tags: ['Sci-Fi', 'Thriller', 'Scout Pick'],
+                    image: 'sci-fi'
+                },
+                cards: [
+                    { rank: 2, title: 'The Shadow\'s Heir', author: 'Elara Voss', rating: '4.8', reads: '342K', tag: '🔦 47 scouts', scouts: 47 },
+                    { rank: 3, title: 'Starlight & Roses', author: 'Amelia Hart', rating: '4.9', reads: '289K', tag: '🔦 31 scouts', scouts: 31 },
+                    { rank: 4, title: 'Ember & Ash', author: 'Cinder Rose', rating: '4.6', reads: '121K', tag: '🔦 28 scouts', scouts: 28 },
+                    { rank: 5, title: 'The Last Alchemist', author: 'Marcus Bell', rating: '4.8', reads: '178K', tag: '🔦 24 scouts', scouts: 24 },
+                    { rank: 6, title: 'The Crimson Crown', author: 'L.A. Knight', rating: '4.9', reads: '45K', tag: '🔦 19 scouts', scouts: 19 },
+                    { rank: 7, title: 'Beyond the Veil', author: 'Lyra Moon', rating: '4.5', reads: '156K', tag: '🔦 16 scouts', scouts: 16 },
+                    { rank: 8, title: 'The Witch\'s Daughter', author: 'Morgan Le Fay', rating: '4.8', reads: '32K', tag: '🔦 14 scouts', scouts: 14 },
+                    { rank: 9, title: 'Digital Dreams', author: 'Zero Cool', rating: '4.7', reads: '38K', tag: '🔦 12 scouts', scouts: 12 },
+                    { rank: 10, title: 'Blood & Honor', author: 'K. Tanaka', rating: '4.5', reads: '24K', tag: '🔦 9 scouts', scouts: 9 }
+                ],
+                scrollTitle: '⭐ Scout Favorites'
+            },
+
+            // ===== FOLLOWING =====
+            'following': {
+                title: '👥 Following',
+                description: 'Stories from authors and scouts you follow.',
+                featured: {
+                    title: 'The Shadow\'s Heir',
+                    author: 'Elara Voss',
+                    rank: '⭐ Following',
+                    rating: '4.8',
+                    reads: '342K reads',
+                    comments: '1.2K comments',
+                    tags: ['Dark Fantasy', 'Action', 'Adventure'],
+                    image: 'darkfantasy'
+                },
+                cards: [
+                    { rank: 2, title: 'Starlight & Roses', author: 'Amelia Hart', rating: '4.9', reads: '289K', tag: '👤 Following', scouts: 15 },
+                    { rank: 3, title: 'Nexus Protocol', author: 'Kai Chen', rating: '4.6', reads: '215K', tag: '👤 Following', scouts: 8 },
+                    { rank: 4, title: 'The Last Alchemist', author: 'Marcus Bell', rating: '4.8', reads: '178K', tag: '👤 Following', scouts: 6 },
+                    { rank: 5, title: 'Ember & Ash', author: 'Cinder Rose', rating: '4.6', reads: '121K', tag: '👤 Following', scouts: 5 },
+                    { rank: 6, title: 'The Crimson Crown', author: 'L.A. Knight', rating: '4.9', reads: '45K', tag: '👤 Following', scouts: 7 },
+                    { rank: 7, title: 'Beyond the Veil', author: 'Lyra Moon', rating: '4.5', reads: '156K', tag: '👤 Following', scouts: 4 },
+                    { rank: 8, title: 'Iron Dragon', author: 'R.J. Steel', rating: '4.5', reads: '87K', tag: '👤 Following', scouts: 2 },
+                    { rank: 9, title: 'The Duke\'s Secret', author: 'Victoria Lane', rating: '4.3', reads: '98K', tag: '👤 Following', scouts: 2 },
+                    { rank: 10, title: 'Mind Games', author: 'Alex Cross', rating: '4.2', reads: '76K', tag: '👤 Following', scouts: 1 }
+                ],
+                scrollTitle: '👥 From People You Follow'
+            }
+        };
+
+        // ============================================================
+        // TAB SWITCHING
+        // ============================================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.rankings-tabs .tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.rankings-tabs .tab[data-tab="${tabName}"]`).classList.add('active');
+
+            renderTabContent(tabName);
+
+            const data = tabData[tabName];
+            if (data) {
+                const header = document.querySelector('.rankings-header p');
+                if (header) header.textContent = data.description;
+            }
+        }
+
+        // ============================================================
+        // RENDER TAB CONTENT
+        // ============================================================
+        function renderTabContent(tabName) {
+            const container = document.getElementById('tab-content-wrapper');
+            const data = tabData[tabName];
+
+            if (!data) return;
+
+            let cardsHTML = data.cards.map(card => `
+                    <div class="card" onclick="alert('Opening ${card.title}')">
+                        <div class="card-image-wrap">
+                            <img src="https://picsum.photos/seed/${card.title.replace(/\s/g,'')}/300/420" alt="${card.title}">
+                            <span class="rank-number">${card.rank}</span>
+                            ${card.tag ? `<span class="badge-overlay">${card.tag}</span>` : ''}
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">${card.title}</h4>
+                            <p class="card-author">by ${card.author}</p>
+                            <div class="card-stats">
+                                <span>⭐ ${card.rating}</span>
+                                <span>📖 ${card.reads}</span>
+                            </div>
+                            ${card.scouts ? `<div class="signals"><span class="signal">🔦 ${card.scouts} scouts</span></div>` : ''}
+                            <div class="actions">
+                                <button class="read-btn" onclick="event.stopPropagation(); alert('Reading ${card.title}')">📖 Read</button>
+                                <button onclick="event.stopPropagation(); alert('Added to library')">📚 Add</button>
+                                <button onclick="event.stopPropagation(); alert('Heart toggled')">❤️</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            let scrollHTML = data.cards.slice(0, 6).map(card => `
+                    <div class="scroll-card" onclick="alert('Reading ${card.title}')">
+                        <div class="card-image-wrap">
+                            <img src="https://picsum.photos/seed/${card.title.replace(/\s/g,'')}trend/300/420" alt="${card.title}">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">${card.title}</h4>
+                            <p class="card-author">by ${card.author}</p>
+                            <div class="card-stats">
+                                <span>⭐ ${card.rating}</span>
+                                <span>📖 ${card.reads}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            container.innerHTML = `
+                    <div class="rankings-grid">
+                        <div class="card-featured" onclick="alert('Opening ${data.featured.title}')">
+                            <img src="https://picsum.photos/seed/${data.featured.image}/600/400" alt="Featured story" class="card-image">
+                            <div class="card-content">
+                                <span class="rank-badge">${data.featured.rank}</span>
+                                <h3 class="card-title">${data.featured.title}</h3>
+                                <p class="card-author">by ${data.featured.author}</p>
+                                <div class="card-meta">
+                                    <span>⭐ ${data.featured.rating}</span>
+                                    <span>📖 ${data.featured.reads}</span>
+                                    <span>💬 ${data.featured.comments}</span>
+                                </div>
+                                <div class="card-tags">
+                                    ${data.featured.tags.map(t => `<span>${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        ${cardsHTML}
+                    </div>
+
+                    <div class="section-header">
+                        <h2>${data.scrollTitle}</h2>
+                        <a class="view-all" onclick="alert('View all')">View All →</a>
+                    </div>
+                    <div class="scroll-row">
+                        ${scrollHTML}
+                    </div>
+                `;
+        }
+
+        // ============================================================
+        // FILTER SWITCHING
+        // ============================================================
+        function filterRankings(filter) {
+            document.querySelectorAll('.rankings-filters .filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.rankings-filters .filter-btn[onclick*="${filter}"]`).classList.add('active');
+
+            const filterNames = {
+                'today': 'Today',
+                'week': 'This Week',
+                'month': 'This Month',
+                'year': 'This Year',
+                'all': 'All Time'
+            };
+            console.log(`📊 Filter changed to: ${filterNames[filter] || filter}`);
+        }
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                alert('Logged out successfully!');
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTabContent('popular');
+
+            var greeting = document.getElementById('user-greeting');
+            if (greeting) {
+                greeting.textContent = '👋 Elara Voss';
+            }
+
+            var loginBtn = document.getElementById('login-btn');
+            var logoutBtn = document.getElementById('logout-btn');
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+
+            var savedLang = localStorage.getItem('preferred_language') || 'en';
+            document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.lang === savedLang);
+            });
+
+            console.log('🏆 Rankings page loaded with complete Macaron color scheme!');
+            console.log('🎨 Preferred colors: #FCAB6A, #F75630, #A1180D, #BD2419, #36E7C7, #7D4212');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Settings — WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 2px solid #d4c5a0;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+        .site-header .logo span {
+            color: #b89a70;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #6b4f3c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+        .site-header .nav a:hover {
+            color: #3d2b1f;
+        }
+        .site-header .nav a.active {
+            color: #3d2b1f;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-right .auth-section #user-greeting {
+            color: #6b4f3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5a0;
+            color: #6b4f3c;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .btn-outline:hover {
+            background: #f8f2e8;
+            border-color: #b8a084;
+            color: #3d2b1f;
+        }
+
+        .btn {
+            background: #b89a70;
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .btn:hover {
+            background: #a88a62;
+            transform: translateY(-1px);
+        }
+
+        .support-btn {
+            background: #3d2b1f;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 18px 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.15);
+            white-space: nowrap;
+        }
+        .support-btn:hover {
+            background: #2d1f15;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61, 43, 31, 0.2);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+            font-size: 16px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active {
+            display: flex;
+        }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0e8de;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #3d2b1f;
+            font-size: 20px;
+        }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b8a084;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #fcfaf7;
+            border-radius: 12px;
+            border: 1px solid #f0e8de;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover {
+            border-color: #b89a70;
+            background: #f8f2e8;
+        }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-modal-footer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* SETTINGS PAGE - WITH SIDE NAV */
+        /* ============================================================ */
+        .settings-wrapper {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 30px;
+            max-width: 1020px;
+            margin: 30px auto;
+            padding: 0 20px;
+            align-items: start;
+        }
+
+        /* ===== SIDE NAV ===== */
+        .settings-nav {
+            position: sticky;
+            top: 20px;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 20px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .settings-nav .nav-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #b8a084;
+            padding: 0 8px 10px 8px;
+            border-bottom: 2px solid #f0e8de;
+            margin-bottom: 8px;
+        }
+
+        .settings-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            color: #6b4f3c;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .settings-nav a:hover {
+            background: #f8f2e8;
+            color: #3d2b1f;
+        }
+
+        .settings-nav a.active {
+            background: #f5ede8;
+            color: #b89a70;
+            border-left-color: #b89a70;
+        }
+
+        .settings-nav a .icon {
+            font-size: 16px;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .settings-nav .nav-divider {
+            height: 1px;
+            background: #f0e8de;
+            margin: 6px 12px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .settings-main {
+            min-width: 0;
+        }
+
+        .settings-header {
+            margin-bottom: 24px;
+        }
+        .settings-header h1 {
+            font-size: 28px;
+            color: #3d2b1f;
+            margin: 0 0 4px 0;
+        }
+        .settings-header p {
+            color: #7a6b5a;
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .settings-section {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 24px 30px;
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+
+        .settings-section .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #3d2b1f;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-section .section-title .sub {
+            font-weight: 400;
+            color: #7a6b5a;
+            font-size: 13px;
+        }
+
+        .setting-group {
+            margin-bottom: 16px;
+        }
+
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-group label {
+            display: block;
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .setting-group .hint {
+            font-size: 12px;
+            color: #7a6b5a;
+            margin-top: 2px;
+        }
+
+        .setting-group input[type="text"],
+        .setting-group input[type="email"],
+        .setting-group input[type="url"],
+        .setting-group select,
+        .setting-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e8ddd0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #fcfaf7;
+            box-sizing: border-box;
+        }
+
+        .setting-group input:focus,
+        .setting-group select:focus,
+        .setting-group textarea:focus {
+            outline: none;
+            border-color: #b8a084;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .setting-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .setting-group .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .setting-group .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #6b4f3c;
+            cursor: pointer;
+        }
+
+        .setting-group .checkbox-group input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b6f54;
+            cursor: pointer;
+        }
+
+        .setting-group .radio-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .setting-group .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #6b4f3c;
+            cursor: pointer;
+        }
+
+        .setting-group .radio-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #8b6f54;
+            cursor: pointer;
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-save {
+            background: #b89a70;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-save:hover {
+            background: #a88a62;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(184, 154, 112, 0.3);
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #6b4f3c;
+            border: 2px solid #d4c5a0;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-cancel:hover {
+            background: #f8f2e8;
+            border-color: #b8a084;
+        }
+
+        .btn-danger {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: #a93226;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e8ddd0;
+            color: #3d2b1f;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            background: #d4c5b8;
+        }
+
+        .divider {
+            height: 1px;
+            background: #f0e8de;
+            margin: 16px 0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 12px;
+            border-radius: 12px;
+        }
+
+        .status-badge.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.inactive {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .status-badge.premium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .plan-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .plan-display .plan-name {
+            font-weight: 700;
+            font-size: 18px;
+            color: #3d2b1f;
+        }
+
+        .plan-display .plan-price {
+            font-size: 14px;
+            color: #7a6b5a;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .btn-outline {
+            padding: 8px 20px;
+            font-size: 13px;
+        }
+
+        .action-buttons .btn-outline.danger {
+            border-color: #c0392b;
+            color: #c0392b;
+        }
+
+        .action-buttons .btn-outline.danger:hover {
+            background: #fde8e8;
+            border-color: #a93226;
+            color: #a93226;
+        }
+
+        .data-export-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .data-export-buttons .btn-outline {
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .two-factor-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .two-factor-status .status-text {
+            font-size: 14px;
+            color: #6b4f3c;
+        }
+
+        .two-factor-status .status-text .disabled {
+            color: #c0392b;
+        }
+
+        .two-factor-status .status-text .enabled {
+            color: #2e7d32;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 992px) {
+            .settings-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .settings-nav {
+                position: static;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 12px 16px;
+                gap: 4px;
+                overflow-x: auto;
+            }
+
+            .settings-nav .nav-title {
+                display: none;
+            }
+
+            .settings-nav a {
+                padding: 6px 14px;
+                font-size: 13px;
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .settings-nav a.active {
+                border-left: none;
+                border-bottom-color: #b89a70;
+                background: #f5ede8;
+            }
+
+            .settings-nav .nav-divider {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+            }
+            .header-right {
+                justify-content: center;
+            }
+
+            .settings-wrapper {
+                padding: 0 12px;
+            }
+
+            .settings-section {
+                padding: 16px 18px;
+            }
+
+            .settings-actions {
+                flex-direction: column;
+            }
+
+            .settings-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+
+            .plan-display {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-buttons .btn-outline {
+                width: 100%;
+                text-align: center;
+            }
+
+            .settings-nav {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .settings-nav a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .site-header .nav a {
+                font-size: 13px;
+            }
+            .header-right {
+                flex-wrap: wrap;
+            }
+
+            .settings-header h1 {
+                font-size: 22px;
+            }
+
+            .setting-group .checkbox-group {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .setting-group .radio-group {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .data-export-buttons .btn-outline {
+                max-width: 100%;
+            }
+
+            .settings-nav a {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="settings.html" class="active">Settings</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
+                </div>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SETTINGS CONTENT WITH SIDE NAV -->
+        <!-- ============================================================ -->
+        <div class="settings-wrapper">
+
+            <!-- ===== SIDE NAVIGATION ===== -->
+            <nav class="settings-nav" id="settings-nav">
+                <div class="nav-title">⚙️ Settings</div>
+
+                <a href="#section-profile" class="active">
+                    <span class="icon">👤</span> Profile
+                </a>
+                <a href="#section-reading">
+                    <span class="icon">📚</span> Reading
+                </a>
+                <a href="#section-notifications">
+                    <span class="icon">🔔</span> Notifications
+                </a>
+                <a href="#section-privacy">
+                    <span class="icon">🔒</span> Privacy
+                </a>
+
+                <div class="nav-divider"></div>
+
+                <a href="#section-scout">
+                    <span class="icon">🔦</span> Scout
+                </a>
+                <a href="#section-author">
+                    <span class="icon">✍️</span> Author
+                </a>
+                <a href="#section-monetization">
+                    <span class="icon">💰</span> Monetization
+                </a>
+                <a href="#section-subscription">
+                    <span class="icon">🌟</span> Subscription
+                </a>
+
+                <div class="nav-divider"></div>
+
+                <a href="#section-account">
+                    <span class="icon">🔐</span> Account
+                </a>
+            </nav>
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <div class="settings-main">
+
+                <div class="settings-header">
+                    <h1>⚙️ Settings</h1>
+                    <p>Manage your profile, preferences, subscriptions, and account settings.</p>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 1. PROFILE -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-profile">
+                    <div class="section-title">👤 Profile</div>
+
+                    <div class="setting-group">
+                        <label>Display Name</label>
+                        <input type="text" value="Elara Voss" placeholder="Your display name">
+                        <div class="hint">This is how you'll appear to others on the platform.</div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label>Bio</label>
+                        <textarea placeholder="Tell others about yourself...">Author of dark fantasy and slow-burn romance. I believe stories should be savored, not rushed.</textarea>
+                        <div class="hint">A short bio that appears on your profile. (Max 200 characters)</div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label>Profile Image URL</label>
+                        <input type="url" value="https://example.com/avatar.jpg" placeholder="https://example.com/avatar.jpg">
+                        <div class="hint">Paste a link to your profile image. Square images work best.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 2. READING PREFERENCES -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-reading">
+                    <div class="section-title">📚 Reading Preferences</div>
+
+                    <div class="setting-group">
+                        <label>Library Visibility</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="library-visibility" value="public" checked> Public</label>
+                            <label><input type="radio" name="library-visibility" value="private"> Private</label>
+                            <label><input type="radio" name="library-visibility" value="followers"> Followers Only</label>
+                        </div>
+                        <div class="hint">Who can see your reading list and library activity.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Reading Theme</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="theme" value="light" checked> ☀️ Light</label>
+                            <label><input type="radio" name="theme" value="dark"> 🌙 Dark</label>
+                            <label><input type="radio" name="theme" value="sepia"> 📖 Sepia</label>
+                        </div>
+                        <div class="hint">Choose your preferred reading theme.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Font Size</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="font-size" value="small"> Small</label>
+                            <label><input type="radio" name="font-size" value="medium" checked> Medium</label>
+                            <label><input type="radio" name="font-size" value="large"> Large</label>
+                        </div>
+                        <div class="hint">Adjust the font size for reading chapters.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 3. NOTIFICATIONS -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-notifications">
+                    <div class="section-title">🔔 Notifications</div>
+
+                    <div class="setting-group">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" checked> New chapters from followed authors</label>
+                            <label><input type="checkbox" checked> Recommendations from followed scouts</label>
+                            <label><input type="checkbox" checked> Comments on your stories/recommendations</label>
+                            <label><input type="checkbox" checked> Hearts and tips received</label>
+                            <label><input type="checkbox"> Platform announcements and updates</label>
+                            <label><input type="checkbox" checked> Inbox messages from the platform</label>
+                            <label><input type="checkbox"> Weekly digest email</label>
+                            <label><input type="checkbox"> Scout recommendation alerts</label>
+                        </div>
+                        <div class="hint">Choose which notifications you receive.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 4. PRIVACY -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-privacy">
+                    <div class="section-title">🔒 Privacy</div>
+
+                    <div class="setting-group">
+                        <label>Profile Visibility</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="profile-visibility" value="public" checked> Public</label>
+                            <label><input type="radio" name="profile-visibility" value="private"> Private</label>
+                            <label><input type="radio" name="profile-visibility" value="logged-in"> Logged-in users only</label>
+                        </div>
+                        <div class="hint">Who can view your public profile.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Reading Activity</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="activity-visibility" value="public" checked> Public</label>
+                            <label><input type="radio" name="activity-visibility" value="private"> Private</label>
+                            <label><input type="radio" name="activity-visibility" value="followers"> Followers Only</label>
+                        </div>
+                        <div class="hint">Whether your reading activity is visible to others.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Data &amp; Privacy</label>
+                        <div class="data-export-buttons">
+                            <button class="btn-outline" onclick="alert('📥 Download your data (Demo)')">📥 Download My Data (JSON)</button>
+                            <button class="btn-outline" onclick="alert('📥 Download your reading history (Demo)')">📥 Download Reading History</button>
+                            <button class="btn-outline" onclick="alert('🔐 Privacy settings (Demo)')">🔐 Privacy Settings</button>
+                        </div>
+                        <div class="hint">Export your data or manage privacy preferences. See our <a href="privacy.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Privacy Policy</a>.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 5. SCOUT SETTINGS -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-scout">
+                    <div class="section-title">🔦 Scout Settings</div>
+
+                    <div class="setting-group">
+                        <label>Scout Profile Visibility</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="scout-visibility" value="public" checked> Public</label>
+                            <label><input type="radio" name="scout-visibility" value="private"> Private</label>
+                        </div>
+                        <div class="hint">Who can see your scout profile and recommendations.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Trust Value Visibility</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="trust-visibility" value="public" checked> Show on profile</label>
+                            <label><input type="radio" name="trust-visibility" value="private"> Hide from profile</label>
+                        </div>
+                        <div class="hint">Whether your Trust Value is displayed on your profile.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Auto-Share Recommendations</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="auto-share" value="on" checked> On</label>
+                            <label><input type="radio" name="auto-share" value="off"> Off</label>
+                        </div>
+                        <div class="hint">Automatically share your recommendations to your followers' feeds.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 6. AUTHOR SETTINGS -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-author">
+                    <div class="section-title">✍️ Author Settings</div>
+
+                    <div class="setting-group">
+                        <label>Default Chapter Locking</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="default-lock" value="free"> All chapters free</label>
+                            <label><input type="radio" name="default-lock" value="locked" checked> Lock after Chapter 5</label>
+                        </div>
+                        <div class="hint">Default setting for new stories. You can change this per story.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Default Publishing Schedule</label>
+                        <select>
+                            <option value="1">1 time per week</option>
+                            <option value="2" selected>2 times per week</option>
+                            <option value="3">3 times per week</option>
+                            <option value="4">4 times per week</option>
+                            <option value="5">5 times per week</option>
+                            <option value="7">Daily</option>
+                        </select>
+                        <div class="hint">Default schedule for new stories. Readers will see this on your story page.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Author Notes Position</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="author-notes" value="before" checked> Show before chapters</label>
+                            <label><input type="radio" name="author-notes" value="after"> Show after chapters</label>
+                            <label><input type="radio" name="author-notes" value="both"> Show both</label>
+                        </div>
+                        <div class="hint">Where author notes appear in your chapters.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 7. MONETIZATION -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-monetization">
+                    <div class="section-title">💰 Monetization</div>
+
+                    <div class="setting-group">
+                        <label>Payout Method</label>
+                        <select>
+                            <option value="">Select a payout method...</option>
+                            <option value="paypal" selected>PayPal</option>
+                            <option value="stripe">Stripe</option>
+                            <option value="bank">Bank Transfer</option>
+                        </select>
+                        <div class="hint">How you receive your earnings.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Payout Email</label>
+                        <input type="email" value="elara@example.com" placeholder="payout@example.com">
+                        <div class="hint">The email address associated with your payout method.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Minimum Payout Threshold</label>
+                        <select>
+                            <option value="10">$10</option>
+                            <option value="25" selected>$25</option>
+                            <option value="50">$50</option>
+                            <option value="100">$100</option>
+                        </select>
+                        <div class="hint">Minimum earnings required before a payout is processed.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Payout Schedule</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="payout-schedule" value="monthly" checked> Monthly</label>
+                            <label><input type="radio" name="payout-schedule" value="quarterly"> Quarterly</label>
+                        </div>
+                        <div class="hint">How often payouts are processed.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 8. SUBSCRIPTION -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-subscription">
+                    <div class="section-title">🌟 Subscription <span class="status-badge premium">Premium</span></div>
+
+                    <div class="setting-group">
+                        <label>Current Plan</label>
+                        <div class="plan-display">
+                            <span class="plan-name">Premium Reader</span>
+                            <span class="status-badge active">Active</span>
+                            <span class="plan-price">$4.99/month</span>
+                        </div>
+                        <div class="hint">Next billing: <strong>April 15, 2026</strong></div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Payment Method</label>
+                        <div class="plan-display">
+                            <span>💳 •••• 4242 (Expires 12/26)</span>
+                            <button class="btn-outline" onclick="alert('Update payment method (Demo)')">Update</button>
+                        </div>
+                        <div class="hint">Your payment method for subscription billing.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Plan Features</label>
+                        <ul style="list-style:none;padding:0;margin:4px 0 0 0;">
+                            <li style="padding:4px 0;font-size:14px;color:#6b4f3c;">✅ Ad-free reading experience</li>
+                            <li style="padding:4px 0;font-size:14px;color:#6b4f3c;">✅ Early access to chapters (+24h)</li>
+                            <li style="padding:4px 0;font-size:14px;color:#6b4f3c;">✅ Unlimited reading of locked chapters</li>
+                            <li style="padding:4px 0;font-size:14px;color:#6b4f3c;">✅ Personal reading analytics</li>
+                            <li style="padding:4px 0;font-size:14px;color:#6b4f3c;">✅ Priority scout application</li>
+                        </ul>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Manage Subscription</label>
+                        <div class="action-buttons">
+                            <button class="btn-outline" onclick="alert('⬆ Upgrade your plan (Demo)')">⬆ Upgrade</button>
+                            <button class="btn-outline" onclick="alert('📋 View all plans (Demo)')">📋 View Plans</button>
+                            <button class="btn-outline danger" onclick="if(confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.')) alert('Subscription cancelled (Demo)')">Cancel Subscription</button>
+                        </div>
+                        <div class="hint">Upgrade, downgrade, or cancel your subscription. Changes take effect next billing cycle.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Billing History</label>
+                        <div style="font-size:14px;color:#6b4f3c;">
+                            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0e8de;">
+                                <span>March 15, 2026</span>
+                                <span>$4.99</span>
+                                <span class="status-badge active">Paid</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0e8de;">
+                                <span>February 15, 2026</span>
+                                <span>$4.99</span>
+                                <span class="status-badge active">Paid</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                                <span>January 15, 2026</span>
+                                <span>$4.99</span>
+                                <span class="status-badge active">Paid</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;">
+                            <button class="btn-outline" onclick="alert('View full billing history (Demo)')">View All Invoices</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- 9. ACCOUNT -->
+                <!-- ============================================================ -->
+                <div class="settings-section" id="section-account" style="border-color: #f5c6cb;">
+                    <div class="section-title">🔐 Account <span class="status-badge active">Active</span></div>
+
+                    <div class="setting-group">
+                        <label>Email</label>
+                        <input type="email" value="elara@example.com" placeholder="your@email.com">
+                        <div class="hint">Your account email address. <a href="#" style="color:#b89a70;text-decoration:none;font-weight:600;" onclick="alert('Change email (Demo)')">Change email</a></div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Password</label>
+                        <button class="btn-outline" onclick="alert('Change password (Demo)')">Change Password</button>
+                        <div class="hint">Last changed 2 months ago. For security, use a strong password.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Two-Factor Authentication</label>
+                        <div class="two-factor-status">
+                            <span class="status-text">🔐 Two-factor authentication is <span class="disabled">disabled</span></span>
+                            <button class="btn-outline" onclick="alert('Enable 2FA (Demo)')">Enable</button>
+                        </div>
+                        <div class="hint">Add an extra layer of security to your account with 2FA.</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="setting-group">
+                        <label>Delete Account</label>
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                            <button class="btn-danger" onclick="if(confirm('⚠️ Are you sure you want to delete your account? This action is PERMANENT and cannot be undone. All your stories, recommendations, and data will be permanently removed.')) alert('Account deletion requested (Demo)')">🗑️ Delete Account</button>
+                            <span style="font-size:12px; color:#7a6b5a;">All your data will be permanently removed.</span>
+                        </div>
+                        <div class="hint">This action cannot be undone. Please make sure you've exported any data you want to keep.</div>
+                    </div>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- ACTIONS -->
+                <!-- ============================================================ -->
+                <div class="settings-actions">
+                    <button class="btn-save" onclick="saveSettings()">💾 Save Settings</button>
+                    <button class="btn-cancel" onclick="window.location.href='dashboard.html'">Cancel</button>
+                </div>
+
+                <!-- ============================================================ -->
+                <!-- FOOTER -->
+                <!-- ============================================================ -->
+                <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+                    <p>WordFlaneur — where authors create at a reasonable pace.</p>
+                    <p>
+                        <a href="about.html" style="color:#b89a70;text-decoration:none;font-weight:600;">About</a> ·
+                        <a href="privacy.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Privacy</a> ·
+                        <a href="terms.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Terms</a> ·
+                        <a href="support.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Support</a>
+                    </p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // SAVE SETTINGS
+        // ============================================================
+        function saveSettings() {
+            const btn = document.querySelector('.btn-save');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Saved!';
+            btn.style.background = '#2e7d32';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 3000);
+
+            console.log('📝 Settings saved!');
+            alert('✅ Settings saved successfully! (Demo)');
+        }
+
+        // ============================================================
+        // SIDE NAV - SCROLL SPY
+        // ============================================================
+        function updateActiveNav() {
+            const sections = document.querySelectorAll('.settings-section');
+            const navLinks = document.querySelectorAll('.settings-nav a');
+
+            let currentSection = null;
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    currentSection = section.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.settings-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update active nav on scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateActiveNav, 100);
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        async function handleLogin() {
+            window.location.href = 'login.html';
+        }
+
+        async function handleLogout() {
+            const r = await signOut();
+            if (r.success) window.location.reload();
+            else alert('Error signing out');
+        }
+
+        // ============================================================
+        // CHECK AUTH
+        // ============================================================
+        async function checkAuth() {
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.auth) {
+                renderGuestState();
+                return;
+            }
+            const { data: { session }, error } = await client.auth.getSession();
+            if (error || !session?.user) {
+                renderGuestState();
+                return;
+            }
+            const user = session.user;
+            const profileResult = await getUserProfile(user.id);
+            const profile = profileResult.success && profileResult.profile ? profileResult.profile : null;
+            document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('publish-btn').style.display = 'inline-block';
+        }
+
+        function renderGuestState() {
+            document.getElementById('user-greeting').textContent = 'Guest';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.add('hidden');
+            document.getElementById('publish-btn').style.display = 'none';
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+
+            // Initial active nav state
+            setTimeout(updateActiveNav, 500);
+        });
+    </script>
+</body>
+</html>

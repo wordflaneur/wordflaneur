@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Join WordFlaneur · Sign Up</title>
+    <style>
+        /* ============================================================ */
+        /* SIGNUP PAGE - Nausicaä Palette */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #2D4A3E;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(212, 168, 67, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(58, 155, 142, 0.06) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .auth-card {
+            background: #F5EDE6;
+            border-radius: 24px;
+            padding: 40px 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(212, 168, 67, 0.2);
+        }
+
+        /* Logo */
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-logo a {
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2D4A3E;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-logo a span {
+            color: #D4A843;
+        }
+
+        .auth-logo .tagline {
+            font-size: 13px;
+            color: #7A6B5A;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* Headings */
+        .auth-card h1 {
+            font-size: 26px;
+            color: #2D4A3E;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .auth-card .subtitle {
+            color: #7A6B5A;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Benefits badges */
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .benefits .badge {
+            background: #F8F2E8;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #2D4A3E;
+            border: 1px solid #E8DDD0;
+            font-weight: 500;
+        }
+
+        .benefits .badge:hover {
+            border-color: #D4A843;
+            background: #FCFAF7;
+        }
+
+        /* ===== SOCIAL BUTTONS ===== */
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: 2px solid #E8DDD0;
+            background: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #2D4A3E;
+            width: 100%;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .social-btn:active {
+            transform: translateY(0);
+        }
+
+        .social-btn .icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .social-btn.google:hover {
+            border-color: #EA4335;
+            background: #FEF6F5;
+        }
+
+        .social-btn.twitter:hover {
+            border-color: #000000;
+            background: #F5F5F5;
+        }
+
+        .social-btn.github:hover {
+            border-color: #24292E;
+            background: #F6F8FA;
+        }
+
+        .social-btn.discord:hover {
+            border-color: #5865F2;
+            background: #F0F1FF;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #B8A084;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #E8DDD0;
+        }
+
+        /* ===== FORM ===== */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2D4A3E;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .form-group label .required {
+            color: #B85A3E;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid #E8DDD0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2D4A3E;
+            background: white;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #D4A843;
+            box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #C4B5A0;
+        }
+
+        .form-group input.error {
+            border-color: #B85A3E;
+        }
+
+        .form-group .field-error {
+            font-size: 12px;
+            color: #B85A3E;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-group .field-error.show {
+            display: block;
+        }
+
+        .form-group .password-hint {
+            font-size: 12px;
+            color: #7A6B5A;
+            margin-top: 4px;
+        }
+
+        .form-group .password-strength {
+            height: 4px;
+            background: #E8DDD0;
+            border-radius: 4px;
+            margin-top: 6px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .form-group .password-strength .bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .form-group .password-strength .bar.weak {
+            width: 25%;
+            background: #E53935;
+        }
+
+        .form-group .password-strength .bar.medium {
+            width: 50%;
+            background: #FB8C00;
+        }
+
+        .form-group .password-strength .bar.strong {
+            width: 75%;
+            background: #43A047;
+        }
+
+        .form-group .password-strength .bar.very-strong {
+            width: 100%;
+            background: #1B5E20;
+        }
+
+        .form-group .password-strength-label {
+            font-size: 11px;
+            color: #7A6B5A;
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .form-group.checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 4px 0 16px;
+        }
+
+        .form-group.checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            accent-color: #D4A843;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .form-group.checkbox label {
+            font-weight: 400;
+            font-size: 13px;
+            color: #6B4F3C;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .form-group.checkbox label a {
+            color: #D4A843;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-group.checkbox label a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: #D4A843;
+            color: #2D4A3E;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            background: #B8932E;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(212, 168, 67, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== MESSAGE ===== */
+        #message {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+
+        #message.show {
+            display: block;
+        }
+
+        #message.success {
+            background: #E8F5E9;
+            color: #1B5E20;
+            border: 1px solid #A5D6A7;
+        }
+
+        #message.error {
+            background: #FBE9E7;
+            color: #B71C1C;
+            border: 1px solid #FFAB91;
+        }
+
+        #message.info {
+            background: #E3F2FD;
+            color: #0D47A1;
+            border: 1px solid #90CAF9;
+        }
+
+        /* ===== AUTH SWITCH ===== */
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7A6B5A;
+        }
+
+        .auth-switch a {
+            color: #D4A843;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 28px 20px;
+            }
+
+            .auth-logo a {
+                font-size: 24px;
+            }
+
+            .auth-card h1 {
+                font-size: 22px;
+            }
+
+            .social-btn {
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+
+            .benefits .badge {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+
+            <!-- Logo -->
+            <div class="auth-logo">
+                <a href="index.html">📜 Word<span>Flaneur</span></a>
+                <div class="tagline">Where stories take their time</div>
+            </div>
+
+            <!-- Heading -->
+            <h1>Create Account</h1>
+            <p class="subtitle">Start your journey as a reader, author, or scout</p>
+
+            <!-- Benefits -->
+            <div class="benefits">
+                <span class="badge">✍️ Publish at your pace</span>
+                <span class="badge">🔦 Discover hidden gems</span>
+                <span class="badge">💰 Earn from your passion</span>
+                <span class="badge">📚 Build your library</span>
+            </div>
+
+            <!-- ===== SOCIAL BUTTONS ===== -->
+            <div class="social-buttons">
+                <button class="social-btn google" onclick="handleSocialLogin('google')">
+                    <span class="icon">🔴</span> Sign up with Google
+                </button>
+                <button class="social-btn twitter" onclick="handleSocialLogin('twitter')">
+                    <span class="icon">🐦</span> Sign up with X (Twitter)
+                </button>
+                <button class="social-btn github" onclick="handleSocialLogin('github')">
+                    <span class="icon">🐙</span> Sign up with GitHub
+                </button>
+                <button class="social-btn discord" onclick="handleSocialLogin('discord')">
+                    <span class="icon">💬</span> Sign up with Discord
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider">or sign up with email</div>
+
+            <!-- ===== EMAIL FORM ===== -->
+            <form id="auth-form" novalidate>
+                <div class="form-group">
+                    <label for="display-name">Display Name <span class="required">*</span></label>
+                    <input type="text" id="display-name" placeholder="How should we call you?" required />
+                    <div class="field-error" id="display-name-error">Please enter a display name.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" placeholder="you@example.com" required />
+                    <div class="field-error" id="email-error">Please enter a valid email address.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" id="password" placeholder="Create a strong password" required />
+                    <div class="password-hint">At least 8 characters</div>
+                    <div class="password-strength">
+                        <div class="bar" id="strength-bar"></div>
+                    </div>
+                    <div class="password-strength-label" id="strength-label"></div>
+                    <div class="field-error" id="password-error">Password must be at least 8 characters.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password <span class="required">*</span></label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required />
+                    <div class="field-error" id="confirm-error">Passwords do not match.</div>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="terms" required />
+                    <label for="terms">
+                        I agree to the <a href="terms.html">Terms of Service</a> and
+                        <a href="privacy.html">Privacy Policy</a> <span class="required">*</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submit-btn">Create Account →</button>
+            </form>
+
+            <!-- Message -->
+            <div id="message"></div>
+
+            <!-- Auth Switch -->
+            <div class="auth-switch">
+                Already have an account? <a href="login.html">Sign in →</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // AUTHENTICATION - MOCK VERSION (Self-contained)
+        // ============================================================
+        // This entire auth system works without any external dependencies
+        // All data is stored in localStorage for demo purposes
+        // Later, you can replace with Supabase or your preferred backend
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        }
+
+        function getUsers() {
+            try {
+                return JSON.parse(localStorage.getItem('mock_users') || '[]');
+            } catch {
+                return [];
+            }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('mock_users', JSON.stringify(users));
+        }
+
+        function getLoggedInUser() {
+            try {
+                const data = localStorage.getItem('mock_session');
+                return data ? JSON.parse(data) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function setLoggedInUser(user) {
+            localStorage.setItem('mock_session', JSON.stringify(user));
+        }
+
+        function clearSession() {
+            localStorage.removeItem('mock_session');
+        }
+
+        // ============================================================
+        // SIGN UP
+        // ============================================================
+        async function signUp(email, password, username, displayName) {
+            try {
+                // Validate
+                if (!email || !password || !username || !displayName) {
+                    throw new Error('All fields are required.');
+                }
+
+                if (password.length < 8) {
+                    throw new Error('Password must be at least 8 characters.');
+                }
+
+                // Check if user exists
+                const users = getUsers();
+                if (users.find(u => u.email === email)) {
+                    throw new Error('An account with this email already exists.');
+                }
+
+                if (users.find(u => u.username === username)) {
+                    throw new Error('Username already taken. Please choose another.');
+                }
+
+                // Create user
+                const newUser = {
+                    id: generateId(),
+                    email: email,
+                    username: username,
+                    display_name: displayName,
+                    created_at: new Date().toISOString(),
+                };
+
+                users.push(newUser);
+                saveUsers(users);
+
+                // Auto-login
+                setLoggedInUser(newUser);
+
+                return {
+                    success: true,
+                    user: newUser
+                };
+
+            } catch (error) {
+                console.error('Signup error:', error);
+                return {
+                    success: false,
+                    error: error.message || 'Failed to sign up.'
+                };
+            }
+        }
+
+        // ============================================================
+        // SIGN IN
+        // ============================================================
+        async function signIn(email, password) {
+            try {
+                const users = getUsers();
+                const user = users.find(u => u.email === email);
+
+                if (!user) {
+                    throw new Error('No account found with this email.');
+                }
+
+                // For demo, any password works if user exists
+                setLoggedInUser(user);
+
+                return {
+                    success: true,
+                    user: user
+                };
+
+            } catch (error) {
+                console.error('Signin error:', error);
+                return {
+                    success: false,
+                    error: error.message || 'Failed to sign in.'
+                };
+            }
+        }
+
+        // ============================================================
+        // SIGN OUT
+        // ============================================================
+        async function signOut() {
+            clearSession();
+            return { success: true };
+        }
+
+        // ============================================================
+        // GET CURRENT USER
+        // ============================================================
+        async function getCurrentUser() {
+            const user = getLoggedInUser();
+            if (user) {
+                return { success: true, user: user };
+            }
+            return { success: false, user: null };
+        }
+
+        // ============================================================
+        // SOCIAL LOGIN (Mock)
+        // ============================================================
+        async function signInWithSocial(provider) {
+            // Create a fake user for demo
+            const timestamp = Date.now().toString(36);
+            const email = `demo_${provider}_${timestamp}@example.com`;
+            const username = `${provider}_user_${timestamp}`;
+            const displayName = `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`;
+
+            // Check if user already exists (unlikely with timestamp)
+            const users = getUsers();
+            if (users.find(u => u.email === email)) {
+                // If exists, just log them in
+                const user = users.find(u => u.email === email);
+                setLoggedInUser(user);
+                return { success: true, user: user };
+            }
+
+            // Create new user
+            return await signUp(email, 'social_login_123', username, displayName);
+        }
+
+        // ============================================================
+        // MAKE AUTH FUNCTIONS AVAILABLE GLOBALLY
+        // ============================================================
+        window.signUp = signUp;
+        window.signIn = signIn;
+        window.signOut = signOut;
+        window.getCurrentUser = getCurrentUser;
+        window.signInWithSocial = signInWithSocial;
+
+        console.log('🔐 Auth functions loaded (MOCK MODE).');
+        console.log('📝 Users are stored in localStorage.');
+
+        // ============================================================
+        // SOCIAL LOGIN HANDLER
+        // ============================================================
+        function handleSocialLogin(provider) {
+            const message = document.getElementById('message');
+
+            // Show loading
+            message.textContent = `⏳ Connecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)}...`;
+            message.className = 'show info';
+
+            // Disable social buttons
+            document.querySelectorAll('.social-btn').forEach(btn => btn.disabled = true);
+
+            // Simulate OAuth flow
+            setTimeout(async () => {
+                try {
+                    const result = await window.signInWithSocial(provider);
+
+                    if (!result.success) {
+                        throw new Error(result.error || 'Social login failed.');
+                    }
+
+                    message.textContent = `✅ Welcome ${result.user.display_name}! Redirecting...`;
+                    message.className = 'show success';
+
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+
+                } catch (error) {
+                    message.textContent = `❌ ${error.message}`;
+                    message.className = 'show error';
+                    document.querySelectorAll('.social-btn').forEach(btn => btn.disabled = false);
+                }
+            }, 1200);
+        }
+
+        // ============================================================
+        // PASSWORD STRENGTH
+        // ============================================================
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const bar = document.getElementById('strength-bar');
+            const label = document.getElementById('strength-label');
+
+            if (password.length === 0) {
+                bar.className = 'bar';
+                label.textContent = '';
+                return;
+            }
+
+            let strength = 0;
+            let score = 0;
+
+            // Length check
+            if (password.length >= 8) score += 1;
+            if (password.length >= 12) score += 1;
+
+            // Character variety
+            if (/[a-z]/.test(password)) score += 1;
+            if (/[A-Z]/.test(password)) score += 1;
+            if (/[0-9]/.test(password)) score += 1;
+            if (/[^a-zA-Z0-9]/.test(password)) score += 1;
+
+            // Determine strength level
+            let level, className;
+            if (score <= 2) {
+                level = 'Weak';
+                className = 'weak';
+            } else if (score <= 4) {
+                level = 'Fair';
+                className = 'medium';
+            } else if (score <= 6) {
+                level = 'Good';
+                className = 'strong';
+            } else {
+                level = 'Strong';
+                className = 'very-strong';
+            }
+
+            bar.className = 'bar ' + className;
+            label.textContent = 'Strength: ' + level;
+            label.style.color = bar.style.background || '#7A6B5A';
+        });
+
+        // ============================================================
+        // REAL-TIME PASSWORD CONFIRMATION
+        // ============================================================
+        document.getElementById('confirm-password').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirm = this.value;
+            const error = document.getElementById('confirm-error');
+
+            if (confirm.length > 0 && password !== confirm) {
+                error.classList.add('show');
+                this.classList.add('error');
+            } else {
+                error.classList.remove('show');
+                this.classList.remove('error');
+            }
+        });
+
+        // ============================================================
+        // FORM SUBMIT
+        // ============================================================
+        document.getElementById('auth-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const displayName = document.getElementById('display-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const termsChecked = document.getElementById('terms').checked;
+            const message = document.getElementById('message');
+
+            // Reset messages
+            message.textContent = '';
+            message.className = '';
+            document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+
+            let hasError = false;
+
+            // Validation: Display Name
+            if (!displayName) {
+                document.getElementById('display-name-error').classList.add('show');
+                document.getElementById('display-name').classList.add('error');
+                hasError = true;
+            }
+
+            // Validation: Email
+            if (!email || !email.includes('@')) {
+                document.getElementById('email-error').classList.add('show');
+                document.getElementById('email').classList.add('error');
+                hasError = true;
+            }
+
+            // Validation: Password
+            if (password.length < 8) {
+                document.getElementById('password-error').classList.add('show');
+                document.getElementById('password').classList.add('error');
+                hasError = true;
+            }
+
+            // Validation: Confirm Password
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-error').classList.add('show');
+                document.getElementById('confirm-password').classList.add('error');
+                hasError = true;
+            }
+
+            // Validation: Terms
+            if (!termsChecked) {
+                message.textContent = '❌ You must agree to the Terms of Service and Privacy Policy.';
+                message.className = 'show error';
+                return;
+            }
+
+            if (hasError) {
+                message.textContent = '❌ Please fix the errors above.';
+                message.className = 'show error';
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.textContent = '⏳ Creating account...';
+            submitBtn.disabled = true;
+
+            try {
+                const username = displayName.toLowerCase().replace(/\s/g, '');
+
+                // Call the auth function
+                const result = await window.signUp(email, password, username, displayName);
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Unable to create account.');
+                }
+
+                message.textContent = '✅ Account created! Redirecting to your dashboard...';
+                message.className = 'show success';
+
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+
+            } catch (error) {
+                message.textContent = '❌ ' + error.message;
+                message.className = 'show error';
+                console.error('Signup error:', error);
+            } finally {
+                submitBtn.textContent = 'Create Account →';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // ============================================================
+        // CHECK IF ALREADY LOGGED IN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', async function() {
+            const result = await window.getCurrentUser();
+            if (result.success && result.user) {
+                // User is already logged in, redirect to dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        // ============================================================
+        // KEYBOARD SHORTCUT: Enter to submit (on confirm password)
+        // ============================================================
+        document.getElementById('confirm-password').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('auth-form').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        console.log('📝 Signup page loaded successfully.');
+        console.log('📧 Social signup: Google, X (Twitter), GitHub, Discord');
+        console.log('🔒 Password strength indicator active.');
+        console.log('💾 All data stored in localStorage (demo mode).');
+    </script>
+
+</body>
+</html>

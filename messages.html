@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Messages · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* MESSAGES PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ============================================================ */
+        /* MESSAGES LAYOUT */
+        /* ============================================================ */
+        .messages-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e8e3dd;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        /* ===== INBOX SIDEBAR ===== */
+        .inbox-sidebar {
+            border-right: 1px solid #f0ebe6;
+            display: flex;
+            flex-direction: column;
+            background: #fcfaf7;
+        }
+
+        .inbox-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .inbox-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inbox-header h2 .badge {
+            background: #b8634b;
+            color: white;
+            font-size: 11px;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .inbox-header .compose-btn {
+            background: #b8634b;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .inbox-header .compose-btn:hover {
+            background: #a04a35;
+        }
+
+        /* ===== SEARCH ===== */
+        .search-bar {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f0ebe6;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 14px;
+            border: 2px solid #e8e3dd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #b8634b;
+            box-shadow: 0 0 0 3px rgba(184, 99, 75, 0.1);
+        }
+
+        .search-bar input::placeholder {
+            color: #b8a084;
+        }
+
+        /* ===== CONVERSATION LIST ===== */
+        .conversation-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 0;
+        }
+
+        .conversation-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .conversation-list::-webkit-scrollbar-track {
+            background: #f5f3f0;
+        }
+        .conversation-list::-webkit-scrollbar-thumb {
+            background: #d4c5b8;
+            border-radius: 4px;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .conversation-item:hover {
+            background: #f5f3f0;
+        }
+
+        .conversation-item.active {
+            background: #f5ede8;
+            border-left-color: #b8634b;
+        }
+
+        .conversation-item.unread {
+            background: #f5f0ea;
+        }
+
+        .conversation-item .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #f0ebe6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+        }
+
+        .conversation-item.unread .avatar {
+            border-color: #b8634b;
+        }
+
+        .conversation-item .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-item .info .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1614;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .conversation-item .info .name .time {
+            font-weight: 400;
+            font-size: 11px;
+            color: #9a9088;
+        }
+
+        .conversation-item .info .preview {
+            font-size: 13px;
+            color: #6f655c;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 1px;
+        }
+
+        .conversation-item .info .preview .unread-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #b8634b;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        .conversation-item .badge-count {
+            background: #b8634b;
+            color: white;
+            font-size: 10px;
+            padding: 1px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* ===== MESSAGE PANEL ===== */
+        .message-panel {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        /* ===== MESSAGE HEADER ===== */
+        .message-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .message-header .recipient {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message-header .recipient .avatar-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f0ebe6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .message-header .recipient .name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a1614;
+        }
+
+        .message-header .recipient .status {
+            font-size: 12px;
+            color: #2e7d32;
+        }
+
+        .message-header .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .message-header .actions button {
+            background: none;
+            border: none;
+            color: #9a9088;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .message-header .actions button:hover {
+            background: #f5f3f0;
+            color: #b8634b;
+        }
+
+        /* ===== MESSAGES LIST ===== */
+        .messages-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 350px;
+            max-height: 450px;
+        }
+
+        .messages-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .messages-list::-webkit-scrollbar-track {
+            background: #f5f3f0;
+        }
+        .messages-list::-webkit-scrollbar-thumb {
+            background: #d4c5b8;
+            border-radius: 4px;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            animation: messageIn 0.3s ease;
+        }
+
+        @keyframes messageIn {
+            0% { opacity: 0; transform: translateY(8px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-bubble.sent {
+            align-self: flex-end;
+            background: #b8634b;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-bubble.received {
+            align-self: flex-start;
+            background: #f5f3f0;
+            color: #1a1614;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-bubble .time {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .message-bubble.sent .time {
+            text-align: right;
+        }
+
+        .message-bubble.received .time {
+            text-align: left;
+        }
+
+        /* ===== DATE DIVIDER ===== */
+        .date-divider {
+            text-align: center;
+            font-size: 12px;
+            color: #9a9088;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .date-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #f0ebe6;
+        }
+
+        .date-divider span {
+            background: white;
+            padding: 0 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== MESSAGE INPUT ===== */
+        .message-input-area {
+            padding: 12px 20px;
+            border-top: 1px solid #f0ebe6;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            background: #ffffff;
+        }
+
+        .message-input-area textarea {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid #e8e3dd;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            min-height: 44px;
+            max-height: 120px;
+            transition: all 0.2s;
+            background: #fcfaf7;
+        }
+
+        .message-input-area textarea:focus {
+            outline: none;
+            border-color: #b8634b;
+            box-shadow: 0 0 0 3px rgba(184, 99, 75, 0.1);
+        }
+
+        .message-input-area .send-btn {
+            background: #b8634b;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+            height: 44px;
+        }
+
+        .message-input-area .send-btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #9a9088;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: #5a4f46;
+            margin-bottom: 4px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            max-width: 300px;
+        }
+
+        /* ============================================================ */
+        /* COMPOSE MODAL */
+        /* ============================================================ */
+        .compose-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .compose-modal.active {
+            display: flex;
+        }
+
+        .compose-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 28px 32px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .compose-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .compose-modal-content .modal-header h3 {
+            margin: 0;
+            color: #1a1614;
+            font-size: 20px;
+        }
+
+        .compose-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+
+        .compose-modal-content .form-group {
+            margin-bottom: 14px;
+        }
+
+        .compose-modal-content .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .compose-modal-content .form-group input,
+        .compose-modal-content .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e8e3dd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #fcfaf7;
+        }
+
+        .compose-modal-content .form-group input:focus,
+        .compose-modal-content .form-group textarea:focus {
+            outline: none;
+            border-color: #b8634b;
+            box-shadow: 0 0 0 3px rgba(184, 99, 75, 0.1);
+        }
+
+        .compose-modal-content .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .compose-modal-content .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .compose-modal-content .form-actions .btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .compose-modal-content .form-actions .btn-outline {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b8634b;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-modal-footer a {
+            color: #b8634b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 820px) {
+            .messages-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .inbox-sidebar {
+                border-right: none;
+                border-bottom: 1px solid #f0ebe6;
+                max-height: 300px;
+            }
+
+            .message-panel {
+                min-height: 400px;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .compose-modal-content {
+                padding: 20px;
+            }
+
+            .message-input-area {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .message-input-area textarea {
+                min-height: 60px;
+            }
+
+            .message-input-area .send-btn {
+                height: 44px;
+                width: 100%;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .inbox-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .message-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .conversation-item {
+                padding: 10px 12px;
+            }
+
+            .message-bubble {
+                max-width: 95%;
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            .messages-list {
+                padding: 12px 14px;
+                max-height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" class="active">Messages</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- MESSAGES -->
+        <!-- ============================================================ -->
+        <div class="messages-container">
+
+            <!-- ===== INBOX SIDEBAR ===== -->
+            <div class="inbox-sidebar">
+                <div class="inbox-header">
+                    <h2>📬 Inbox <span class="badge" id="unread-badge">3</span></h2>
+                    <button class="compose-btn" onclick="openCompose()">✏️ New</button>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="🔍 Search conversations..." oninput="filterConversations()">
+                </div>
+
+                <div class="conversation-list" id="conversation-list">
+                    <!-- Rendered by JavaScript -->
+                </div>
+            </div>
+
+            <!-- ===== MESSAGE PANEL ===== -->
+            <div class="message-panel" id="message-panel">
+                <!-- Rendered by JavaScript -->
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- COMPOSE MODAL -->
+        <!-- ============================================================ -->
+        <div class="compose-modal" id="compose-modal">
+            <div class="compose-modal-content">
+                <div class="modal-header">
+                    <h3>✏️ New Message</h3>
+                    <button class="close-btn" onclick="closeCompose()">×</button>
+                </div>
+                <form id="compose-form" onsubmit="sendCompose(event)">
+                    <div class="form-group">
+                        <label>To <span style="color:#c0392b;">*</span></label>
+                        <input type="text" id="compose-to" placeholder="Enter username or email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input type="text" id="compose-subject" placeholder="Subject (optional)">
+                    </div>
+                    <div class="form-group">
+                        <label>Message <span style="color:#c0392b;">*</span></label>
+                        <textarea id="compose-message" placeholder="Write your message..." required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">📤 Send</button>
+                        <button type="button" class="btn-outline" onclick="closeCompose()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ],
+            [
+                { icon: '📚', title: 'Book Bundle', sub: 'Support library fund', price: '$15' },
+                { icon: '🎨', title: 'Art Fund', sub: 'Support cover artists', price: '$25' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[Math.floor(Math.random() * supportOptions.length)];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you for your support!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // MESSAGES DATA
+        // ============================================================
+        const conversations = [{
+            id: 1,
+            name: 'BookWanderer',
+            avatar: '📚',
+            lastMessage: 'Thanks for the recommendation! I loved it.',
+            time: '2 min ago',
+            unread: true,
+            messages: [
+                { from: 'BookWanderer', text: 'Hey! I just finished reading "The Shadow\'s Heir" and I loved it!', time: '2 hours ago' },
+                { from: 'You', text: 'Thank you so much! That means a lot to me.', time: '1 hour ago' },
+                { from: 'BookWanderer', text: 'When is the next chapter coming out? I\'m hooked!', time: '30 min ago' },
+                { from: 'You', text: 'Working on it right now actually! Should be out in a few days.', time: '15 min ago' },
+                { from: 'BookWanderer', text: 'Thanks for the recommendation! I loved it.', time: '2 min ago' }
+            ]
+        }, {
+            id: 2,
+            name: 'FantasyReader',
+            avatar: '🧚',
+            lastMessage: 'Do you accept guest posts?',
+            time: '1 hour ago',
+            unread: true,
+            messages: [
+                { from: 'FantasyReader', text: 'Hi! I run a fantasy blog and would love to feature your story.', time: '2 hours ago' },
+                { from: 'You', text: 'That sounds amazing! What do you need from me?', time: '1.5 hours ago' },
+                { from: 'FantasyReader', text: 'Just some info about you and your writing process.', time: '1 hour ago' },
+                { from: 'FantasyReader', text: 'Do you accept guest posts?', time: '1 hour ago' }
+            ]
+        }, {
+            id: 3,
+            name: 'Marcus Chen',
+            avatar: '✍️',
+            lastMessage: 'I\'ll share it with my followers!',
+            time: '3 hours ago',
+            unread: false,
+            messages: [
+                { from: 'You', text: 'Hey Marcus! I saw you recommended my story. Thank you!', time: '5 hours

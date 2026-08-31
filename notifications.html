@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Notifications · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* NOTIFICATIONS PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ===== NOTIFICATIONS CONTAINER ===== */
+        .notifications-container {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e8e3dd;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ===== HEADER ===== */
+        .notifications-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .notifications-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notifications-header h1 .badge {
+            background: #b8634b;
+            color: white;
+            font-size: 12px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .notifications-header .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .notifications-header .actions button {
+            background: none;
+            border: none;
+            color: #6f655c;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .notifications-header .actions button:hover {
+            background: #f5f3f0;
+            color: #b8634b;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            padding: 12px 24px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #fcfaf7;
+        }
+
+        .filter-bar .filter-btn {
+            padding: 4px 16px;
+            border: 1px solid #e8e3dd;
+            border-radius: 20px;
+            background: transparent;
+            font-size: 13px;
+            color: #6f655c;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-bar .filter-btn:hover {
+            background: #f5f3f0;
+            border-color: #d4c5b8;
+        }
+
+        .filter-bar .filter-btn.active {
+            background: #b8634b;
+            color: white;
+            border-color: #b8634b;
+        }
+
+        /* ===== NOTIFICATION LIST ===== */
+        .notification-list {
+            padding: 4px 0;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 24px;
+            border-bottom: 1px solid #f5f3f0;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background: #fcfaf7;
+        }
+
+        .notification-item.unread {
+            background: #f5f0ea;
+        }
+
+        .notification-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #b8634b;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .notification-item .icon-wrapper {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: #f5f3f0;
+        }
+
+        .notification-item .icon-wrapper.heart {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+        .notification-item .icon-wrapper.star {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+        .notification-item .icon-wrapper.comment {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+        .notification-item .icon-wrapper.follow {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .notification-item .icon-wrapper.publish {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .notification-item .icon-wrapper.tip {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .notification-item .icon-wrapper.system {
+            background: #eceff1;
+            color: #37474f;
+        }
+
+        .notification-item .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-item .content .text {
+            font-size: 14px;
+            color: #1a1614;
+            line-height: 1.5;
+        }
+
+        .notification-item .content .text strong {
+            color: #1a1614;
+            font-weight: 600;
+        }
+
+        .notification-item .content .text .highlight {
+            color: #b8634b;
+            font-weight: 500;
+        }
+
+        .notification-item .content .meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #9a9088;
+        }
+
+        .notification-item .content .meta .time {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .notification-item .content .meta .action-link {
+            color: #b8634b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .notification-item .content .meta .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .notification-item .dismiss-btn {
+            background: none;
+            border: none;
+            color: #b8a084;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px;
+            transition: all 0.2s;
+            opacity: 0;
+            font-family: inherit;
+        }
+
+        .notification-item:hover .dismiss-btn {
+            opacity: 1;
+        }
+
+        .notification-item .dismiss-btn:hover {
+            color: #c0392b;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            padding: 60px 24px;
+            text-align: center;
+            color: #9a9088;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+
+        .empty-state h3 {
+            color: #5a4f46;
+            margin-bottom: 4px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* ===== LOAD MORE ===== */
+        .load-more {
+            padding: 16px;
+            text-align: center;
+            border-top: 1px solid #f0ebe6;
+        }
+
+        .load-more button {
+            background: none;
+            border: none;
+            color: #6f655c;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 6px 20px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .load-more button:hover {
+            background: #f5f3f0;
+            color: #b8634b;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b8634b;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #6f655c;
+        }
+        .support-modal-footer a {
+            color: #b8634b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .notifications-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .notifications-header .actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .filter-bar {
+                padding: 10px 16px;
+                gap: 6px;
+            }
+
+            .filter-bar .filter-btn {
+                font-size: 12px;
+                padding: 3px 12px;
+            }
+
+            .notification-item {
+                padding: 12px 16px;
+                gap: 10px;
+            }
+
+            .notification-item .icon-wrapper {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .notification-item .dismiss-btn {
+                opacity: 1;
+            }
+
+            .notifications-header h1 {
+                font-size: 20px;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+
+            .notification-item {
+                flex-wrap: wrap;
+            }
+
+            .notification-item .content .meta {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .filter-bar .filter-btn {
+                font-size: 11px;
+                padding: 2px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" class="active">Notifications</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- NOTIFICATIONS -->
+        <!-- ============================================================ -->
+        <div class="notifications-container">
+
+            <!-- Header -->
+            <div class="notifications-header">
+                <h1>
+                    🔔 Notifications
+                    <span class="badge">8</span>
+                </h1>
+                <div class="actions">
+                    <button onclick="markAllRead()">✓ Mark all as read</button>
+                    <button onclick="clearAll()" style="color:#c0392b;">🗑️ Clear all</button>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all" onclick="filterNotifications('all')">All</button>
+                <button class="filter-btn" data-filter="unread" onclick="filterNotifications('unread')">Unread</button>
+                <button class="filter-btn" data-filter="heart" onclick="filterNotifications('heart')">❤️ Hearts</button>
+                <button class="filter-btn" data-filter="comment" onclick="filterNotifications('comment')">💬 Comments</button>
+                <button class="filter-btn" data-filter="follow" onclick="filterNotifications('follow')">👥 Follows</button>
+                <button class="filter-btn" data-filter="publish" onclick="filterNotifications('publish')">📝 Publishing</button>
+                <button class="filter-btn" data-filter="tip" onclick="filterNotifications('tip')">💰 Tips</button>
+                <button class="filter-btn" data-filter="system" onclick="filterNotifications('system')">⚙️ System</button>
+            </div>
+
+            <!-- Notification List -->
+            <div class="notification-list" id="notification-list">
+                <!-- Rendered by JavaScript -->
+            </div>
+
+            <!-- Load More -->
+            <div class="load-more">
+                <button onclick="loadMore()">Load more notifications</button>
+            </div>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // NOTIFICATIONS DATA
+        // ============================================================
+        let notifications = [
+            {
+                id: 1,
+                type: 'heart',
+                icon: '❤️',
+                iconClass: 'heart',
+                text: '<strong>FantasyReader</strong> hearted your chapter <span class="highlight">"The First Trial"</span>',
+                time: '2 minutes ago',
+                read: false,
+                link: 'story.html',
+                linkText: 'View chapter'
+            },
+            {
+                id: 2,
+                type: 'comment',
+                icon: '💬',
+                iconClass: 'comment',
+                text: '<strong>BookWanderer</strong> commented on your story <span class="highlight">"The Shadow\'s Heir"</span>: "This chapter was incredible!"',
+                time: '15 minutes ago',
+                read: false,
+                link: 'story.html',
+                linkText: 'View comment'
+            },
+            {
+                id: 3,
+                type: 'follow',
+                icon: '👥',
+                iconClass: 'follow',
+                text: '<strong>NightOwl</strong> started following you',
+                time: '1 hour ago',
+                read: false,
+                link: 'author.html',
+                linkText: 'View profile'
+            },
+            {
+                id: 4,
+                type: 'publish',
+                icon: '📝',
+                iconClass: 'publish',
+                text: 'Your story <span class="highlight">"Starlight &amp; Roses"</span> has been published!',
+                time: '3 hours ago',
+                read: false,
+                link: 'story.html',
+                linkText: 'View story'
+            },
+            {
+                id: 5,
+                type: 'tip',
+                icon: '💰',
+                iconClass: 'tip',
+                text: '<strong>ShadowReader</strong> sent you a tip of <span class="highlight">$5.00</span> for "The Shadow\'s Heir"',
+                time: '5 hours ago',
+                read: true,
+                link: 'dashboard.html',
+                linkText: 'View earnings'
+            },
+            {
+                id: 6,
+                type: 'heart',
+                icon: '❤️',
+                iconClass: 'heart',
+                text: '<strong>LunaReads</strong> (Scout) recommended your story <span class="highlight">"The Shadow\'s Heir"</span>',
+                time: '8 hours ago',
+                read: true,
+                link: 'scout.html',
+                linkText: 'View scout'
+            },
+            {
+                id: 7,
+                type: 'comment',
+                icon: '💬',
+                iconClass: 'comment',
+                text: '<strong>Marcus Chen</strong> replied to your comment on "Nexus Protocol"',
+                time: '1 day ago',
+                read: true,
+                link: 'story.html',
+                linkText: 'View reply'
+            },
+            {
+                id: 8,
+                type: 'system',
+                icon: '⚙️',
+                iconClass: 'system',
+                text: '📢 <strong>Platform Update:</strong> New scout features are now available!',
+                time: '2 days ago',
+                read: true,
+                link: 'about.html',
+                linkText: 'Learn more'
+            },
+            {
+                id: 9,
+                type: 'follow',
+                icon: '👥',
+                iconClass: 'follow',
+                text: '<strong>FantasyReader</strong> started following your story <span class="highlight">"Starlight &amp; Roses"</span>',
+                time: '3 days ago',
+                read: true,
+                link: 'story.html',
+                linkText: 'View story'
+            },
+            {
+                id: 10,
+                type: 'publish',
+                icon: '📝',
+                iconClass: 'publish',
+                text: 'Your story <span class="highlight">"Nexus Protocol"</span> has been completed! 🎉',
+                time: '5 days ago',
+                read: true,
+                link: 'story.html',
+                linkText: 'View story'
+            }
+        ];
+
+        let currentFilter = 'all';
+        let visibleCount = 8;
+        const batchSize = 5;
+
+        // ============================================================
+        // RENDER NOTIFICATIONS
+        // ============================================================
+        function renderNotifications() {
+            const container = document.getElementById('notification-list');
+
+            let filtered = notifications;
+
+            if (currentFilter === 'unread') {
+                filtered = notifications.filter(n => !n.read);
+            } else if (currentFilter !== 'all') {
+                filtered = notifications.filter(n => n.type === currentFilter);
+            }
+
+            // Show only up to visibleCount
+            const visible = filtered.slice(0, visibleCount);
+
+            if (visible.length === 0) {
+                container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">🔔</div>
+                            <h3>All caught up!</h3>
+                            <p>You have no ${currentFilter === 'all' ? '' : currentFilter + ' '}notifications right now.</p>
+                        </div>
+                    `;
+                return;
+            }
+
+            container.innerHTML = visible.map(n => `
+                    <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}" onclick="handleNotificationClick(${n.id})">
+                        <div class="icon-wrapper ${n.iconClass}">${n.icon}</div>
+                        <div class="content">
+                            <div class="text">${n.text}</div>
+                            <div class="meta">
+                                <span class="time">🕐 ${n.time}</span>
+                                ${n.link ? `<a href="${n.link}" class="action-link" onclick="event.stopPropagation()">${n.linkText}</a>` : ''}
+                            </div>
+                        </div>
+                        <button class="dismiss-btn" onclick="dismissNotification(${n.id}, event)" title="Dismiss">✕</button>
+                    </div>
+                `).join('');
+
+            // Update badge count
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // ============================================================
+        // FILTER NOTIFICATIONS
+        // ============================================================
+        function filterNotifications(filter) {
+            currentFilter = filter;
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+
+            visibleCount = 8;
+            renderNotifications();
+        }
+
+        // ============================================================
+        // MARK ALL AS READ
+        // ============================================================
+        function markAllRead() {
+            notifications.forEach(n => n.read = true);
+            renderNotifications();
+        }
+
+        // ============================================================
+        // CLEAR ALL
+        // ============================================================
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all notifications?')) {
+                notifications = [];
+                renderNotifications();
+            }
+        }
+
+        // ============================================================
+        // DISMISS NOTIFICATION
+        // ============================================================
+        function dismissNotification(id, event) {
+            event.stopPropagation();
+            notifications = notifications.filter(n => n.id !== id);
+            renderNotifications();
+        }
+
+        // ============================================================
+        // HANDLE NOTIFICATION CLICK
+        // ============================================================
+        function handleNotificationClick(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification) {
+                notification.read = true;
+                renderNotifications();
+
+                // Navigate if link exists
+                if (notification.link) {
+                    window.location.href = notification.link;
+                }
+            }
+        }
+
+        // ============================================================
+        // LOAD MORE
+        // ============================================================
+        function loadMore() {
+            const filtered = notifications.filter(n =>
+                currentFilter === 'all' ||
+                currentFilter === 'unread' && !n.read ||
+                currentFilter !== 'unread' && n.type === currentFilter
+            );
+
+            if (visibleCount < filtered.length) {
+                visibleCount += batchSize;
+                renderNotifications();
+            } else {
+                alert('You\'ve seen all notifications!');
+            }
+        }
+
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ],
+            [
+                { icon: '📚', title: 'Book Bundle', sub: 'Support library fund', price: '$15' },
+                { icon: '🎨', title: 'Art Fund', sub: 'Support cover artists', price: '$25' },
+                { icon: '🌱', title: 'Seed Fund', sub: 'Help new authors', price: '$10/mo' },
+                { icon: '🏆', title: 'Champion', sub: 'Top-tier supporter', price: '$99' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[Math.floor(Math.random() * supportOptions.length)];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you for your support!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // AUTH (Demo)
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderNotifications();
+        });
+    </script>
+</body>
+</html>

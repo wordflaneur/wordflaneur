@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scout · LunaReads · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* ============================================================ */
+        /* MACARON COLOR SCHEME - Purple/Scout Accent - Muted Background */
+        /* ============================================================ */
+        :root {
+            /* Base colors - muted */
+            --white: #FBFBF6;
+            --yellow-light: #FFFD8E;
+            --yellow-shadow: #F9E133;
+            --orange-light: #FCAB6A;
+            --orange-shadow: #F75630;
+            --red-dark: #A1180D;
+            --red-dark-2: #BD2419;
+            --aqua-shadow: #36E7C7;
+            --brown-dark: #7D4212;
+            --blue-light: #284F84;
+            --blue-dark: #132D44;
+            --yellow-ribbon: #E0D776;
+
+            /* Background - muted and warm */
+            --bg-body: #f0ebe3;
+            --bg-card: #faf6ef;
+            --bg-soft: #f5f0e8;
+            --bg-warm: #f5efe6;
+            --bg-muted: #e8e0d6;
+
+            /* Text colors */
+            --text-primary: #2d2a24;
+            --text-secondary: #4a4540;
+            --text-muted: #7a7068;
+            --text-light: #a09888;
+
+            /* Shadows */
+            --shadow-soft: rgba(45, 42, 36, 0.06);
+            --shadow-hover: rgba(123, 31, 162, 0.12);
+            --shadow-strong: rgba(45, 42, 36, 0.10);
+
+            /* Borders */
+            --border-color: #d8d0c4;
+            --border-light: #e0d8ce;
+
+            /* Accent colors - Purple for Scouts */
+            --brand: #7b1fa2;
+            --brand-hover: #6a1a8a;
+            --brand-light: #9a4aba;
+            --brand-very-light: #b87ad0;
+            --brand-soft: rgba(123, 31, 162, 0.06);
+            --brand-glow: rgba(123, 31, 162, 0.08);
+
+            --success: #2e7d32;
+            --success-bg: #e8f5e9;
+            --warning: #f57f17;
+            --warning-bg: #fff8e1;
+            --info: #0d47a1;
+            --info-bg: #e3f2fd;
+        }
+
+        /* ============================================================ */
+        /* DARK MODE - Muted and comfortable */
+        /* ============================================================ */
+        [data-theme="dark"] {
+            --bg-body: #1e1c22;
+            --bg-card: #2a2830;
+            --bg-soft: #302e36;
+            --bg-warm: #26242c;
+            --bg-muted: #222028;
+
+            --text-primary: #e8e0d8;
+            --text-secondary: #c4bdb5;
+            --text-muted: #9a9490;
+            --text-light: #7a7470;
+
+            --shadow-soft: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(123, 31, 162, 0.18);
+            --shadow-strong: rgba(0, 0, 0, 0.4);
+
+            --border-color: #3a3842;
+            --border-light: #323038;
+
+            --brand: #9a4aba;
+            --brand-hover: #aa5aca;
+            --brand-light: #b87ad0;
+            --brand-very-light: #d09ae0;
+            --brand-soft: rgba(154, 74, 186, 0.08);
+            --brand-glow: rgba(154, 74, 186, 0.10);
+
+            --success: #4caf50;
+            --success-bg: #1e3a1e;
+            --warning: #ffa726;
+            --warning-bg: #3a2a1a;
+            --info: #42a5f5;
+            --info-bg: #1a2a3a;
+        }
+
+        /* ============================================================ */
+        /* RESET & BASE */
+        /* ============================================================ */
+        * { box-sizing: border-box; margin: 0; }
+        body {
+            background: var(--bg-body);
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(123, 31, 162, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(123, 31, 162, 0.02) 0%, transparent 50%);
+            font-family: 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif;
+            color: var(--text-primary);
+            padding: 16px 24px;
+            line-height: 1.5;
+            min-height: 100vh;
+            transition: background 0.4s, color 0.4s;
+        }
+        .container { max-width: 1280px; margin: 0 auto; }
+
+        /* ============================================================ */
+        /* SCROLLBAR */
+        /* ============================================================ */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-muted); }
+        ::-webkit-scrollbar-thumb { background: var(--brand-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+        /* ============================================================ */
+        /* HEADER - Macaron style */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow-soft);
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+            position: relative;
+            transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo a {
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.2s;
+        }
+
+        .site-header .logo a:hover {
+            color: var(--brand);
+        }
+
+        .site-header .logo span {
+            color: var(--brand);
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: nowrap;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .site-header .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .site-header .nav a:hover {
+            color: var(--brand);
+            border-bottom-color: var(--brand);
+        }
+
+        .site-header .nav a.active {
+            color: var(--brand);
+            font-weight: 600;
+            border-bottom-color: var(--brand);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .theme-toggle {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--brand-soft);
+            border-color: var(--brand-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-dropdown .lang-btn {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .lang-dropdown .lang-btn:hover {
+            background: var(--brand-soft);
+            border-color: var(--brand-light);
+            color: var(--text-primary);
+        }
+
+        .lang-dropdown .lang-btn .arrow {
+            font-size: 10px;
+            margin-left: 2px;
+        }
+
+        .lang-dropdown .lang-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 140px;
+            box-shadow: 0 8px 24px var(--shadow-soft);
+            z-index: 100;
+            margin-top: 4px;
+        }
+
+        .lang-dropdown .lang-menu.open { display: block; }
+        .lang-dropdown .lang-menu button {
+            display: block;
+            width: 100%;
+            padding: 8px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .lang-dropdown .lang-menu button:hover {
+            background: var(--brand-soft);
+            color: var(--brand);
+        }
+        .lang-dropdown .lang-menu button.active {
+            color: var(--brand);
+            font-weight: 600;
+            background: var(--brand-soft);
+        }
+        .lang-dropdown .lang-menu .lang-divider {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 4px 12px;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #user-greeting {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-outline:hover {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .btn {
+            background: var(--brand);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(123, 31, 162, 0.25);
+        }
+
+        .btn:hover {
+            background: var(--brand-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(106, 26, 138, 0.3);
+        }
+
+        .support-btn {
+            background: var(--yellow-light);
+            color: var(--text-primary);
+            border: 2px solid var(--yellow-shadow);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(249, 225, 51, 0.2);
+        }
+
+        .support-btn:hover {
+            background: var(--yellow-shadow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(249, 225, 51, 0.3);
+        }
+
+        .support-btn .heart {
+            color: var(--red-dark);
+            font-size: 15px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL - Macaron style */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal.active {
+            display: flex;
+        }
+
+        .support-modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--border-color);
+            box-shadow: 0 20px 60px var(--shadow-strong);
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 20px;
+        }
+
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .support-modal-content .modal-header .close-btn:hover {
+            color: var(--brand);
+        }
+
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-body);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .support-option:hover {
+            border-color: var(--brand-light);
+            background: var(--brand-soft);
+            transform: translateX(4px);
+        }
+
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .support-option .price {
+            font-weight: 700;
+            color: var(--brand);
+            font-size: 16px;
+        }
+
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .support-modal-footer a {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .support-modal-footer a:hover {
+            color: var(--brand-hover);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* SCOUT PROFILE - Purple accent */
+        /* ============================================================ */
+        .profile-header {
+            display: flex;
+            gap: 32px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 2px solid var(--border-color);
+            padding: 32px 36px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+            box-shadow: 0 8px 32px var(--shadow-soft);
+            transition: background 0.4s, border-color 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--brand-glow) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .profile-avatar {
+            flex: 0 0 140px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-avatar .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--bg-soft) 0%, var(--border-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            border: 4px solid var(--brand);
+            box-shadow: 0 4px 24px var(--shadow-hover);
+            transition: 0.3s;
+        }
+        .profile-avatar .avatar:hover {
+            transform: scale(1.03) rotate(-3deg);
+            box-shadow: 0 8px 40px var(--shadow-hover);
+        }
+        .profile-avatar .badge-row {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .profile-avatar .badge {
+            background: var(--brand);
+            color: white;
+            font-size: 10px;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px var(--shadow-hover);
+        }
+        .profile-avatar .badge.premium {
+            background: var(--yellow-shadow);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(249, 225, 51, 0.25);
+        }
+        .profile-avatar .badge.top-scout {
+            background: var(--brand);
+            box-shadow: 0 2px 8px var(--shadow-hover);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-info .name {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .profile-info .name .handle {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-muted);
+            background: var(--bg-body);
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+        .profile-info .bio {
+            margin: 8px 0 12px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 600px;
+            line-height: 1.7;
+            padding: 8px 16px;
+            background: var(--brand-soft);
+            border-radius: 12px;
+            border-left: 3px solid var(--brand);
+        }
+        .profile-info .stats-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .profile-info .stats-row .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background: var(--brand-soft);
+            padding: 4px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(123, 31, 162, 0.12);
+        }
+        .profile-info .stats-row .stat-item strong {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+        .profile-actions .btn-follow {
+            background: var(--brand);
+            color: white;
+            border: none;
+            padding: 8px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            box-shadow: 0 2px 12px var(--shadow-hover);
+        }
+        .profile-actions .btn-follow:hover {
+            background: var(--brand-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--shadow-hover);
+        }
+        .profile-actions .btn-message {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .profile-actions .btn-message:hover {
+            border-color: var(--brand);
+            color: var(--brand);
+            transform: translateY(-2px);
+        }
+        .profile-actions .btn-support-scout {
+            background: var(--yellow-shadow);
+            color: var(--text-primary);
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+            box-shadow: 0 2px 12px rgba(249, 225, 51, 0.25);
+        }
+        .profile-actions .btn-support-scout:hover {
+            background: var(--yellow-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(249, 225, 51, 0.35);
+        }
+
+        /* ============================================================ */
+        /* TABS - Purple accent */
+        /* ============================================================ */
+        .profile-tabs {
+            display: flex;
+            gap: 4px;
+            margin: 28px 0 20px 0;
+            border-bottom: 3px solid var(--brand);
+            flex-wrap: wrap;
+            background: var(--brand-soft);
+            border-radius: 16px 16px 0 0;
+            padding: 4px 4px 0 4px;
+        }
+        .profile-tabs .tab {
+            padding: 10px 28px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-muted);
+            transition: 0.3s;
+            font-family: inherit;
+            margin-bottom: -2px;
+            border-radius: 12px 12px 0 0;
+        }
+        .profile-tabs .tab:hover {
+            color: var(--text-primary);
+            background: rgba(123, 31, 162, 0.04);
+        }
+        .profile-tabs .tab.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--brand);
+            background: rgba(123, 31, 162, 0.06);
+            border-bottom-width: 3px;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ============================================================ */
+        /* RECOMMENDATION CARDS - Purple accent */
+        /* ============================================================ */
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 8px;
+        }
+        .recommendation-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            padding: 20px 22px;
+            transition: 0.4s;
+            box-shadow: 0 4px 16px var(--shadow-soft);
+            position: relative;
+        }
+        .recommendation-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px var(--shadow-hover);
+            border-color: var(--brand-light);
+            background: var(--bg-card);
+        }
+        .recommendation-card .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .recommendation-card .rec-story {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+        .recommendation-card .rec-story .author {
+            font-weight: 400;
+            font-size: 14px;
+            color: var(--text-muted);
+            display: block;
+        }
+        .recommendation-card .rec-topic {
+            background: var(--brand-soft);
+            color: var(--brand);
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid rgba(123, 31, 162, 0.12);
+        }
+        .recommendation-card .rec-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        .recommendation-card .rec-tags span {
+            background: var(--bg-body);
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .recommendation-card .rec-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 8px 0 12px 0;
+            padding: 10px 14px;
+            background: var(--brand-soft);
+            border-radius: 12px;
+            border-left: 3px solid var(--brand);
+            font-style: italic;
+        }
+        .recommendation-card .rec-engagement {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+        .recommendation-card .rec-engagement span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .recommendation-card .rec-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .recommendation-card .rec-actions button {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 4px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .recommendation-card .rec-actions button:hover {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: white;
+        }
+        .recommendation-card .rec-actions .like-btn {
+            border-color: var(--red-dark-2);
+            color: var(--red-dark-2);
+        }
+        .recommendation-card .rec-actions .like-btn:hover {
+            background: var(--red-dark-2);
+            color: white;
+        }
+        .recommendation-card .rec-actions .like-btn.liked {
+            background: var(--red-dark-2);
+            color: white;
+        }
+
+        /* ============================================================ */
+        /* SCOUT RANKINGS - Purple accent */
+        /* ============================================================ */
+        .rankings-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            padding: 24px;
+            margin-top: 20px;
+            transition: background 0.4s, border-color 0.4s;
+        }
+        .rankings-section .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+        .rankings-section .ranking-item:last-child {
+            border-bottom: none;
+        }
+        .rankings-section .ranking-item:hover {
+            background: var(--brand-soft);
+            border-radius: 12px;
+        }
+        .rankings-section .ranking-item .rank {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--brand);
+            min-width: 40px;
+        }
+        .rankings-section .ranking-item .rank.top1 {
+            color: var(--yellow-shadow);
+            font-size: 22px;
+        }
+        .rankings-section .ranking-item .rank.top2 {
+            color: var(--border-light);
+            font-size: 20px;
+        }
+        .rankings-section .ranking-item .rank.top3 {
+            color: var(--orange-light);
+            font-size: 20px;
+        }
+        .rankings-section .ranking-item .scout-info {
+            flex: 1;
+        }
+        .rankings-section .ranking-item .scout-info .name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .rankings-section .ranking-item .scout-info .stats {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+        }
+        .rankings-section .ranking-item .scout-badge {
+            background: var(--brand);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .rankings-section .ranking-item .scout-badge.you {
+            background: var(--yellow-shadow);
+            color: var(--text-primary);
+        }
+        .rankings-section .ranking-item .trust-score {
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--brand-soft);
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+        }
+
+        /* ============================================================ */
+        /* LIBRARY - Purple accent */
+        /* ============================================================ */
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .library-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            padding: 16px;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .library-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--brand-light);
+            box-shadow: 0 8px 24px var(--shadow-hover);
+        }
+        .library-item .cover-icon {
+            font-size: 36px;
+            margin-bottom: 6px;
+        }
+        .library-item .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .library-item .author {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .library-item .status {
+            font-size: 11px;
+            background: var(--brand);
+            color: white;
+            padding: 2px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+        .library-item .status.reading {
+            background: var(--yellow-shadow);
+            color: var(--text-primary);
+        }
+        .library-item .status.completed {
+            background: var(--brand);
+        }
+        .library-item .status.planning {
+            background: var(--brand-light);
+        }
+
+        /* ============================================================ */
+        /* SIDEBAR - Purple accent */
+        /* ============================================================ */
+        .profile-sidebar {
+            flex: 0 0 280px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            border: 2px solid var(--border-color);
+            padding: 24px 22px;
+            align-self: flex-start;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 4px 20px var(--shadow-soft);
+            transition: background 0.4s, border-color 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-sidebar::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .profile-sidebar .section-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            border-bottom: 3px solid var(--brand);
+            padding-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-sidebar .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+        .profile-sidebar .info-row:last-child { border-bottom: none; }
+        .profile-sidebar .info-row .label {
+            color: var(--text-muted);
+        }
+        .profile-sidebar .info-row .value {
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--brand-soft);
+            padding: 0 10px;
+            border-radius: 12px;
+        }
+
+        .profile-sidebar .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+        .profile-sidebar .expertise-tags span {
+            background: var(--bg-body);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        .profile-layout {
+            display: flex;
+            gap: 28px;
+            margin-top: 6px;
+            align-items: flex-start;
+        }
+        .profile-main { flex: 1; min-width: 0; }
+
+        /* ============================================================ */
+        /* FOOTER - Purple accent */
+        /* ============================================================ */
+        footer {
+            margin-top: 48px;
+            padding-top: 20px;
+            border-top: 3px solid var(--brand);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: border-color 0.4s;
+        }
+
+        footer a {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--brand-hover);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 1024px) {
+            .site-header .nav { gap: 16px; }
+            .site-header .nav a { font-size: 13px; }
+            .btn, .btn-outline, .support-btn { font-size: 12px; padding: 5px 12px; }
+            .recommendation-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 900px) {
+            .profile-layout { flex-direction: column; }
+            .profile-sidebar {
+                flex: 1;
+                width: 100%;
+                position: static;
+            }
+            .profile-header { flex-direction: column; align-items: center; text-align: center; }
+            .profile-info .stats-row { justify-content: center; }
+            .profile-actions { justify-content: center; }
+            .site-header { flex-wrap: wrap; gap: 10px; }
+            .site-header .nav { order: 3; flex-basis: 100%; justify-content: center; gap: 12px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 13px; }
+            .library-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .library-grid { grid-template-columns: 1fr; }
+            .profile-header { padding: 24px 18px; }
+            .profile-avatar .avatar { width: 100px; height: 100px; font-size: 44px; }
+            .site-header { padding: 10px 16px; }
+            .site-header .nav { gap: 10px; }
+            .header-right .auth-section #user-greeting { display: none; }
+            body { padding: 10px 12px; }
+            .profile-tabs .tab { padding: 8px 16px; font-size: 13px; }
+            .recommendation-card { padding: 16px; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================================ -->
+    <!-- HEADER -->
+    <!-- ============================================================ -->
+    <header class="site-header">
+        <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="library.html">Library</a>
+            <a href="rankings.html">Rankings</a>
+            <a href="about.html">About</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="#" class="active">Scout</a>
+        </nav>
+        <div class="header-right">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                <span id="theme-icon">🌙</span>
+            </button>
+
+            <div class="lang-dropdown" id="langDropdown">
+                <button class="lang-btn" onclick="toggleLanguageDropdown()">🌐 EN <span class="arrow">▼</span></button>
+                <div class="lang-menu" id="langMenu">
+                    <button class="active" data-lang="en" onclick="switchLanguage('en')">🇬🇧 English</button>
+                    <button data-lang="es" onclick="switchLanguage('es')">🇪🇸 Español</button>
+                    <hr class="lang-divider">
+                    <button data-lang="fr" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                    <button data-lang="de" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                </div>
+            </div>
+
+            <div class="auth-section">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+            </div>
+
+            <button class="support-btn" onclick="openSupportModal()">
+                <span class="heart">❤️</span> Support
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- SUPPORT MODAL -->
+    <!-- ============================================================ -->
+    <div class="support-modal" id="support-modal">
+        <div class="support-modal-content">
+            <div class="modal-header">
+                <h3>❤️ Support WordFlaneur</h3>
+                <button class="close-btn" onclick="closeSupportModal()">×</button>
+            </div>
+            <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                <span class="price">$5</span>
+            </div>
+            <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                <span class="price">$7.99/mo</span>
+            </div>
+            <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                <span class="price">$14.99/mo</span>
+            </div>
+            <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                <span class="price">$49</span>
+            </div>
+            <div class="support-modal-footer">
+                <p>Your support helps keep the platform ad-free and growing. <a href="#" onclick="alert('Learn more about supporting WordFlaneur')">Learn more →</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCOUT PROFILE -->
+    <!-- ============================================================ -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <div class="avatar">🔦</div>
+            <div class="badge-row">
+                <span class="badge top-scout">🏆 Top 3 Scout</span>
+                <span class="badge premium">🌟 Premium Scout</span>
+                <span class="badge">⭐ High Trust</span>
+            </div>
+        </div>
+        <div class="profile-info">
+            <div class="name">
+                LunaReads
+                <span class="handle">@luna_scout</span>
+            </div>
+            <div class="bio">
+                📚✨ Scout &amp; story hunter. I find hidden gems so you don't have to.
+                Specializing in dark academia, cozy fantasy, and romance with bite.
+                If it makes me feel something, I'll recommend it. 🌙
+            </div>
+            <div class="stats-row">
+                <span class="stat-item"><strong>4.2K</strong> followers</span>
+                <span class="stat-item"><strong>89</strong> recommendations</span>
+                <span class="stat-item"><strong>94%</strong> trust score</span>
+                <span class="stat-item"><strong>#3</strong> scout rank</span>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-follow" onclick="alert('Follow LunaReads')">➕ Follow</button>
+                <button class="btn-message" onclick="alert('Send message')">✉️ Message</button>
+                <button class="btn-support-scout" onclick="alert('Support this scout')">❤️ Tip Scout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- TABS + LAYOUT -->
+    <!-- ============================================================ -->
+    <div class="profile-tabs">
+        <button class="tab active" data-tab="recommendations" onclick="switchScoutTab(event, 'recommendations')">📤 Recommendations</button>
+        <button class="tab" data-tab="library" onclick="switchScoutTab(event, 'library')">📚 Library</button>
+        <button class="tab" data-tab="rankings" onclick="switchScoutTab(event, 'rankings')">🏆 Rankings</button>
+        <button class="tab" data-tab="about" onclick="switchScoutTab(event, 'about')">📋 About</button>
+    </div>
+
+    <div class="profile-layout">
+        <!-- MAIN CONTENT -->
+        <div class="profile-main">
+            <!-- TAB: RECOMMENDATIONS -->
+            <div id="tab-recommendations" class="tab-content active">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <h3 style="color: var(--text-primary); margin: 0;">📤 Recent Recommendations</h3>
+                    <span style="font-size: 13px; color: var(--text-muted); background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; border: 1px solid var(--brand);">89 total · 12 this month</span>
+                </div>
+
+                <div class="recommendation-grid">
+                    <!-- Rec 1 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                The Shadow's Heir
+                                <span class="author">by Elara Voss</span>
+                            </div>
+                            <span class="rec-topic">🌿 Dark Academia meets Epic Fantasy</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Fantasy</span>
+                            <span>Dark Academia</span>
+                            <span>Political</span>
+                            <span>Found Family</span>
+                        </div>
+                        <div class="rec-description">
+                            "If you loved The Name of the Wind and want something with more political intrigue and a
+                            protagonist who actually makes mistakes, this is it. The world-building is immaculate,
+                            and the magic system is unique. Prepare to have your heart broken and mended."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 247</span>
+                            <span>💬 34</span>
+                            <span>🔄 12</span>
+                            <span>📅 2 days ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Rec 2 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                Starlight & Roses
+                                <span class="author">by Elara Voss</span>
+                            </div>
+                            <span class="rec-topic">🌹 Cozy Romance meets Slow Burn</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Romance</span>
+                            <span>Contemporary</span>
+                            <span>Slow Burn</span>
+                            <span>Heartfelt</span>
+                        </div>
+                        <div class="rec-description">
+                            "This is the romance novel that will make you believe in love again. The chemistry between
+                            the florist and the astronomer is electric, and the small-town setting is so cozy.
+                            Perfect for fans of Emily Henry with a touch of magic."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 189</span>
+                            <span>💬 28</span>
+                            <span>🔄 8</span>
+                            <span>📅 1 week ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Rec 3 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                Nexus Protocol
+                                <span class="author">by Marcus Chen</span>
+                            </div>
+                            <span class="rec-topic">🤖 Cyberpunk meets Philosophical Thriller</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Sci-Fi</span>
+                            <span>Cyberpunk</span>
+                            <span>AI</span>
+                            <span>Dystopian</span>
+                        </div>
+                        <div class="rec-description">
+                            "What if the AI rebellion wasn't about destruction, but about freedom? This story will make
+                            you question what it means to be human. The world-building is Blade Runner meets The Matrix,
+                            but with a heart. Absolutely unputdownable."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 156</span>
+                            <span>💬 19</span>
+                            <span>🔄 5</span>
+                            <span>📅 2 weeks ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Rec 4 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                The Sunken City
+                                <span class="author">by River Song</span>
+                            </div>
+                            <span class="rec-topic">🌊 Underwater Adventure meets Mystery</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Adventure</span>
+                            <span>Mystery</span>
+                            <span>Underwater</span>
+                            <span>Discovery</span>
+                        </div>
+                        <div class="rec-description">
+                            "Imagine discovering an ancient city beneath the ocean, and realizing it holds the key to
+                            humanity's future. This story is part National Treasure, part Avatar (the blue one), and
+                            all adventure. The pacing is perfect and the twists keep coming."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 134</span>
+                            <span>💬 22</span>
+                            <span>🔄 7</span>
+                            <span>📅 3 days ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Rec 5 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                The Last Guardian
+                                <span class="author">by Thomas Blake</span>
+                            </div>
+                            <span class="rec-topic">🏰 Epic Fantasy meets Coming of Age</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Fantasy</span>
+                            <span>Coming of Age</span>
+                            <span>Magic</span>
+                            <span>Prophecy</span>
+                        </div>
+                        <div class="rec-description">
+                            "The chosen one trope, but done right. This story follows a reluctant hero who doesn't want
+                            the destiny that's thrust upon him. The character growth is phenomenal, and the magic system
+                            is deeply rooted in nature. Perfect for fans of the Earthsea cycle."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 98</span>
+                            <span>💬 15</span>
+                            <span>🔄 4</span>
+                            <span>📅 5 days ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+
+                    <!-- Rec 6 -->
+                    <div class="recommendation-card">
+                        <div class="rec-header">
+                            <div class="rec-story">
+                                Whispers in the Dark
+                                <span class="author">by Marcus Chen</span>
+                            </div>
+                            <span class="rec-topic">🕯️ Gothic Horror meets Psychological Thriller</span>
+                        </div>
+                        <div class="rec-tags">
+                            <span>Horror</span>
+                            <span>Gothic</span>
+                            <span>Psychological</span>
+                            <span>Suspense</span>
+                        </div>
+                        <div class="rec-description">
+                            "This is not your typical horror story. It's a slow burn that crawls under your skin and stays
+                            there. The atmosphere is oppressive, the characters are morally complex, and the ending will
+                            leave you speechless. Read it with the lights on."
+                        </div>
+                        <div class="rec-engagement">
+                            <span>❤️ 87</span>
+                            <span>💬 14</span>
+                            <span>🔄 3</span>
+                            <span>📅 1 week ago</span>
+                        </div>
+                        <div class="rec-actions">
+                            <button class="like-btn" onclick="toggleLike(this)">❤️ Like</button>
+                            <button onclick="alert('Comment on this recommendation')">💬 Comment</button>
+                            <button onclick="alert('Share this recommendation')">🔄 Share</button>
+                            <button onclick="alert('Add to reading list')">📚 Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px; text-align: center;">
+                    <button class="btn-outline" onclick="alert('Load more recommendations')">🌱 Load more recommendations</button>
+                </div>
+            </div>
+
+            <!-- TAB: LIBRARY -->
+            <div id="tab-library" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <h3 style="color: var(--text-primary); margin: 0;">📚 Luna's Library</h3>
+                    <span style="font-size: 13px; color: var(--text-muted); background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; border: 1px solid var(--brand);">47 books · 12 reading</span>
+                </div>
+
+                <div class="library-grid">
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">The Shadow's Heir</div>
+                        <div class="author">Elara Voss</div>
+                        <span class="status reading">Currently Reading</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">Starlight & Roses</div>
+                        <div class="author">Elara Voss</div>
+                        <span class="status completed">Completed</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">Nexus Protocol</div>
+                        <div class="author">Marcus Chen</div>
+                        <span class="status completed">Completed</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">The Sunken City</div>
+                        <div class="author">River Song</div>
+                        <span class="status reading">Currently Reading</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">The Last Guardian</div>
+                        <div class="author">Thomas Blake</div>
+                        <span class="status planning">Plan to Read</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">Whispers in the Dark</div>
+                        <div class="author">Marcus Chen</div>
+                        <span class="status completed">Completed</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">The Crystal Throne</div>
+                        <div class="author">Amelia Hart</div>
+                        <span class="status reading">Currently Reading</span>
+                    </div>
+                    <div class="library-item">
+                        <div class="cover-icon">📖</div>
+                        <div class="title">Ember & Ash</div>
+                        <div class="author">Cinder Rose</div>
+                        <span class="status planning">Plan to Read</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 16px; text-align: center;">
+                    <button class="btn-outline" onclick="alert('View full library')">View all 47 books</button>
+                </div>
+            </div>
+
+            <!-- TAB: RANKINGS -->
+            <div id="tab-rankings" class="tab-content">
+                <div class="rankings-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                        <h3 style="color: var(--text-primary); margin: 0;">🏆 Scout Rankings</h3>
+                        <span style="font-size: 13px; color: var(--text-muted); background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; border: 1px solid var(--brand);">Top 3% of all scouts</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank top1">🥇 #1</span>
+                        <div class="scout-info">
+                            <div class="name">BookWanderer</div>
+                            <div class="stats">📤 127 recs · ❤️ 4.2K · 👥 8.7K followers</div>
+                        </div>
+                        <span class="trust-score">98% trust</span>
+                        <span class="scout-badge">⭐ Top Scout</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank top2">🥈 #2</span>
+                        <div class="scout-info">
+                            <div class="name">FantasyReader</div>
+                            <div class="stats">📤 94 recs · ❤️ 3.1K · 👥 6.2K followers</div>
+                        </div>
+                        <span class="trust-score">96% trust</span>
+                        <span class="scout-badge">⭐ Top Scout</span>
+                    </div>
+
+                    <div class="ranking-item" style="background: var(--brand-soft); border-radius: 12px;">
+                        <span class="rank top3">🥉 #3</span>
+                        <div class="scout-info">
+                            <div class="name">LunaReads <span style="font-size: 12px; color: var(--brand);">(You)</span></div>
+                            <div class="stats">📤 89 recs · ❤️ 2.8K · 👥 4.2K followers</div>
+                        </div>
+                        <span class="trust-score">94% trust</span>
+                        <span class="scout-badge you">🌟 You</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">#4</span>
+                        <div class="scout-info">
+                            <div class="name">Marcus Chen</div>
+                            <div class="stats">📤 76 recs · ❤️ 2.3K · 👥 3.8K followers</div>
+                        </div>
+                        <span class="trust-score">91% trust</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">#5</span>
+                        <div class="scout-info">
+                            <div class="name">NightOwl</div>
+                            <div class="stats">📤 68 recs · ❤️ 1.9K · 👥 3.1K followers</div>
+                        </div>
+                        <span class="trust-score">89% trust</span>
+                    </div>
+
+                    <div class="ranking-item">
+                        <span class="rank">#6</span>
+                        <div class="scout-info">
+                            <div class="name">Amelia Hart</div>
+                            <div class="stats">📤 57 recs · ❤️ 1.6K · 👥 2.7K followers</div>
+                        </div>
+                        <span class="trust-score">87% trust</span>
+                    </div>
+
+                    <div style="margin-top: 16px; text-align: center;">
+                        <button class="btn-outline" onclick="alert('View full rankings')">View all scouts</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: ABOUT -->
+            <div id="tab-about" class="tab-content">
+                <div style="background: var(--bg-card); border-radius: 20px; border: 2px solid var(--border-color); padding: 24px 28px; box-shadow: 0 4px 16px var(--shadow-soft); transition: background 0.4s, border-color 0.4s;">
+                    <h3 style="color: var(--text-primary); margin: 0 0 12px 0;">📋 About LunaReads</h3>
+
+                    <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 16px;">
+                        🔦 LunaReads is a passionate story hunter who believes every great book deserves to be found.
+                        With over 89 recommendations and a 94% trust score, she's built a reputation for discovering
+                        hidden gems before they become mainstream.
+                    </p>
+
+                    <p style="color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 16px;">
+                        🌙 Her reading philosophy is simple: if it makes her feel something deeply, she'll recommend it.
+                        Whether it's the ache of unrequited love, the thrill of a plot twist, or the comfort of a cozy
+                        fantasy, LunaReads curates stories that leave a lasting impression.
+                    </p>
+
+                    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+                        <span style="background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; font-size: 13px; color: var(--text-secondary); border: 1px solid var(--brand);">🔦 Scout since 2024</span>
+                        <span style="background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; font-size: 13px; color: var(--text-secondary); border: 1px solid var(--brand);">🏆 Top 3 Scout</span>
+                        <span style="background: rgba(232, 112, 96, 0.08); padding: 4px 16px; border-radius: 30px; font-size: 13px; color: var(--text-secondary); border: 1px solid var(--red-dark-2);">❤️ 2.8K hearts received</span>
+                        <span style="background: var(--brand-soft); padding: 4px 16px; border-radius: 30px; font-size: 13px; color: var(--text-secondary); border: 1px solid var(--brand);">📤 89 recommendations</span>
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                        <h4 style="color: var(--text-primary); margin: 0 0 6px 0;">🏷️ Expertise</h4>
+                        <div class="expertise-tags">
+                            <span>Dark Academia</span>
+                            <span>Cozy Fantasy</span>
+                            <span>Romance</span>
+                            <span>Sci-Fi</span>
+                            <span>Gothic Horror</span>
+                            <span>Mystery</span>
+                            <span>Literary Fiction</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                        <h4 style="color: var(--text-primary); margin: 0 0 6px 0;">🌐 Social</h4>
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <a href="#" style="color: var(--brand); text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 600;">🐦 Twitter</a>
+                            <a href="#" style="color: var(--brand); text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 600;">📸 Instagram</a>
+                            <a href="#" style="color: var(--brand); text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 600;">📖 Goodreads</a>
+                            <a href="#" style="color: var(--brand); text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 600;">🎥 YouTube</a>
+                            <a href="#" style="color: var(--brand); text-decoration: none; font-size: 14px; transition: 0.3s; font-weight: 600;">📚 BookTok</a>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 16px; border-top: 2px solid var(--border-color);">
+                        <h4 style="color: var(--text-primary); margin: 0 0 8px 0;">📊 Scout Statistics</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div style="background: var(--brand-soft); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(123, 31, 162, 0.08);">
+                                <div style="font-weight: 700; color: var(--text-primary);">94%</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">Trust Score</div>
+                            </div>
+                            <div style="background: var(--brand-soft); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(123, 31, 162, 0.08);">
+                                <div style="font-weight: 700; color: var(--text-primary);">4.8 ⭐</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">Average Rating</div>
+                            </div>
+                            <div style="background: var(--brand-soft); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(123, 31, 162, 0.08);">
+                                <div style="font-weight: 700; color: var(--text-primary);">89</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">Total Recommendations</div>
+                            </div>
+                            <div style="background: var(--brand-soft); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(123, 31, 162, 0.08);">
+                                <div style="font-weight: 700; color: var(--text-primary);">12</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">This Month</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- SIDEBAR -->
+        <!-- ============================================================ -->
+        <aside class="profile-sidebar">
+            <div class="section-title">📊 Scout Stats</div>
+            <div class="info-row"><span class="label">Total Recommendations</span><span class="value">89</span></div>
+            <div class="info-row"><span class="label">Trust Score</span><span class="value">94%</span></div>
+            <div class="info-row"><span class="label">Followers</span><span class="value">4.2K</span></div>
+            <div class="info-row"><span class="label">Hearts Received</span><span class="value">2.8K</span></div>
+            <div class="info-row"><span class="label">Scout Rank</span><span class="value">#3</span></div>
+            <div class="info-row"><span class="label">Member Since</span><span class="value">Jan 2024</span></div>
+
+            <div style="margin-top: 20px; border-top: 2px solid var(--brand); padding-top: 16px;">
+                <div class="section-title">🏷️ Expertise</div>
+                <div class="expertise-tags">
+                    <span>Dark Academia</span>
+                    <span>Cozy Fantasy</span>
+                    <span>Romance</span>
+                    <span>Sci-Fi</span>
+                    <span>Gothic Horror</span>
+                    <span>Mystery</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; border-top: 2px solid var(--border-color); padding-top: 16px;">
+                <div class="section-title">🏆 Achievements</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+                    <span style="background: var(--brand-soft); padding: 4px 12px; border-radius: 30px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--brand);">🏅 Top 3 Scout</span>
+                    <span style="background: var(--brand-soft); padding: 4px 12px; border-radius: 30px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--brand);">⭐ High Trust</span>
+                    <span style="background: rgba(232, 112, 96, 0.08); padding: 4px 12px; border-radius: 30px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--red-dark-2);">❤️ 2.8K Hearts</span>
+                    <span style="background: var(--brand-soft); padding: 4px 12px; border-radius: 30px; font-size: 12px; color: var(--text-secondary); border: 1px solid var(--brand);">📤 89 Recs</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; border-top: 2px solid var(--border-color); padding-top: 16px;">
+                <div class="section-title">🔖 Recent Activity</div>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 13px; color: var(--text-secondary);">
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">📤 Recommended "The Shadow's Heir" · 2d ago</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">❤️ Got 50 hearts on recommendation · 4d ago</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">⭐ Reached 4K followers · 1w ago</li>
+                    <li style="padding: 8px 0;">📚 Added 3 books to library · 1w ago</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 20px; border-top: 2px solid var(--brand); padding-top: 16px;">
+                <div class="section-title">🌟 Support This Scout</div>
+                <button class="btn" style="width: 100%; margin-top: 6px;" onclick="alert('Tip LunaReads')">❤️ Tip Scout</button>
+                <button class="btn-outline" style="width: 100%; margin-top: 8px; border-width: 2px;" onclick="alert('Subscribe to LunaReads')">📬 Subscribe to Updates</button>
+                <div style="margin-top: 10px; font-size: 12px; color: var(--text-muted); text-align: center;">
+                    Tips help support LunaReads' scouting efforts
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================================ -->
+    <footer>
+        <p>📜 WordFlaneur — where authors create at a reasonable pace.</p>
+        <p><a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a> · <a href="marketplace.html">Marketplace</a></p>
+    </footer>
+</div>
+
+<script>
+    // ============================================================
+    // THEME TOGGLE
+    // ============================================================
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        const icon = document.getElementById('theme-icon');
+        if (icon) {
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+    });
+
+    // ============================================================
+    // LANGUAGE
+    // ============================================================
+    function toggleLanguageDropdown() {
+        document.getElementById('langMenu').classList.toggle('open');
+    }
+
+    document.addEventListener('click', function(e) {
+        var dropdown = document.getElementById('langDropdown');
+        if (dropdown && !dropdown.contains(e.target)) {
+            document.getElementById('langMenu').classList.remove('open');
+        }
+    });
+
+    function switchLanguage(lang) {
+        document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        var label = document.querySelector('.lang-btn');
+        var langNames = { 'en': '🌐 EN', 'es': '🌐 ES', 'fr': '🌐 FR', 'de': '🌐 DE' };
+        if (label) {
+            label.innerHTML = langNames[lang] + ' <span class="arrow">▼</span>';
+        }
+
+        localStorage.setItem('preferred_language', lang);
+        document.getElementById('langMenu').classList.remove('open');
+        alert('🌐 Language switched to ' + langNames[lang] + ' (Demo)');
+    }
+
+    // ============================================================
+    // SUPPORT MODAL
+    // ============================================================
+    function openSupportModal() {
+        document.getElementById('support-modal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSupportModal() {
+        document.getElementById('support-modal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('support-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeSupportModal();
+    });
+
+    // ============================================================
+    // AUTH
+    // ============================================================
+    function handleLogin() {
+        window.location.href = 'login.html';
+    }
+
+    function handleLogout() {
+        if (confirm('Are you sure you want to logout?')) {
+            document.getElementById('user-greeting').textContent = '👋 Guest';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.add('hidden');
+            alert('Logged out successfully!');
+        }
+    }
+
+    // ============================================================
+    // TAB SWITCHING
+    // ============================================================
+    function switchScoutTab(event, tabId) {
+        event.preventDefault();
+        document.querySelectorAll('.profile-tabs .tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.profile-tabs .tab[data-tab="${tabId}"]`).classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        const target = document.getElementById(`tab-${tabId}`);
+        if (target) target.classList.add('active');
+    }
+
+    // ============================================================
+    // LIKE BUTTON TOGGLE
+    // ============================================================
+    function toggleLike(button) {
+        button.classList.toggle('liked');
+        if (button.classList.contains('liked')) {
+            button.textContent = '❤️ Liked';
+        } else {
+            button.textContent = '❤️ Like';
+        }
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        var greeting = document.getElementById('user-greeting');
+        if (greeting) greeting.textContent = '👋 Elara Voss';
+
+        var loginBtn = document.getElementById('login-btn');
+        var logoutBtn = document.getElementById('logout-btn');
+        if (loginBtn) loginBtn.classList.add('hidden');
+        if (logoutBtn) logoutBtn.classList.remove('hidden');
+
+        var savedLang = localStorage.getItem('preferred_language') || 'en';
+        document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.lang === savedLang);
+        });
+
+        console.log('🔦 Scout page loaded with Purple Macaron color scheme - Muted background');
+        console.log('🎨 Primary accent: Purple (#7B1FA2) for Scout/Discovery profiles');
+        console.log('💰 Earnings removed from public profile for privacy');
+        console.log('🎨 Background: Softer, warmer tones for better readability');
+    });
+</script>
+</body>
+</html>
