@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Chapter Analytics · The Shadow's Heir · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <style>
+        /* ============================================================ */
+        /* CHAPTER ANALYTICS PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ============================================================ */
+        /* PAGE HEADER */
+        /* ============================================================ */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .page-header .left h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-header .left .story-info {
+            font-size: 14px;
+            color: #6f655c;
+            margin-top: 2px;
+        }
+
+        .page-header .left .story-info strong {
+            color: #1a1614;
+        }
+
+        .page-header .right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .page-header .right .date-range {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8f5f2;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #6f655c;
+            border: 1px solid #e8e3dd;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid #e8e3dd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-card .stat-label {
+            font-size: 11px;
+            color: #6f655c;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1614;
+            margin: 4px 0 2px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-card .stat-change.up {
+            color: #2e7d32;
+        }
+
+        .stat-card .stat-change.down {
+            color: #c0392b;
+        }
+
+        .stat-card .stat-change.neutral {
+            color: #f57f17;
+        }
+
+        /* ===== CHARTS ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .chart-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e8e3dd;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .chart-card .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .chart-card .chart-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1614;
+        }
+
+        .chart-card .chart-header .tag {
+            font-size: 10px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            background: #f0ebe6;
+            color: #4a403a;
+        }
+
+        .chart-card .chart-header .tag.green {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .chart-card .chart-header .tag.gold {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .chart-card .chart-header .tag.blue {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .chart-container {
+            height: 220px;
+            position: relative;
+        }
+
+        /* ===== CHAPTER TABLE ===== */
+        .table-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .table-card .table-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .table-card .table-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-card .table-header h3 .badge {
+            background: #b8634b;
+            color: white;
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .table-card .table-header .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .table-card table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .table-card table th {
+            text-align: left;
+            padding: 10px 16px;
+            background: #f8f5f2;
+            color: #5a4f46;
+            font-weight: 600;
+            border-bottom: 2px solid #f0ebe6;
+        }
+
+        .table-card table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f5f3f0;
+            color: #5a4f46;
+        }
+
+        .table-card table tr:hover td {
+            background: #fcfaf7;
+        }
+
+        .table-card table .status {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .table-card table .status.published {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .table-card table .status.draft {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .table-card table .status.high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .table-card table .status.medium {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .table-card table .status.low {
+            background: #ffebee;
+            color: #c0392b;
+        }
+
+        .table-card table .actions-cell {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .table-card table .actions-cell button {
+            background: none;
+            border: 1px solid #e8e3dd;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #5a4f46;
+        }
+
+        .table-card table .actions-cell button:hover {
+            background: #b8634b;
+            border-color: #b8634b;
+            color: white;
+        }
+
+        .table-card table .actions-cell .analytics-btn {
+            background: #b8634b;
+            color: white;
+            border-color: #b8634b;
+        }
+
+        .table-card table .actions-cell .analytics-btn:hover {
+            background: #a04a35;
+        }
+
+        .table-card .table-footer {
+            padding: 10px 20px;
+            border-top: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #6f655c;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .progress-bar-mini {
+            height: 6px;
+            background: #ede8e2;
+            border-radius: 4px;
+            overflow: hidden;
+            width: 80px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .progress-bar-mini .fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .progress-bar-mini .fill.high {
+            background: #2e7d32;
+        }
+        .progress-bar-mini .fill.medium {
+            background: #f57f17;
+        }
+        .progress-bar-mini .fill.low {
+            background: #c0392b;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left { display: flex; align-items: center; gap: 12px; }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub { font-size: 13px; color: #6f655c; }
+        .support-option .price { font-weight: 700; color: #b8634b; font-size: 16px; }
+        .support-modal-footer { margin-top: 16px; text-align: center; font-size: 13px; color: #6f655c; }
+        .support-modal-footer a { color: #b8634b; text-decoration: none; font-weight: 500; }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .page-header { flex-direction: column; align-items: flex-start; }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card .stat-number { font-size: 22px; }
+
+            .table-card table { font-size: 11px; }
+            .table-card table th,
+            .table-card table td { padding: 6px 10px; }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+
+            .progress-bar-mini { width: 50px; }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .stats-grid { grid-template-columns: 1fr; }
+
+            .page-header .left h1 { font-size: 20px; }
+
+            .table-card .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .table-card .table-header .actions {
+                width: 100%;
+            }
+            .table-card .table-header .actions .btn-outline {
+                flex: 1;
+                text-align: center;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" class="active">Analytics</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- PAGE CONTENT -->
+        <!-- ============================================================ -->
+        <div class="page-header">
+            <div class="left">
+                <h1>
+                    📊 Chapter Analytics
+                    <span style="font-size:14px;font-weight:400;color:#6f655c;">— The Shadow's Heir</span>
+                </h1>
+                <div class="story-info">
+                    by <strong>Elara Voss</strong> · 34 chapters · 1,247 followers · ⭐ 4.9
+                </div>
+            </div>
+            <div class="right">
+                <span class="date-range">📅 Last 30 days</span>
+                <button class="btn-outline" onclick="alert('Export data')">📤 Export</button>
+                <button class="btn" onclick="window.location.href='story-edit.html'">✏️ Edit Story</button>
+            </div>
+        </div>
+
+        <!-- ===== STATS ===== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">📖 Total Views</div>
+                <div class="stat-number">12,847</div>
+                <div class="stat-change up">↑ 12% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">❤️ Total Hearts</div>
+                <div class="stat-number">2,405</div>
+                <div class="stat-change up">↑ 8% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">💬 Comments</div>
+                <div class="stat-number">375</div>
+                <div class="stat-change up">↑ 15% from last month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">📈 Avg. Retention</div>
+                <div class="stat-number">67%</div>
+                <div class="stat-change neutral">→ 3% from last month</div>
+            </div>
+        </div>
+
+        <!-- ===== CHARTS ===== -->
+        <div class="charts-grid">
+            <!-- Views by Chapter -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>👁️ Views by Chapter</h3>
+                    <span class="tag blue">Trending</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="viewsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Retention by Chapter -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>📈 Retention by Chapter</h3>
+                    <span class="tag gold">Reader engagement</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="retentionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Hearts by Chapter -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>❤️ Hearts by Chapter</h3>
+                    <span class="tag green">Likes</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="heartsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Comments by Chapter -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>💬 Comments by Chapter</h3>
+                    <span class="tag">Engagement</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="commentsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CHAPTER TABLE ===== -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3>📑 Chapter Performance <span class="badge">34 chapters</span></h3>
+                <div class="actions">
+                    <button class="btn-outline" onclick="alert('Sort by views')">Sort by Views</button>
+                    <button class="btn-outline" onclick="alert('Sort by retention')">Sort by Retention</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Chapter Title</th>
+                        <th>Published</th>
+                        <th>Views</th>
+                        <th>Hearts</th>
+                        <th>Comments</th>
+                        <th>Retention</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>7</strong></td>
+                        <td>The First Trial</td>
+                        <td>Mar 15, 2026</td>
+                        <td>1,247</td>
+                        <td>247</td>
+                        <td>47</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill high" style="width:82%;"></span></span>
+                            82%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 7')">📊</button>
+                                <button onclick="alert('Edit Chapter 7')">✎</button>
+                                <button onclick="alert('View Chapter 7')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>8</strong></td>
+                        <td>The Shadow's Whisper</td>
+                        <td>Mar 18, 2026</td>
+                        <td>1,034</td>
+                        <td>189</td>
+                        <td>28</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill high" style="width:68%;"></span></span>
+                            68%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 8')">📊</button>
+                                <button onclick="alert('Edit Chapter 8')">✎</button>
+                                <button onclick="alert('View Chapter 8')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>9</strong></td>
+                        <td>The Council</td>
+                        <td>Mar 22, 2026</td>
+                        <td>847</td>
+                        <td>156</td>
+                        <td>19</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill medium" style="width:55%;"></span></span>
+                            55%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 9')">📊</button>
+                                <button onclick="alert('Edit Chapter 9')">✎</button>
+                                <button onclick="alert('View Chapter 9')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>10</strong></td>
+                        <td>The Trial Begins</td>
+                        <td>Mar 26, 2026</td>
+                        <td>721</td>
+                        <td>134</td>
+                        <td>12</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill medium" style="width:48%;"></span></span>
+                            48%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 10')">📊</button>
+                                <button onclick="alert('Edit Chapter 10')">✎</button>
+                                <button onclick="alert('View Chapter 10')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>11</strong></td>
+                        <td>Shadows in the Dark</td>
+                        <td>Mar 30, 2026</td>
+                        <td>634</td>
+                        <td>98</td>
+                        <td>8</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill medium" style="width:42%;"></span></span>
+                            42%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 11')">📊</button>
+                                <button onclick="alert('Edit Chapter 11')">✎</button>
+                                <button onclick="alert('View Chapter 11')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>12</strong></td>
+                        <td>The Awakening</td>
+                        <td>Apr 2, 2026</td>
+                        <td>547</td>
+                        <td>76</td>
+                        <td>5</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill low" style="width:35%;"></span></span>
+                            35%
+                        </td>
+                        <td><span class="status published">Published</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 12')">📊</button>
+                                <button onclick="alert('Edit Chapter 12')">✎</button>
+                                <button onclick="alert('View Chapter 12')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>13</strong></td>
+                        <td>The Betrayal</td>
+                        <td>Apr 5, 2026</td>
+                        <td>478</td>
+                        <td>45</td>
+                        <td>3</td>
+                        <td>
+                            <span class="progress-bar-mini"><span class="fill low" style="width:28%;"></span></span>
+                            28%
+                        </td>
+                        <td><span class="status draft">Draft</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="analytics-btn" onclick="alert('Detailed analytics for Chapter 13')" disabled style="opacity:0.5;">📊</button>
+                                <button onclick="alert('Edit Chapter 13')">✎</button>
+                                <button onclick="alert('View Chapter 13')">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <span>Showing 7 of 34 chapters</span>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Previous</button>
+                    <span style="padding:2px 8px;background:#b8634b;color:white;border-radius:4px;font-weight:600;">1</span>
+                    <button class="btn-outline" style="padding:2px 12px;font-size:11px;">2</button>
+                    <button class="btn-outline" style="padding:2px 12px;font-size:11px;">3</button>
+                    <button class="btn-outline" style="padding:2px 12px;font-size:11px;">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[0];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // CHARTS
+        // ============================================================
+        // Views by Chapter
+        const ctx1 = document.getElementById('viewsChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch11', 'Ch12', 'Ch13'],
+                datasets: [{
+                    label: 'Views',
+                    data: [1247, 1034, 847, 721, 634, 547, 478],
+                    backgroundColor: 'rgba(184, 99, 75, 0.7)',
+                    borderColor: '#b8634b',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // Retention by Chapter
+        const ctx2 = document.getElementById('retentionChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch11', 'Ch12', 'Ch13'],
+                datasets: [{
+                    label: 'Retention %',
+                    data: [82, 68, 55, 48, 42, 35, 28],
+                    borderColor: '#f57f17',
+                    backgroundColor: 'rgba(245, 127, 23, 0.05)',
+                    tension: 0.3,
+                    fill: true,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#f57f17',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: v => v + '%' } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // Hearts by Chapter
+        const ctx3 = document.getElementById('heartsChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch11', 'Ch12', 'Ch13'],
+                datasets: [{
+                    label: 'Hearts',
+                    data: [247, 189, 156, 134, 98, 76, 45],
+                    backgroundColor: 'rgba(46, 125, 50, 0.7)',
+                    borderColor: '#2e7d32',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // Comments by Chapter
+        const ctx4 = document.getElementById('commentsChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch11', 'Ch12', 'Ch13'],
+                datasets: [{
+                    label: 'Comments',
+                    data: [47, 28, 19, 12, 8, 5, 3],
+                    backgroundColor: 'rgba(13, 71, 161, 0.7)',
+                    borderColor: '#0d47a1',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-greeting').textContent = '👋 Elara Voss';
+            console.log('📊 Chapter Analytics page loaded');
+            console.log('📈 Charts: Views, Retention, Hearts, Comments');
+        });
+    </script>
+</body>
+</html>

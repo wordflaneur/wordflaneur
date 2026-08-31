@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>StoryForge · Story Dashboard</title>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 1.5rem;
+            color: #1e1a16;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .header h1 i {
+            color: #b8634b;
+        }
+
+        .header .sub {
+            background: #e2ddd8;
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #3f3a35;
+        }
+
+        /* story header card */
+        .story-header {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            border: 1px solid #ece8e3;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .story-header .title {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .story-header .title small {
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: #6f655c;
+            margin-left: 0.5rem;
+        }
+
+        .story-stats {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .story-stats .stat {
+            text-align: center;
+        }
+
+        .story-stats .stat .num {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .story-stats .stat .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #6f655c;
+            letter-spacing: 0.04em;
+        }
+
+        .story-stats .stat .num .up {
+            color: #3b7a5c;
+            font-size: 0.7rem;
+        }
+        .story-stats .stat .num .down {
+            color: #b8634b;
+            font-size: 0.7rem;
+        }
+
+        /* tabs */
+        .tabs {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e3ddd6;
+            padding-bottom: 0.2rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #6f655c;
+            cursor: pointer;
+            border-radius: 100px 100px 0 0;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .tab-btn:hover {
+            background: #e8e2db;
+            color: #2b2621;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1e1a16;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+            border-bottom: 3px solid #b8634b;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fade 0.2s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 0.3;
+                transform: translateY(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.2rem 1.2rem 1.5rem;
+            border: 1px solid #ece8e3;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .card-header h3 {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #2b2621;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-header h3 i {
+            color: #b8634b;
+            font-size: 0.85rem;
+        }
+
+        .card-header .tag {
+            background: #f0ebe6;
+            font-size: 0.6rem;
+            padding: 0.15rem 0.8rem;
+            border-radius: 100px;
+            font-weight: 500;
+            color: #4e453e;
+            letter-spacing: 0.02em;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #1e1a16;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #6f655c;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .metric-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.2rem 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #ede8e2;
+            padding: 0.25rem 0;
+            font-size: 0.8rem;
+        }
+
+        .metric-item .label {
+            color: #5a4f46;
+        }
+
+        .metric-item .value {
+            font-weight: 600;
+            color: #1e1a16;
+        }
+
+        .metric-item .value .highlight {
+            color: #b8634b;
+        }
+
+        .metric-item .value .green {
+            color: #3b7a5c;
+        }
+
+        .progress-bar {
+            background: #ede8e2;
+            height: 5px;
+            border-radius: 100px;
+            margin: 0.2rem 0 0.1rem;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            border-radius: 100px;
+            background: #b8634b;
+            width: 0%;
+        }
+
+        .progress-bar .fill.green {
+            background: #3b7a5c;
+        }
+
+        .progress-bar .fill.gold {
+            background: #c89f4b;
+        }
+
+        .pill {
+            background: #f0ebe6;
+            padding: 0.1rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #3f3a35;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .pill i {
+            color: #b8634b;
+            font-size: 0.6rem;
+        }
+
+        .pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.4rem;
+            margin-top: 0.2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 160px;
+            width: 100%;
+        }
+
+        .chart-container-sm {
+            height: 120px;
+        }
+
+        .badge-plan {
+            background: #f5ede8;
+            font-size: 0.55rem;
+            padding: 0.05rem 0.6rem;
+            border-radius: 100px;
+            font-weight: 600;
+            color: #a8533b;
+            margin-left: 0.3rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .feature-grid .item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.15rem 0;
+            border-bottom: 1px solid #f3efea;
+        }
+
+        .feature-grid .item i {
+            color: #b8634b;
+            width: 0.9rem;
+            font-size: 0.65rem;
+        }
+
+        .feature-grid .item .free-tag {
+            font-size: 0.55rem;
+            background: #e8e2db;
+            padding: 0.05rem 0.5rem;
+            border-radius: 100px;
+            color: #4e453e;
+            margin-left: auto;
+        }
+
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            margin-top: 0.3rem;
+        }
+
+        .chapter-row {
+            display: grid;
+            grid-template-columns: 70px 1fr 60px 60px 60px 50px;
+            gap: 0.3rem;
+            padding: 0.25rem 0.3rem;
+            border-bottom: 1px solid #f3efea;
+            font-size: 0.75rem;
+            align-items: center;
+        }
+
+        .chapter-row.header-row {
+            font-weight: 600;
+            color: #6f655c;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e3ddd6;
+            padding-bottom: 0.3rem;
+        }
+
+        .chapter-row .ch-num {
+            font-weight: 600;
+        }
+        .chapter-row .ch-views {
+            color: #4e453e;
+        }
+        .chapter-row .ch-likes {
+            color: #b8634b;
+        }
+        .chapter-row .ch-comments {
+            color: #3b7a5c;
+        }
+        .chapter-row .ch-retention {
+            font-weight: 500;
+        }
+
+        .footnote {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #6f655c;
+            text-align: center;
+            border-top: 1px solid #e3ddd6;
+            padding-top: 1.2rem;
+        }
+
+        @media (max-width: 800px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 0.3rem;
+            }
+            .metric-list {
+                grid-template-columns: 1fr;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .tab-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.75rem;
+            }
+            .story-header {
+                flex-direction: column;
+                align-items: start;
+            }
+            .chapter-row {
+                grid-template-columns: 50px 1fr 40px 40px 40px 35px;
+                font-size: 0.65rem;
+                gap: 0.2rem;
+            }
+        }
+
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+        .text-muted {
+            color: #6f655c;
+            font-size: 0.7rem;
+        }
+        .inline-flex {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .gap-1 {
+            gap: 0.6rem;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .border-top {
+            border-top: 1px solid #ede8e2;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <h1><i class="fas fa-feather-alt"></i> StoryForge · <span style="font-weight:400;font-size:1.2rem;">The Ember Throne</span></h1>
+            <div class="sub"><i class="fas fa-user-circle"></i> author · mock data</div>
+        </div>
+
+        <!-- ===== STORY HEADER WITH LIVE STATS ===== -->
+        <div class="story-header">
+            <div>
+                <div class="title">The Ember Throne <small>by J.R. Silver</small></div>
+                <div class="pill-list" style="margin-top:0.2rem;">
+                    <span class="pill"><i class="fas fa-tag"></i> Progression Fantasy</span>
+                    <span class="pill"><i class="fas fa-tag"></i> Slow Burn</span>
+                    <span class="pill"><i class="fas fa-tag"></i> Found Family</span>
+                    <span class="pill"><i class="fas fa-tag"></i> Weak to Strong</span>
+                </div>
+            </div>
+            <div class="story-stats">
+                <div class="stat"><div class="num">2,847</div><div class="label">total views</div></div>
+                <div class="stat"><div class="num">187</div><div class="label">followers</div></div>
+                <div class="stat"><div class="num">4.2★</div><div class="label">rating (32)</div></div>
+                <div class="stat"><div class="num">68%</div><div class="label">return rate</div></div>
+            </div>
+        </div>
+
+        <!-- ===== TABS ===== -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="chapter"><i class="fas fa-list"></i> Chapter Stats</button>
+            <button class="tab-btn" data-tab="overview"><i class="fas fa-chart-pie"></i> Overview</button>
+            <button class="tab-btn" data-tab="reader"><i class="fas fa-book-open"></i> Reader View</button>
+            <button class="tab-btn" data-tab="scout"><i class="fas fa-binoculars"></i> Scout View</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: CHAPTER STATS (STORY PAGE VIEW) -->
+        <!-- ============================================================ -->
+        <div class="tab-pane active" id="tab-chapter">
+
+            <!-- chapter list -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3><i class="fas fa-list-ul"></i> Chapter Performance</h3>
+                    <span class="tag">views · likes · comments</span>
+                </div>
+                <div class="chapter-list">
+                    <div class="chapter-row header-row">
+                        <span>Chapter</span>
+                        <span>Title</span>
+                        <span>Views</span>
+                        <span>Likes</span>
+                        <span>Comments</span>
+                        <span>Retention</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#1</span>
+                        <span>The Ashes</span>
+                        <span class="ch-views">2,847</span>
+                        <span class="ch-likes">312</span>
+                        <span class="ch-comments">48</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">100%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#2</span>
+                        <span>The Ember Child</span>
+                        <span class="ch-views">2,506</span>
+                        <span class="ch-likes">278</span>
+                        <span class="ch-comments">42</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">88%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#3</span>
+                        <span>The First Spark</span>
+                        <span class="ch-views">2,335</span>
+                        <span class="ch-likes">254</span>
+                        <span class="ch-comments">38</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">82%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#4</span>
+                        <span>The Trial</span>
+                        <span class="ch-views">2,223</span>
+                        <span class="ch-likes">240</span>
+                        <span class="ch-comments">35</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">78%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#5</span>
+                        <span>The Crucible</span>
+                        <span class="ch-views">2,050</span>
+                        <span class="ch-likes">215</span>
+                        <span class="ch-comments">31</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">72%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#6</span>
+                        <span>The Reckoning</span>
+                        <span class="ch-views">1,938</span>
+                        <span class="ch-likes">198</span>
+                        <span class="ch-comments">28</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">68%</span>
+                    </div>
+                    <div class="chapter-row" style="background:#fcf6f3; border-radius:4px;">
+                        <span class="ch-num" style="color:#b8634b;">#7</span>
+                        <span style="color:#b8634b;">The Fall <i class="fas fa-exclamation-triangle" style="color:#b8634b;font-size:0.6rem;"></i></span>
+                        <span class="ch-views">1,425</span>
+                        <span class="ch-likes">112</span>
+                        <span class="ch-comments">18</span>
+                        <span class="ch-retention" style="color:#b8634b;">50% <span style="color:#b8634b;font-weight:400;font-size:0.6rem;">drop!</span></span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#8</span>
+                        <span>The Ascent</span>
+                        <span class="ch-views">1,767</span>
+                        <span class="ch-likes">168</span>
+                        <span class="ch-comments">24</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">62%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#9</span>
+                        <span>The Council</span>
+                        <span class="ch-views">1,653</span>
+                        <span class="ch-likes">155</span>
+                        <span class="ch-comments">22</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">58%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#10</span>
+                        <span>The Truth</span>
+                        <span class="ch-views">1,568</span>
+                        <span class="ch-likes">142</span>
+                        <span class="ch-comments">20</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">55%</span>
+                    </div>
+                    <div class="chapter-row" style="background:#f5f8f5; border-radius:4px;">
+                        <span class="ch-num" style="color:#3b7a5c;">#12</span>
+                        <span style="color:#3b7a5c;">The Awakening <i class="fas fa-fire" style="color:#c89f4b;font-size:0.6rem;"></i></span>
+                        <span class="ch-views">1,368</span>
+                        <span class="ch-likes">198</span>
+                        <span class="ch-comments">34</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">48%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#15</span>
+                        <span>The Siege</span>
+                        <span class="ch-views">1,254</span>
+                        <span class="ch-likes">125</span>
+                        <span class="ch-comments">19</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">44%</span>
+                    </div>
+                    <div class="chapter-row">
+                        <span class="ch-num">#20</span>
+                        <span>The Ember Throne</span>
+                        <span class="ch-views">1,168</span>
+                        <span class="ch-likes">108</span>
+                        <span class="ch-comments">16</span>
+                        <span class="ch-retention" style="color:#3b7a5c;">41%</span>
+                    </div>
+                </div>
+                <div style="margin-top:0.6rem; font-size:0.7rem; color:#6f655c; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <span><i class="fas fa-exclamation-triangle" style="color:#b8634b;"></i> <strong>Chapter 7</strong> shows a sharp drop (−18%) — consider revising the hook or pacing.</span>
+                    <span><i class="fas fa-fire" style="color:#c89f4b;"></i> <strong>Chapter 12</strong> has the highest engagement (198 likes, 34 comments) — readers love this arc.</span>
+                </div>
+            </div>
+
+            <!-- quick stats cards -->
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-eye"></i> views</h3><span class="tag">total</span></div>
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-label">all chapters</div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">avg per chapter</span><span class="value">158</span></div>
+                        <div class="metric-item"><span class="label">highest</span><span class="value">Ch1 · 2,847</span></div>
+                        <div class="metric-item"><span class="label">lowest</span><span class="value">Ch20 · 1,168</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-heart"></i> likes</h3><span class="tag">total</span></div>
+                    <div class="stat-value">2,405</div>
+                    <div class="stat-label">across all chapters</div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">avg per chapter</span><span class="value">134</span></div>
+                        <div class="metric-item"><span class="label">highest</span><span class="value">Ch1 · 312</span></div>
+                        <div class="metric-item"><span class="label">like rate</span><span class="value">11%</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-comment"></i> comments</h3><span class="tag">total</span></div>
+                    <div class="stat-value">375</div>
+                    <div class="stat-label">all chapters</div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">avg per chapter</span><span class="value">21</span></div>
+                        <div class="metric-item"><span class="label">highest</span><span class="value">Ch1 · 48</span></div>
+                        <div class="metric-item"><span class="label">comment rate</span><span class="value">16% of readers</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: OVERVIEW (AUTHOR ANALYTICS) -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="tab-overview">
+
+            <div class="grid-2">
+                <!-- retention chart -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-wave-square"></i> Chapter Retention</h3>
+                        <span class="tag">vs genre avg</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="retentionChart"></canvas>
+                    </div>
+                    <div class="flex-row mt-1">
+                        <div><span class="stat-value">68%</span><div class="stat-label">to Ch10 · genre 62%</div></div>
+                        <div><span class="stat-value">41%</span><div class="stat-label">to Ch20 · genre 44%</div></div>
+                    </div>
+                </div>
+
+                <!-- follower vs non-follower -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users"></i> Follower vs Non‑Follower</h3>
+                        <span class="tag">engagement gap</span>
+                    </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="followerChart"></canvas>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">followers like</span><span class="value">42%</span></div>
+                        <div class="metric-item"><span class="label">non‑followers</span><span class="value">8% <span class="highlight">−34pp</span></span></div>
+                        <div class="metric-item"><span class="label">genre avg gap</span><span class="value">18pp</span></div>
+                        <div class="metric-item"><span class="label">verdict</span><span class="value" style="color:#b8634b;">insular · add recap?</span></div>
+                    </div>
+                    <div class="progress-bar"><div class="fill" style="width:42%;"></div></div>
+                    <div style="display:flex; justify-content:space-between; font-size:0.6rem; color:#6f655c;">followers ····· non‑followers 8%</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <!-- traffic sources -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Traffic Sources</h3>
+                        <span class="tag">how readers find you</span>
+                    </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">search</span><span class="value">40%</span></div>
+                        <div class="metric-item"><span class="label">browse</span><span class="value">30%</span></div>
+                        <div class="metric-item"><span class="label">external</span><span class="value">20%</span></div>
+                        <div class="metric-item"><span class="label">scouts</span><span class="value">10%</span></div>
+                    </div>
+                </div>
+
+                <!-- tag performance -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tags"></i> Tag Performance</h3>
+                        <span class="tag">retention</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                        <div><span class="stat-label" style="text-transform:none;">Progression Fantasy</span>
+                            <div class="progress-bar"><div class="fill gold" style="width:82%;"></div></div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.6rem;"><span>retention 82%</span><span class="green">+22% vs avg</span></div>
+                        </div>
+                        <div><span class="stat-label" style="text-transform:none;">Found Family</span>
+                            <div class="progress-bar"><div class="fill" style="width:74%;"></div></div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.6rem;"><span>retention 74%</span><span class="green">+10% vs avg</span></div>
+                        </div>
+                        <div><span class="stat-label" style="text-transform:none;">Romance</span>
+                            <div class="progress-bar"><div class="fill" style="width:31%; background:#b8634b80;"></div></div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.6rem;"><span>retention 31%</span><span style="color:#b8634b;">−29% vs avg</span></div>
+                        </div>
+                        <div><span class="stat-label" style="text-transform:none;">Slow Burn</span>
+                            <div class="progress-bar"><div class="fill green" style="width:91%;"></div></div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.6rem;"><span>retention 91%</span><span class="green">+18% vs avg</span></div>
+                        </div>
+                    </div>
+                    <div style="margin-top:0.4rem; background:#f5ede8; padding:0.2rem 0.7rem; border-radius:100px; font-size:0.65rem; display:inline-block;">
+                        <i class="fas fa-lightbulb" style="color:#b8634b;"></i> mismatch: 'Romance' drops 60% vs 'Slow Burn' 85%
+                    </div>
+                </div>
+            </div>
+
+            <!-- scout impact + earnings -->
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-binoculars"></i> Scout Impact</h3>
+                        <span class="tag">curator power</span>
+                    </div>
+                    <div class="flex-row">
+                        <div><span class="stat-value">5</span><div class="stat-label">scouts recommending</div></div>
+                        <div><span class="stat-value">3</span><div class="stat-label">"pushes" this month</div></div>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">scout‑driven followers</span><span class="value">15% of new</span></div>
+                        <div class="metric-item"><span class="label">scout conversion</span><span class="value">18% · overall 12%</span></div>
+                    </div>
+                    <div style="background:#f5ede8; border-radius:12px; padding:0.4rem 0.7rem; margin-top:0.3rem; font-size:0.75rem;">
+                        <i class="fas fa-star" style="color:#b8634b;"></i> <strong>BookWormJane</strong> drove 47 followers &amp; 120 comments
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-coins"></i> Earnings</h3>
+                        <span class="tag">this month</span>
+                    </div>
+                    <div class="flex-row">
+                        <div><span class="stat-value">$47.50</span><div class="stat-label">total</div></div>
+                        <div><span class="stat-value">5%</span><div class="stat-label">support conversion · genre 3%</div></div>
+                    </div>
+                    <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin:0.2rem 0;">
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-hand-holding-heart" style="color:#b8634b;"></i> tips 80%</span>
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-unlock-alt" style="color:#b8634b;"></i> chapters 15%</span>
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-star" style="color:#b8634b;"></i> support 5%</span>
+                    </div>
+                    <div style="font-size:0.8rem;"><i class="fas fa-user-circle"></i> top supporter: <strong>ShadowWraith</strong> · $25</div>
+                </div>
+            </div>
+
+            <!-- author matching -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3><i class="fas fa-handshake"></i> Author Matching</h3>
+                    <span class="tag">find your tribe</span>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem 2rem;">
+                    <div><span class="stat-label">overlap with</span><br><span class="stat-value" style="font-size:1.1rem;">Author A</span> <span style="font-size:0.8rem; color:#6f655c;">32% follower overlap</span></div>
+                    <div><span class="stat-label">similar tags</span><br><span class="pill">Progression Fantasy</span> <span class="pill">Found Family</span> <span class="pill">Slow Burn</span></div>
+                    <div><span class="stat-label">critique partners</span><br><span style="font-weight:500;">3 authors</span> · <span style="color:#b8634b; font-weight:500;">join group →</span></div>
+                </div>
+                <div style="margin-top:0.4rem; background:#f5ede8; padding:0.3rem 0.8rem; border-radius:100px; display:inline-block; font-size:0.7rem;">
+                    <i class="fas fa-lightbulb" style="color:#b8634b;"></i> 60% overlap with Author B · consider cross‑promo
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: READER VIEW -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="tab-reader">
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-crown"></i> Reader Subscription</h3>
+                        <span class="tag">$4.99 / mo</span>
+                    </div>
+                    <div class="feature-grid">
+                        <div class="item"><i class="fas fa-clock"></i> early access <span class="free-tag" style="background:#b8634b20;color:#b8634b;">+24h</span></div>
+                        <div class="item"><i class="fas fa-sliders-h"></i> advanced search</div>
+                        <div class="item"><i class="fas fa-chart-line"></i> personal reading analytics</div>
+                        <div class="item"><i class="fas fa-user-plus"></i> scout priority</div>
+                        <div class="item"><i class="fas fa-award"></i> supporter badge</div>
+                        <div class="item"><i class="fas fa-envelope"></i> monthly trends newsletter</div>
+                        <div class="item"><i class="fas fa-list-ul"></i> custom libraries</div>
+                        <div class="item"><i class="fas fa-ad"></i> ad‑free reading</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Your Reading Habits</h3>
+                        <span class="tag">personal</span>
+                    </div>
+                    <div class="flex-row">
+                        <div><span class="stat-value">12.4</span><div class="stat-label">hours this month</div></div>
+                        <div><span class="stat-value">47</span><div class="stat-label">chapters read</div></div>
+                        <div><span class="stat-value">6</span><div class="stat-label">stories followed</div></div>
+                    </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="readerGenreChart"></canvas>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">top genre</span><span class="value">Progression Fantasy · 42%</span></div>
+                        <div class="metric-item"><span class="label">avg session</span><span class="value">28 min</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-robot"></i> Recommended</h3><span class="tag">AI powered</span></div>
+                    <div style="font-size:0.8rem; margin-bottom:0.3rem;"><i class="fas fa-book" style="color:#b8634b;"></i> <strong>Because you read Progression Fantasy + Slow Burn:</strong></div>
+                    <div class="pill-list">
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-star" style="color:#c89f4b;"></i> The Ember Throne</span>
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-star" style="color:#c89f4b;"></i> Soulsmith's Apprentice</span>
+                        <span class="pill" style="background:#f5ede8;"><i class="fas fa-star" style="color:#c89f4b;"></i> The Last Lighthouse</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h3><i class="fas fa-newspaper"></i> Monthly Trends</h3><span class="tag">exclusive</span></div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">tag heat</span><span class="value" style="color:#b8634b;">Cozy Fantasy +47%</span></div>
+                        <div class="metric-item"><span class="label">rising scout</span><span class="value">BookWormJane</span></div>
+                        <div class="metric-item"><span class="label">platform return rate</span><span class="value">68% avg</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: SCOUT VIEW -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="tab-scout">
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-binoculars"></i> Scout Dashboard</h3>
+                        <span class="tag">$6.99 / mo</span>
+                    </div>
+                    <div class="flex-row">
+                        <div><span class="stat-value">12</span><div class="stat-label">stories scouted</div></div>
+                        <div><span class="stat-value">#4</span><div class="stat-label">rank (of 87)</div></div>
+                        <div><span class="stat-value">18%</span><div class="stat-label">conversion · avg 12%</div></div>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">recommendations</span><span class="value">47</span></div>
+                        <div class="metric-item"><span class="label">"pushes"</span><span class="value">8</span></div>
+                        <div class="metric-item"><span class="label">followers gained</span><span class="value">312 <span class="highlight">+22%</span></span></div>
+                        <div class="metric-item"><span class="label">earnings (tips)</span><span class="value">$12.50</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-gem"></i> Discovery Tools</h3>
+                        <span class="tag">rising stars</span>
+                    </div>
+                    <div class="feature-grid">
+                        <div class="item"><i class="fas fa-gem"></i> diamond‑in‑rough alerts</div>
+                        <div class="item"><i class="fas fa-chart-pie"></i> full story engagement data</div>
+                        <div class="item"><i class="fas fa-link"></i> trackable share links</div>
+                        <div class="item"><i class="fas fa-trophy"></i> scout rankings</div>
+                        <div class="item"><i class="fas fa-coins"></i> earnings dashboard</div>
+                        <div class="item"><i class="fas fa-users"></i> scout community</div>
+                    </div>
+                    <div style="margin-top:0.4rem; background:#f8f5f2; border-radius:12px; padding:0.3rem 0.7rem; font-size:0.7rem;">
+                        <i class="fas fa-twitter" style="color:#1DA1F2;"></i> top link: Twitter → 203 clicks · 28 new followers
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-star"></i> Your Recommendations</h3>
+                        <span class="tag">impact</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:0.3rem;">
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #ede8e2; padding:0.2rem 0; font-size:0.8rem;">
+                            <span><strong>The Ember Throne</strong> <span class="pill" style="font-size:0.55rem;">pushed</span></span>
+                            <span style="font-weight:600;">47 followers <span class="green">+22%</span></span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #ede8e2; padding:0.2rem 0; font-size:0.8rem;">
+                            <span><strong>Soulsmith's Apprentice</strong></span>
+                            <span style="font-weight:600;">23 followers <span class="green">+14%</span></span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px solid #ede8e2; padding:0.2rem 0; font-size:0.8rem;">
+                            <span><strong>The Last Lighthouse</strong> <span class="pill" style="font-size:0.55rem;">pushed</span></span>
+                            <span style="font-weight:600;">31 followers <span class="green">+18%</span></span>
+                        </div>
+                    </div>
+                    <div style="margin-top:0.4rem; background:#f5ede8; border-radius:12px; padding:0.3rem 0.7rem; font-size:0.7rem;">
+                        <i class="fas fa-arrow-up" style="color:#b8634b;"></i> your conversion: <strong>18%</strong> (avg 12%)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-simple"></i> Performance</h3>
+                        <span class="tag">rank #4</span>
+                    </div>
+                    <div class="chart-container chart-container-sm">
+                        <canvas id="scoutConversionChart"></canvas>
+                    </div>
+                    <div class="metric-list">
+                        <div class="metric-item"><span class="label">your conversion</span><span class="value green">18%</span></div>
+                        <div class="metric-item"><span class="label">platform avg</span><span class="value">12%</span></div>
+                        <div class="metric-item"><span class="label">top scout</span><span class="value">BookWormJane · 22%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footnote -->
+        <div class="footnote">
+            <i class="fas fa-chart-simple" style="margin-right:6px;"></i> mock data for demonstration · chapter stats reflect real engagement metrics
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================ -->
+    <script>
+        // ---------- TAB SWITCHING ----------
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panes = {
+            chapter: document.getElementById('tab-chapter'),
+            overview: document.getElementById('tab-overview'),
+            reader: document.getElementById('tab-reader'),
+            scout: document.getElementById('tab-scout')
+        };
+
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabs.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const target = btn.dataset.tab;
+                Object.keys(panes).forEach(key => {
+                    panes[key].classList.toggle('active', key === target);
+                });
+                setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+            });
+        });
+
+        // ---------- CHART: RETENTION ----------
+        const ctxRet = document.getElementById('retentionChart').getContext('2d');
+        new Chart(ctxRet, {
+            type: 'line',
+            data: {
+                labels: ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6', 'Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch12', 'Ch15', 'Ch20'],
+                datasets: [{
+                    label: 'Your story',
+                    data: [100, 88, 82, 78, 72, 68, 50, 62, 58, 55, 48, 44, 41],
+                    borderColor: '#b8634b',
+                    backgroundColor: 'rgba(184, 99, 75, 0.05)',
+                    tension: 0.3,
+                    fill: true,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#b8634b',
+                }, {
+                    label: 'Genre avg',
+                    data: [100, 85, 80, 74, 68, 62, 60, 58, 55, 52, 48, 46, 44],
+                    borderColor: '#a09184',
+                    borderDash: [5, 5],
+                    backgroundColor: 'transparent',
+                    tension: 0.3,
+                    pointRadius: 2,
+                    pointBackgroundColor: '#a09184',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true, labels: { boxWidth: 12, font: { size: 9 } } } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, grid: { color: '#f0ebe6' }, ticks: { font: { size: 8 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 7 }, maxTicksLimit: 10 } }
+                },
+                interaction: { mode: 'index', intersect: false }
+            }
+        });
+
+        // ---------- CHART: FOLLOWER ----------
+        const ctxFol = document.getElementById('followerChart').getContext('2d');
+        new Chart(ctxFol, {
+            type: 'bar',
+            data: {
+                labels: ['Followers', 'Non‑followers'],
+                datasets: [{
+                    label: 'Like rate %',
+                    data: [42, 8],
+                    backgroundColor: ['#b8634b', '#d4c5b8'],
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 50, grid: { color: '#f0ebe6' }, ticks: { font: { size: 9 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // ---------- CHART: TRAFFIC ----------
+        const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
+        new Chart(ctxTraffic, {
+            type: 'doughnut',
+            data: {
+                labels: ['Search', 'Browse', 'External', 'Scout'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: ['#b8634b', '#d4c5b8', '#c89f4b', '#3b7a5c'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 9 } } } },
+                cutout: '65%',
+            }
+        });
+
+        // ---------- CHART: READER GENRE ----------
+        const ctxReaderGenre = document.getElementById('readerGenreChart').getContext('2d');
+        new Chart(ctxReaderGenre, {
+            type: 'doughnut',
+            data: {
+                labels: ['Progression Fantasy', 'Romance', 'Grimdark', 'Cozy Fantasy', 'LitRPG'],
+                datasets: [{
+                    data: [42, 25, 15, 10, 8],
+                    backgroundColor: ['#b8634b', '#d4c5b8', '#c89f4b', '#3b7a5c', '#8f7a6b'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 9 } } } },
+                cutout: '60%',
+            }
+        });
+
+        // ---------- CHART: SCOUT CONVERSION ----------
+        const ctxScout = document.getElementById('scoutConversionChart').getContext('2d');
+        new Chart(ctxScout, {
+            type: 'bar',
+            data: {
+                labels: ['You', 'Platform avg', 'Top scout'],
+                datasets: [{
+                    label: 'Conversion rate %',
+                    data: [18, 12, 22],
+                    backgroundColor: ['#b8634b', '#d4c5b8', '#c89f4b'],
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 25, grid: { color: '#f0ebe6' }, ticks: { font: { size: 9 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

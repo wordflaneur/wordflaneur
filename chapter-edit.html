@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Chapter — WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 2px solid #d4c5a0;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+        .site-header .logo span {
+            color: #b89a70;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #6b4f3c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+        .site-header .nav a:hover {
+            color: #3d2b1f;
+        }
+        .site-header .nav a.active {
+            color: #3d2b1f;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-right .auth-section #user-greeting {
+            color: #6b4f3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .support-btn {
+            background: #3d2b1f;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 18px 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.15);
+            white-space: nowrap;
+        }
+        .support-btn:hover {
+            background: #2d1f15;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61, 43, 31, 0.2);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+            font-size: 16px;
+        }
+
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active {
+            display: flex;
+        }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0e8de;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #3d2b1f;
+            font-size: 20px;
+        }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b8a084;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #fcfaf7;
+            border-radius: 12px;
+            border: 1px solid #f0e8de;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover {
+            border-color: #b89a70;
+            background: #f8f2e8;
+        }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-modal-footer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* EDIT CHAPTER PAGE */
+        /* ============================================================ */
+        .edit-container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .edit-header h1 {
+            font-size: 24px;
+            color: #3d2b1f;
+            margin: 0;
+        }
+
+        .edit-header .story-title {
+            font-size: 16px;
+            color: #7a6b5a;
+            font-weight: 400;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .edit-actions button {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: none;
+        }
+
+        .btn-save {
+            background: #b89a70;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #a88a62;
+        }
+
+        .btn-publish {
+            background: #3d2b1f;
+            color: white;
+        }
+        .btn-publish:hover {
+            background: #2d1f15;
+        }
+
+        .btn-preview {
+            background: #f5f0e9;
+            color: #6b4f3c;
+            border: 1px solid #e8ddd0 !important;
+        }
+        .btn-preview:hover {
+            background: #ede6db;
+        }
+
+        .editor-wrapper {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 2px;
+            padding: 8px 12px;
+            background: #fcfaf7;
+            border-bottom: 1px solid #f0e8de;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .editor-toolbar .toolbar-group {
+            display: flex;
+            gap: 2px;
+            padding: 0 8px;
+            border-right: 1px solid #e8ddd0;
+        }
+
+        .editor-toolbar .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .editor-toolbar button {
+            background: none;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #6b4f3c;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .editor-toolbar button:hover {
+            background: #ede6db;
+        }
+
+        .editor-toolbar button.active {
+            background: #b89a70;
+            color: white;
+        }
+
+        .editor-toolbar select {
+            padding: 3px 8px;
+            border: 1px solid #e8ddd0;
+            border-radius: 4px;
+            background: white;
+            font-size: 13px;
+            font-family: inherit;
+            color: #3d2b1f;
+        }
+
+        .chapter-title-input {
+            padding: 16px 20px 8px 20px;
+        }
+
+        .chapter-title-input input {
+            width: 100%;
+            padding: 8px 0;
+            border: none;
+            font-size: 24px;
+            font-weight: 700;
+            color: #3d2b1f;
+            font-family: inherit;
+            outline: none;
+            background: transparent;
+        }
+
+        .chapter-title-input input::placeholder {
+            color: #b8a084;
+            font-weight: 400;
+        }
+
+        .chapter-content-editor {
+            padding: 8px 20px 20px 20px;
+        }
+
+        .chapter-content-editor textarea {
+            width: 100%;
+            min-height: 400px;
+            padding: 8px 0;
+            border: none;
+            font-size: 17px;
+            font-family: Georgia, serif;
+            line-height: 2;
+            color: #3d2b1f;
+            outline: none;
+            resize: vertical;
+            background: transparent;
+        }
+
+        .chapter-content-editor textarea::placeholder {
+            color: #b8a084;
+        }
+
+        .author-note-editor {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .author-note-editor label {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .author-note-editor label .note-type {
+            font-weight: 400;
+            color: #b8a084;
+            font-size: 12px;
+        }
+
+        .author-note-editor textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 14px;
+            border: 2px solid #e8ddd0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #fcfaf7;
+            resize: vertical;
+        }
+
+        .author-note-editor textarea:focus {
+            outline: none;
+            border-color: #b8a084;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .author-note-editor .position-toggle {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .author-note-editor .position-toggle label {
+            font-weight: 400;
+            font-size: 13px;
+            color: #6b4f3c;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .author-note-editor .position-toggle input[type="radio"] {
+            accent-color: #8b6f54;
+        }
+
+        .annotations-section {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .annotations-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .annotations-section .section-header h3 {
+            font-size: 15px;
+            color: #3d2b1f;
+            margin: 0;
+        }
+
+        .annotations-section .section-header .private-badge {
+            font-size: 11px;
+            color: #b8a084;
+            background: #f5f0e9;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .annotation-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f0e9;
+            align-items: flex-start;
+        }
+
+        .annotation-item:last-child {
+            border-bottom: none;
+        }
+
+        .annotation-item .annotation-pin {
+            font-size: 12px;
+            color: #b8a084;
+            background: #f5f0e9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .annotation-item .annotation-text {
+            font-size: 14px;
+            color: #6b4f3c;
+            flex: 1;
+        }
+
+        .annotation-item .annotation-text .highlight {
+            background: #f8f2e8;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-style: italic;
+        }
+
+        .annotation-item .annotation-actions {
+            display: flex;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .annotation-item .annotation-actions button {
+            background: none;
+            border: none;
+            color: #b8a084;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
+            padding: 0;
+        }
+
+        .annotation-item .annotation-actions button:hover {
+            color: #6b4f3c;
+        }
+
+        .add-annotation {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .add-annotation input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 2px solid #e8ddd0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            background: #fcfaf7;
+            transition: all 0.2s;
+        }
+
+        .add-annotation input:focus {
+            outline: none;
+            border-color: #b8a084;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .add-annotation button {
+            padding: 8px 16px;
+            background: #f5f0e9;
+            border: 1px solid #e8ddd0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #6b4f3c;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .add-annotation button:hover {
+            background: #ede6db;
+        }
+
+        .chapter-footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .chapter-footer .meta {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .chapter-footer .meta span {
+            margin-right: 16px;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+            }
+            .header-right {
+                justify-content: center;
+            }
+
+            .edit-container {
+                padding: 0 12px;
+            }
+
+            .edit-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .edit-actions {
+                width: 100%;
+            }
+
+            .edit-actions button {
+                flex: 1;
+                text-align: center;
+            }
+
+            .editor-toolbar {
+                padding: 6px 8px;
+            }
+
+            .editor-toolbar .toolbar-group {
+                padding: 0 4px;
+            }
+
+            .editor-toolbar button {
+                padding: 3px 6px;
+                font-size: 12px;
+            }
+
+            .chapter-title-input input {
+                font-size: 20px;
+            }
+
+            .chapter-content-editor textarea {
+                font-size: 16px;
+                min-height: 300px;
+            }
+
+            .annotations-section .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .add-annotation {
+                flex-direction: column;
+            }
+
+            .add-annotation button {
+                width: 100%;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .site-header .nav a {
+                font-size: 13px;
+            }
+            .header-right {
+                flex-wrap: wrap;
+            }
+
+            .chapter-title-input input {
+                font-size: 18px;
+            }
+
+            .chapter-content-editor textarea {
+                font-size: 15px;
+                min-height: 250px;
+            }
+
+            .author-note-editor .position-toggle {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
+                </div>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="#" onclick="alert('Learn more about supporting WordFlaneur')">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- EDIT CHAPTER CONTENT -->
+        <!-- ============================================================ -->
+        <div class="edit-container">
+            <div class="edit-header">
+                <div>
+                    <h1>✎ Edit Chapter</h1>
+                    <span class="story-title">The Shadow's Heir — Chapter 7</span>
+                </div>
+                <div class="edit-actions">
+                    <button class="btn-preview">👁️ Preview</button>
+                    <button class="btn-save">💾 Save Draft</button>
+                    <button class="btn-publish">📤 Publish</button>
+                </div>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-wrapper">
+                <div class="editor-toolbar">
+                    <div class="toolbar-group">
+                        <button title="Bold"><strong>B</strong></button>
+                        <button title="Italic"><em>I</em></button>
+                        <button title="Underline"><u>U</u></button>
+                        <button title="Strikethrough"><s>S</s></button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button title="Heading">H1</button>
+                        <button title="Subheading">H2</button>
+                        <button title="Paragraph">¶</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button title="Bullet List">•</button>
+                        <button title="Numbered List">1.</button>
+                        <button title="Quote">"</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button title="Insert Link">🔗</button>
+                        <button title="Insert Image">🖼️</button>
+                        <button title="Insert Horizontal Rule">—</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button title="Undo">↩</button>
+                        <button title="Redo">↪</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <select>
+                            <option>Normal text</option>
+                            <option>Heading 1</option>
+                            <option>Heading 2</option>
+                            <option>Quote</option>
+                            <option>Code</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="chapter-title-input">
+                    <input type="text" placeholder="Chapter Title..." value="Chapter 7: The First Trial">
+                </div>
+
+                <div class="chapter-content-editor">
+                    <textarea placeholder="Start writing your chapter here...">The air in the chamber was thick with the scent of old stone and something else—something ancient and unspoken. Kaelen stood at the threshold, his hand hovering over the dark iron door, feeling the pulse of magic that hummed beneath the surface.
+
+"You don't have to do this," Lyra said, her voice barely a whisper.
+
+Kaelen turned to look at her, a faint smile crossing his lips. "There is no other way."</textarea>
+                </div>
+            </div>
+
+            <!-- Author's Note -->
+            <div class="author-note-editor">
+                <label>📝 Author's Note <span class="note-type">(optional — shown to readers)</span></label>
+                <textarea placeholder="Write a note to your readers about this chapter...">Thank you for reading! This chapter took a while to write. I wanted to capture the tension of the trial perfectly. Let me know your thoughts in the comments!</textarea>
+                <div class="position-toggle">
+                    <label><input type="radio" name="note-position" value="before" checked> Show before chapter</label>
+                    <label><input type="radio" name="note-position" value="after"> Show after chapter</label>
+                </div>
+            </div>
+
+            <!-- Private Annotations -->
+            <div class="annotations-section">
+                <div class="section-header">
+                    <h3>📌 Private Annotations</h3>
+                    <span class="private-badge">🔒 Only visible to you</span>
+                </div>
+                <div class="annotation-item">
+                    <span class="annotation-pin">P1</span>
+                    <div class="annotation-text">
+                        <span class="highlight">"The Council made that clear."</span> — Need to expand on the Council's backstory here. Maybe mention them earlier in Chapter 3?
+                    </div>
+                    <div class="annotation-actions">
+                        <button>✎</button>
+                        <button>🗑️</button>
+                    </div>
+                </div>
+                <div class="annotation-item">
+                    <span class="annotation-pin">P2</span>
+                    <div class="annotation-text">
+                        <span class="highlight">"And the world around him dissolved into shadow."</span> — Check consistency with magic system. Should shadows dissolve or engulf?
+                    </div>
+                    <div class="annotation-actions">
+                        <button>✎</button>
+                        <button>🗑️</button>
+                    </div>
+                </div>
+                <div class="add-annotation">
+                    <input type="text" placeholder="Add a private note to yourself... (select text in the chapter to pin it)">
+                    <button>Add Note</button>
+                </div>
+                <div style="margin-top: 8px; font-size: 12px; color: #b8a084;">
+                    💡 Select text in the chapter and click "Add Note" to pin your annotation to that text.
+                </div>
+            </div>
+
+            <!-- Chapter Footer -->
+            <div class="chapter-footer">
+                <div class="meta">
+                    <span>📝 Words: 127</span>
+                    <span>📅 Last saved: Just now</span>
+                    <span>⏳ Status: Draft</span>
+                </div>
+                <div>
+                    <button class="btn-outline" onclick="window.location.href='publish.html'">← Back to Story</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+                <p>WordFlaneur — where authors create at a reasonable pace.</p>
+                <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // TOOLBAR BUTTONS
+        // ============================================================
+        document.querySelectorAll('.editor-toolbar button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const textarea = document.querySelector('.chapter-content-editor textarea');
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const selected = textarea.value.substring(start, end);
+
+                if (this.textContent.includes('B')) {
+                    textarea.setRangeText('**' + (selected || 'bold text') + '**', start, end, 'end');
+                } else if (this.textContent.includes('I')) {
+                    textarea.setRangeText('*' + (selected || 'italic text') + '*', start, end, 'end');
+                } else if (this.textContent.includes('U')) {
+                    textarea.setRangeText('_' + (selected || 'underlined text') + '_', start, end, 'end');
+                } else if (this.textContent.includes('S')) {
+                    textarea.setRangeText('~~' + (selected || 'strikethrough') + '~~', start, end, 'end');
+                } else if (this.textContent.includes('•')) {
+                    textarea.setRangeText('• ' + (selected || 'list item'), start, end, 'end');
+                } else if (this.textContent.includes('1.')) {
+                    textarea.setRangeText('1. ' + (selected || 'list item'), start, end, 'end');
+                } else if (this.textContent.includes('"')) {
+                    textarea.setRangeText('> ' + (selected || 'quote'), start, end, 'end');
+                } else if (this.textContent.includes('🔗')) {
+                    const url = prompt('Enter URL:', 'https://');
+                    if (url) {
+                        textarea.setRangeText('[' + (selected || 'link text') + '](' + url + ')', start, end, 'end');
+                    }
+                } else if (this.textContent.includes('—')) {
+                    textarea.setRangeText('\n---\n', start, end, 'end');
+                }
+                textarea.focus();
+            });
+        });
+
+        // ============================================================
+        // ANNOTATIONS
+        // ============================================================
+        document.querySelector('.add-annotation button').addEventListener('click', function() {
+            const input = document.querySelector('.add-annotation input');
+            if (input.value.trim()) {
+                alert('Annotation added! (Demo)');
+                input.value = '';
+            }
+        });
+
+        document.querySelector('.add-annotation input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.add-annotation button').click();
+            }
+        });
+
+        // ============================================================
+        // SAVE DRAFT
+        // ============================================================
+        document.querySelector('.btn-save').addEventListener('click', function() {
+            alert('Draft saved! (Demo)');
+        });
+
+        // ============================================================
+        // PREVIEW
+        // ============================================================
+        document.querySelector('.btn-preview').addEventListener('click', function() {
+            alert('Opening preview... (Demo)');
+        });
+
+        // ============================================================
+        // PUBLISH
+        // ============================================================
+        document.querySelector('.btn-publish').addEventListener('click', function() {
+            if (confirm('Publish this chapter?')) {
+                alert('Chapter published! (Demo)');
+            }
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        async function handleLogin() { window.location.href = 'login.html'; }
+
+        async function handleLogout() {
+            const r = await signOut();
+            if (r.success) window.location.reload();
+            else alert('Error signing out');
+        }
+
+        // ============================================================
+        // CHECK AUTH
+        // ============================================================
+        async function checkAuth() {
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.auth) { renderGuestState(); return; }
+            const { data: { session }, error } = await client.auth.getSession();
+            if (error || !session?.user) { renderGuestState(); return; }
+            const user = session.user;
+            const profileResult = await getUserProfile(user.id);
+            const profile = profileResult.success && profileResult.profile ? profileResult.profile : null;
+            document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('publish-btn').style.display = 'inline-block';
+        }
+
+        function renderGuestState() {
+            document.getElementById('user-greeting').textContent = 'Guest';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.add('hidden');
+            document.getElementById('publish-btn').style.display = 'none';
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
