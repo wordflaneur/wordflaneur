@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 2px solid #d4c5a0;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .site-header .logo a {
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+
+        .site-header .logo span {
+            color: #b89a70;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-header .nav a {
+            color: #6b4f3c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+
+        .site-header .nav a:hover {
+            color: #3d2b1f;
+        }
+
+        .site-header .nav a.active {
+            color: #3d2b1f;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-right .auth-section #user-greeting {
+            color: #6b4f3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .support-btn {
+            background: #3d2b1f;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 18px 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.15);
+            white-space: nowrap;
+        }
+
+        .support-btn:hover {
+            background: #2d1f15;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61, 43, 31, 0.2);
+        }
+
+        .support-btn .heart {
+            color: #ff6b6b;
+            font-size: 16px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal.active {
+            display: flex;
+        }
+
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0e8de;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #3d2b1f;
+            font-size: 20px;
+        }
+
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b8a084;
+        }
+
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #fcfaf7;
+            border-radius: 12px;
+            border: 1px solid #f0e8de;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .support-option:hover {
+            border-color: #b89a70;
+            background: #f8f2e8;
+        }
+
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .support-option .price {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 16px;
+        }
+
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+
+        .support-modal-footer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* TERMS PAGE */
+        /* ============================================================ */
+        .terms-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        .terms-hero {
+            text-align: center;
+            padding: 30px 20px 25px 20px;
+            border-bottom: 2px solid #f0e8de;
+            margin-bottom: 30px;
+        }
+
+        .terms-hero h1 {
+            font-size: 34px;
+            color: #3d2b1f;
+            margin: 0 0 8px 0;
+        }
+
+        .terms-hero p {
+            font-size: 16px;
+            color: #7a6b5a;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .terms-hero .last-updated {
+            font-size: 13px;
+            color: #b8a084;
+            margin-top: 8px;
+        }
+
+        .terms-section {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            padding: 28px 35px;
+            margin-bottom: 20px;
+        }
+
+        .terms-section .section-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .terms-section h2 {
+            font-size: 20px;
+            color: #3d2b1f;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .terms-section p {
+            font-size: 15px;
+            color: #6b4f3c;
+            line-height: 1.7;
+            margin: 0 0 12px 0;
+        }
+
+        .terms-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .terms-section ul {
+            margin: 8px 0 12px 0;
+            padding-left: 24px;
+            color: #6b4f3c;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .terms-section ul li {
+            margin-bottom: 4px;
+        }
+
+        .terms-section .highlight {
+            color: #b89a70;
+            font-weight: 600;
+        }
+
+        .terms-section .warning {
+            background: #fff8f0;
+            border-left: 4px solid #b85a3e;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #6b4f3c;
+            font-size: 14px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #f0e8de;
+            margin: 20px 0;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .header-right {
+                justify-content: center;
+            }
+
+            .terms-hero h1 {
+                font-size: 28px;
+            }
+
+            .terms-hero p {
+                font-size: 16px;
+            }
+
+            .terms-section {
+                padding: 20px;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .site-header .nav a {
+                font-size: 13px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+            }
+
+            .terms-hero h1 {
+                font-size: 24px;
+            }
+
+            .terms-hero p {
+                font-size: 14px;
+            }
+
+            .terms-section h2 {
+                font-size: 18px;
+            }
+
+            .terms-section {
+                padding: 16px;
+            }
+
+            .terms-section ul {
+                font-size: 14px;
+                padding-left: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
+                </div>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="#" onclick="alert('Learn more about supporting WordFlaneur')">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TERMS CONTENT -->
+        <!-- ============================================================ -->
+        <div class="terms-container">
+
+            <!-- Hero -->
+            <div class="terms-hero">
+                <h1>📜 Terms of Service</h1>
+                <p>Welcome to WordFlaneur. By using our platform, you agree to these terms. Please read them carefully.</p>
+                <div class="last-updated">Last updated: March 15, 2026</div>
+            </div>
+
+            <!-- ===== 1. ACCEPTANCE ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">✅</span> 1. Acceptance of Terms</h2>
+                <p>
+                    By creating an account, accessing, or using WordFlaneur (the "Platform"), you agree to be bound by these Terms of Service (the "Terms").
+                    If you do not agree to these Terms, please do not use the Platform.
+                </p>
+                <p>
+                    We may update these Terms from time to time. We will notify you of significant changes through the Platform or via email.
+                    Your continued use of the Platform after such updates constitutes your acceptance of the new Terms.
+                </p>
+            </div>
+
+            <!-- ===== 2. ACCOUNT ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">👤</span> 2. Account Registration</h2>
+                <ul>
+                    <li><strong>Eligibility:</strong> You must be at least 13 years old to use WordFlaneur. If you are under 18, you must have parental consent.</li>
+                    <li><strong>Account Security:</strong> You are responsible for maintaining the confidentiality of your account credentials. You agree to notify us immediately of any unauthorized use.</li>
+                    <li><strong>Accuracy:</strong> You agree to provide accurate and complete information when creating your account and to keep it updated.</li>
+                    <li><strong>One Account:</strong> You may not create multiple accounts without explicit permission from WordFlaneur.</li>
+                    <li><strong>Termination:</strong> We reserve the right to suspend or terminate accounts that violate these Terms.</li>
+                </ul>
+            </div>
+
+            <!-- ===== 3. USER CONTENT ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">📝</span> 3. User Content</h2>
+                <p>
+                    As an author, you retain all rights to the stories and content you publish on WordFlaneur. You grant us a <span class="highlight">non-exclusive, worldwide, royalty-free license</span> to host, display, and distribute your content on the Platform.
+                </p>
+
+                <h4 style="color: #6b4f3c; margin: 12px 0 6px 0;">Content Guidelines</h4>
+                <ul>
+                    <li><strong>Original Work:</strong> You must own or have the rights to all content you publish. Plagiarism is strictly prohibited.</li>
+                    <li><strong>AI Disclosure:</strong> If you use AI to assist in content creation, you must clearly disclose this to readers.</li>
+                    <li><strong>Content Warnings:</strong> You must provide content warnings for mature content, including violence, explicit language, and sexual content.</li>
+                    <li><strong>Prohibited Content:</strong> Content that promotes hate speech, harassment, discrimination, or illegal activities is not allowed.</li>
+                    <li><strong>Copyright:</strong> We will respond to valid copyright infringement notices in accordance with applicable law.</li>
+                </ul>
+
+                <div class="warning">
+                    ⚠️ <strong>Important:</strong> You are solely responsible for the content you publish. WordFlaneur does not endorse or verify user-generated content.
+                </div>
+            </div>
+
+            <!-- ===== 4. EARNINGS & PAYMENTS ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">💰</span> 4. Earnings &amp; Payments</h2>
+                <p>
+                    WordFlaneur provides earning opportunities for authors, scouts, and service providers. The following terms apply:
+                </p>
+
+                <h4 style="color: #6b4f3c; margin: 12px 0 6px 0;">For Authors</h4>
+                <ul>
+                    <li><strong>Chapter Unlocks:</strong> You earn <span class="highlight">80%</span> of revenue from locked chapters.</li>
+                    <li><strong>Reader Tips:</strong> You earn <span class="highlight">90%</span> of tips from readers.</li>
+                    <li><strong>Subscriptions:</strong> You earn <span class="highlight">80%</span> of subscription revenue.</li>
+                    <li><strong>Payouts:</strong> Earnings are tracked in coins. You can convert coins to real money via our payment partners.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: #6b4f3c; margin: 0 0 6px 0;">For Scouts</h4>
+                <ul>
+                    <li><strong>Reader Tips:</strong> You earn <span class="highlight">90%</span> of tips from readers.</li>
+                    <li><strong>Platform Rewards:</strong> You earn rewards based on your Trust Value and platform contributions.</li>
+                    <li><strong>Minimum Payout:</strong> A minimum payout threshold applies. Please check your dashboard for details.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: #6b4f3c; margin: 0 0 6px 0;">General Payment Terms</h4>
+                <ul>
+                    <li>Payments are processed through our payment partners. You agree to their terms and conditions.</li>
+                    <li>We reserve the right to hold payments for fraudulent or suspicious activity.</li>
+                    <li>You are responsible for any applicable taxes on your earnings.</li>
+                    <li>Earnings are calculated and displayed in your dashboard in real-time.</li>
+                </ul>
+            </div>
+
+            <!-- ===== 5. PLATFORM RULES ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">📋</span> 5. Platform Rules</h2>
+
+                <h4 style="color: #6b4f3c; margin: 0 0 6px 0;">For Everyone</h4>
+                <ul>
+                    <li><strong>Be Kind:</strong> Treat others with respect. Harassment, bullying, and hate speech are not tolerated.</li>
+                    <li><strong>No Spam:</strong> Do not spam comments, messages, or recommendations.</li>
+                    <li><strong>No Impersonation:</strong> Do not impersonate other users, authors, or platform staff.</li>
+                    <li><strong>No Exploits:</strong> Do not attempt to exploit bugs, vulnerabilities, or the reward system.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: #6b4f3c; margin: 0 0 6px 0;">For Authors</h4>
+                <ul>
+                    <li>You may not post content that violates intellectual property rights.</li>
+                    <li>You must tag mature content appropriately.</li>
+                    <li>You are encouraged to maintain a regular publishing schedule, but there is no minimum requirement.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: #6b4f3c; margin: 0 0 6px 0;">For Scouts</h4>
+                <ul>
+                    <li>Only recommend stories you genuinely love. <span class="highlight">Do not recommend for money or other incentives.</span></li>
+                    <li>Your Trust Value is based on sincerity, consistency, and reader engagement.</li>
+                    <li>Gaming the system will result in reduced Trust Value and potential account suspension.</li>
+                </ul>
+
+                <div class="warning">
+                    ⚠️ <strong>Trust Value Integrity:</strong> WordFlaneur rewards authenticity. Scouts who consistently recommend high-quality stories build trust. Those who recommend for personal gain will be penalized.
+                </div>
+            </div>
+
+            <!-- ===== 6. INTELLECTUAL PROPERTY ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">©️</span> 6. Intellectual Property</h2>
+                <p>
+                    <strong>Your Content:</strong> You retain all rights to your stories and content. You grant WordFlaneur a non-exclusive license to host and distribute your content on the Platform.
+                </p>
+                <p>
+                    <strong>Platform IP:</strong> The WordFlaneur brand, logo, design, and code are owned by WordFlaneur Inc. You may not reproduce or use them without permission.
+                </p>
+                <p>
+                    <strong>DMCA:</strong> We comply with the Digital Millennium Copyright Act. If you believe your copyrighted work has been infringed, please contact us at <span class="highlight">copyright@wordflaneur.com</span>.
+                </p>
+            </div>
+
+            <!-- ===== 7. MARKETPLACE ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">🛍️</span> 7. Marketplace</h2>
+                <p>
+                    The Marketplace connects authors with vetted service providers (editors, cover artists, translators, etc.).
+                </p>
+                <ul>
+                    <li><strong>Service Providers:</strong> You must meet quality standards to be listed in the Marketplace.</li>
+                    <li><strong>Transactions:</strong> All transactions are processed through the Platform. You agree to the Marketplace fee structure.</li>
+                    <li><strong>Disputes:</strong> WordFlaneur may mediate disputes but is not responsible for service quality or delivery.</li>
+                    <li><strong>Refunds:</strong> Refund policies are determined by service providers. WordFlaneur may facilitate refunds in case of fraud.</li>
+                </ul>
+            </div>
+
+            <!-- ===== 8. DISCLAIMERS ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">⚠️</span> 8. Disclaimers</h2>
+                <ul>
+                    <li><strong>As-Is:</strong> The Platform is provided "as-is" without warranties of any kind.</li>
+                    <li><strong>User Content:</strong> We do not endorse or verify user-generated content. You access content at your own risk.</li>
+                    <li><strong>Availability:</strong> We do not guarantee uninterrupted or error-free service.</li>
+                    <li><strong>Third-Party Links:</strong> We are not responsible for third-party websites or services linked from the Platform.</li>
+                </ul>
+            </div>
+
+            <!-- ===== 9. LIMITATION OF LIABILITY ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">⚖️</span> 9. Limitation of Liability</h2>
+                <p>
+                    To the fullest extent permitted by law, WordFlaneur and its affiliates are not liable for:
+                </p>
+                <ul>
+                    <li>Indirect, incidental, or consequential damages.</li>
+                    <li>Loss of profits, data, or business opportunities.</li>
+                    <li>Damages arising from user-generated content or interactions between users.</li>
+                </ul>
+                <p>
+                    Our total liability to you shall not exceed the amount you paid to us in the past 12 months.
+                </p>
+            </div>
+
+            <!-- ===== 10. INDEMNIFICATION ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">🛡️</span> 10. Indemnification</h2>
+                <p>
+                    You agree to indemnify and hold WordFlaneur harmless from any claims, damages, or expenses arising from:
+                </p>
+                <ul>
+                    <li>Your use of the Platform.</li>
+                    <li>Your content published on the Platform.</li>
+                    <li>Your violation of these Terms.</li>
+                    <li>Your violation of any third-party rights.</li>
+                </ul>
+            </div>
+
+            <!-- ===== 11. TERMINATION ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">🚫</span> 11. Termination</h2>
+                <p>
+                    <strong>By You:</strong> You may delete your account at any time through your settings. Your content will be removed from the Platform.
+                </p>
+                <p>
+                    <strong>By Us:</strong> We may suspend or terminate your account if you violate these Terms, engage in fraudulent activity, or harm the Platform or its users.
+                </p>
+                <p>
+                    <strong>Effect of Termination:</strong> Upon termination, your access to the Platform will be revoked. You will not be entitled to a refund of any fees paid.
+                </p>
+            </div>
+
+            <!-- ===== 12. GOVERNING LAW ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">⚖️</span> 12. Governing Law</h2>
+                <p>
+                    These Terms are governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of law principles.
+                    Any disputes arising under these Terms shall be resolved in the courts of Delaware.
+                </p>
+            </div>
+
+            <!-- ===== 13. CONTACT ===== -->
+            <div class="terms-section">
+                <h2><span class="section-icon">📧</span> 13. Contact Us</h2>
+                <p>
+                    If you have questions about these Terms, please contact us at:
+                </p>
+                <ul>
+                    <li><strong>Email:</strong> legal@wordflaneur.com</li>
+                    <li><strong>Support:</strong> <a href="support.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Visit our Support page</a></li>
+                </ul>
+            </div>
+
+            <!-- ===== FOOTER ===== -->
+            <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+                <p>WordFlaneur — where authors create at a reasonable pace.</p>
+                <p><a href="about.html" style="color:#b89a70;text-decoration:none;font-weight:600;">About</a> · <a href="privacy.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Privacy</a> · <a href="terms.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Terms</a> · <a href="support.html" style="color:#b89a70;text-decoration:none;font-weight:600;">Support</a></p>
+            </footer>
+
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogin() { window.location.href = 'login.html'; }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                alert('Logged out successfully!');
+            }
+        }
+
+        // ============================================================
+        // CHECK AUTH (demo)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const greeting = document.getElementById('user-greeting');
+            if (greeting) {
+                greeting.textContent = '👋 Elara Voss';
+            }
+
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

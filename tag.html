@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* TAG PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ============================================================ */
+        /* PAGE HEADER */
+        /* ============================================================ */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1614;
+        }
+
+        .page-header p {
+            color: #6f655c;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        /* ============================================================ */
+        /* TAG CLOUD */
+        /* ============================================================ */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .tag-cloud .tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: #f8f5f2;
+            border: 1px solid #e8e3dd;
+            color: #5a4f46;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tag-cloud .tag:hover {
+            background: #b8634b;
+            color: white;
+            border-color: #b8634b;
+            transform: translateY(-2px);
+        }
+
+        .tag-cloud .tag.size-lg {
+            font-size: 20px;
+            padding: 8px 22px;
+        }
+
+        .tag-cloud .tag.size-md {
+            font-size: 16px;
+            padding: 6px 18px;
+        }
+
+        .tag-cloud .tag.size-sm {
+            font-size: 12px;
+            padding: 4px 12px;
+        }
+
+        /* ============================================================ */
+        /* TAG CATEGORIES */
+        /* ============================================================ */
+        .tag-section {
+            margin-bottom: 24px;
+        }
+
+        .tag-section .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1614;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-section .section-title .count {
+            font-size: 12px;
+            color: #6f655c;
+            font-weight: 400;
+        }
+
+        .tag-section .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag-section .tag-list .tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #e8e3dd;
+            color: #5a4f46;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tag-section .tag-list .tag:hover {
+            background: #b8634b;
+            color: white;
+            border-color: #b8634b;
+            transform: translateY(-2px);
+        }
+
+        .tag-section .tag-list .tag .count {
+            font-size: 10px;
+            color: #9a9088;
+            margin-left: 4px;
+        }
+
+        .tag-section .tag-list .tag:hover .count {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; color: #1a1614; font-size: 20px; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f8f5f2;
+            border-radius: 12px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left { display: flex; align-items: center; gap: 12px; }
+        .support-option .left .icon { font-size: 24px; }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #1a1614;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub { font-size: 13px; color: #6f655c; }
+        .support-option .price { font-weight: 700; color: #b8634b; font-size: 16px; }
+        .support-modal-footer { margin-top: 16px; text-align: center; font-size: 13px; color: #6f655c; }
+        .support-modal-footer a { color: #b8634b; text-decoration: none; font-weight: 500; }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .page-header h1 { font-size: 22px; }
+
+            .tag-cloud {
+                padding: 14px;
+                gap: 8px;
+            }
+
+            .tag-cloud .tag.size-lg { font-size: 16px; padding: 6px 16px; }
+            .tag-cloud .tag.size-md { font-size: 14px; padding: 4px 14px; }
+            .tag-cloud .tag.size-sm { font-size: 11px; padding: 3px 10px; }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .tag-cloud .tag.size-lg { font-size: 14px; padding: 4px 12px; }
+            .tag-cloud .tag.size-md { font-size: 12px; padding: 3px 10px; }
+            .tag-cloud .tag.size-sm { font-size: 10px; padding: 2px 8px; }
+
+            .tag-section .tag-list .tag { font-size: 11px; padding: 3px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="genre.html">Genres</a>
+                <a href="#" class="active">Tags</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- PAGE CONTENT -->
+        <!-- ============================================================ -->
+        <div class="page-header">
+            <h1>🏷️ Tags</h1>
+            <p>Discover stories by tags. Find exactly what you're looking for.</p>
+        </div>
+
+        <!-- ===== TAG CLOUD ===== -->
+        <div class="tag-cloud">
+            <a href="tag.html?tag=slow-burn" class="tag size-lg">🔥 Slow Burn</a>
+            <a href="tag.html?tag=enemies-to-lovers" class="tag size-lg">💔 Enemies to Lovers</a>
+            <a href="tag.html?tag=found-family" class="tag size-md">👨‍👩‍👧‍👦 Found Family</a>
+            <a href="tag.html?tag=anti-hero" class="tag size-md">🦸 Anti-Hero</a>
+            <a href="tag.html?tag=coming-of-age" class="tag size-md">🌱 Coming of Age</a>
+            <a href="tag.html?tag=isekai" class="tag size-md">🌍 Isekai</a>
+            <a href="tag.html?tag=litrpg" class="tag size-sm">🎮 LitRPG</a>
+            <a href="tag.html?tag=system" class="tag size-sm">⚙️ System</a>
+            <a href="tag.html?tag=reincarnation" class="tag size-md">🔄 Reincarnation</a>
+            <a href="tag.html?tag=transmigration" class="tag size-sm">🌀 Transmigration</a>
+            <a href="tag.html?tag=magic-academy" class="tag size-md">🏰 Magic Academy</a>
+            <a href="tag.html?tag=grumpy-sunshine" class="tag size-sm">☀️ Grumpy/Sunshine</a>
+            <a href="tag.html?tag=friends-to-lovers" class="tag size-md">🤝 Friends to Lovers</a>
+            <a href="tag.html?tag=xianxia" class="tag size-sm">🧘 Xianxia</a>
+            <a href="tag.html?tag=wuxia" class="tag size-sm">⚔️ Wuxia</a>
+            <a href="tag.html?tag=cultivation" class="tag size-sm">🌿 Cultivation</a>
+            <a href="tag.html?tag=harem" class="tag size-sm">👥 Harem</a>
+            <a href="tag.html?tag=lgbtq" class="tag size-md">🏳️‍🌈 LGBTQ+</a>
+            <a href="tag.html?tag=bl" class="tag size-sm">💙 BL</a>
+            <a href="tag.html?tag=gl" class="tag size-sm">💗 GL</a>
+            <a href="tag.html?tag=slice-of-life" class="tag size-md">☕ Slice of Life</a>
+            <a href="tag.html?tag=dark" class="tag size-md">🌑 Dark</a>
+            <a href="tag.html?tag=action" class="tag size-md">⚡ Action</a>
+        </div>
+
+        <!-- ===== TAGS BY CATEGORY ===== -->
+        <div class="tag-section">
+            <div class="section-title">
+                📖 By Trope / Style
+                <span class="count">(24 tags)</span>
+            </div>
+            <div class="tag-list">
+                <a href="tag.html?tag=slow-burn" class="tag">Slow Burn <span class="count">847</span></a>
+                <a href="tag.html?tag=enemies-to-lovers" class="tag">Enemies to Lovers <span class="count">634</span></a>
+                <a href="tag.html?tag=found-family" class="tag">Found Family <span class="count">421</span></a>
+                <a href="tag.html?tag=coming-of-age" class="tag">Coming of Age <span class="count">378</span></a>
+                <a href="tag.html?tag=grumpy-sunshine" class="tag">Grumpy/Sunshine <span class="count">289</span></a>
+                <a href="tag.html?tag=friends-to-lovers" class="tag">Friends to Lovers <span class="count">245</span></a>
+                <a href="tag.html?tag=anti-hero" class="tag">Anti-Hero <span class="count">198</span></a>
+                <a href="tag.html?tag=slice-of-life" class="tag">Slice of Life <span class="count">167</span></a>
+            </div>
+        </div>
+
+        <div class="tag-section">
+            <div class="section-title">
+                🎮 Platform-Specific
+                <span class="count">(12 tags)</span>
+            </div>
+            <div class="tag-list">
+                <a href="tag.html?tag=isekai" class="tag">Isekai <span class="count">456</span></a>
+                <a href="tag.html?tag=litrpg" class="tag">LitRPG <span class="count">389</span></a>
+                <a href="tag.html?tag=system" class="tag">System <span class="count">312</span></a>
+                <a href="tag.html?tag=reincarnation" class="tag">Reincarnation <span class="count">278</span></a>
+                <a href="tag.html?tag=transmigration" class="tag">Transmigration <span class="count">234</span></a>
+                <a href="tag.html?tag=xianxia" class="tag">Xianxia <span class="count">189</span></a>
+                <a href="tag.html?tag=wuxia" class="tag">Wuxia <span class="count">156</span></a>
+                <a href="tag.html?tag=cultivation" class="tag">Cultivation <span class="count">134</span></a>
+            </div>
+        </div>
+
+        <div class="tag-section">
+            <div class="section-title">
+                🌈 Community Tags
+                <span class="count">(6 tags)</span>
+            </div>
+            <div class="tag-list">
+                <a href="tag.html?tag=lgbtq" class="tag">LGBTQ+ <span class="count">234</span></a>
+                <a href="tag.html?tag=bl" class="tag">BL <span class="count">189</span></a>
+                <a href="tag.html?tag=gl" class="tag">GL <span class="count">156</span></a>
+                <a href="tag.html?tag=harem" class="tag">Harem <span class="count">134</span></a>
+                <a href="tag.html?tag=original" class="tag">Original <span class="count">289</span></a>
+                <a href="tag.html?tag=fanfiction" class="tag">Fanfiction <span class="count">167</span></a>
+            </div>
+        </div>
+
+        <div class="tag-section">
+            <div class="section-title">
+                ⚠️ Content Tags
+                <span class="count">(4 tags)</span>
+            </div>
+            <div class="tag-list">
+                <a href="tag.html?tag=dark" class="tag">Dark <span class="count">345</span></a>
+                <a href="tag.html?tag=action" class="tag">Action <span class="count">289</span></a>
+                <a href="tag.html?tag=adventure" class="tag">Adventure <span class="count">267</span></a>
+                <a href="tag.html?tag=magic-academy" class="tag">Magic Academy <span class="count">198</span></a>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ]
+        ];
+
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[0];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
+        }
+
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-greeting').textContent = '👋 Elara Voss';
+            console.log('🏷️ Tag page loaded');
+        });
+    </script>
+</body>
+</html>

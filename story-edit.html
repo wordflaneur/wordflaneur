@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Edit Story — WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 2px solid #d4c5a0;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #3d2b1f;
+        }
+        .site-header .logo span {
+            color: #b89a70;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #6b4f3c;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            font-size: 15px;
+        }
+        .site-header .nav a:hover {
+            color: #3d2b1f;
+        }
+        .site-header .nav a.active {
+            color: #3d2b1f;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-right .auth-section #user-greeting {
+            color: #6b4f3c;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5a0;
+            color: #6b4f3c;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .btn-outline:hover {
+            background: #f8f2e8;
+            border-color: #b8a084;
+            color: #3d2b1f;
+        }
+
+        .btn {
+            background: #b89a70;
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .btn:hover {
+            background: #a88a62;
+            transform: translateY(-1px);
+        }
+
+        .support-btn {
+            background: #3d2b1f;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 8px 18px 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.15);
+            white-space: nowrap;
+        }
+        .support-btn:hover {
+            background: #2d1f15;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61, 43, 31, 0.2);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+            font-size: 16px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active {
+            display: flex;
+        }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0e8de;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: #3d2b1f;
+            font-size: 20px;
+        }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b8a084;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #fcfaf7;
+            border-radius: 12px;
+            border: 1px solid #f0e8de;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover {
+            border-color: #b89a70;
+            background: #f8f2e8;
+        }
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-option .price {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 16px;
+        }
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #7a6b5a;
+        }
+        .support-modal-footer a {
+            color: #b89a70;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* EDIT STORY PAGE */
+        /* ============================================================ */
+        .edit-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .edit-header h1 {
+            font-size: 28px;
+            color: #3d2b1f;
+            margin: 0;
+        }
+
+        .edit-header .story-id {
+            font-size: 14px;
+            color: #7a6b5a;
+            font-weight: 400;
+        }
+
+        .edit-actions-top {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .edit-actions-top button {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            border: none;
+        }
+
+        .btn-save {
+            background: #b89a70;
+            color: white;
+        }
+        .btn-save:hover {
+            background: #a88a62;
+        }
+
+        .btn-view-story {
+            background: #f5f0e9;
+            color: #6b4f3c;
+            border: 1px solid #e8ddd0 !important;
+        }
+        .btn-view-story:hover {
+            background: #ede6db;
+        }
+
+        .btn-add-chapter {
+            background: #3d2b1f;
+            color: white;
+        }
+        .btn-add-chapter:hover {
+            background: #2d1f15;
+        }
+
+        /* ===== EDITOR WRAPPER ===== */
+        .editor-wrapper {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #f0e8de;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .editor-section {
+            padding: 24px 28px;
+            border-bottom: 1px solid #f0e8de;
+        }
+
+        .editor-section:last-child {
+            border-bottom: none;
+        }
+
+        .editor-section .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #3d2b1f;
+            margin: 0 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .editor-section .section-title .badge {
+            font-size: 11px;
+            background: #f0e8de;
+            color: #6b4f3c;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 400;
+        }
+
+        .editor-section .section-title .badge.required {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .form-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #3d2b1f;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .form-group .help-text {
+            font-size: 12px;
+            color: #7a6b5a;
+            margin-top: 4px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e8ddd0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #fcfaf7;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #b8a084;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .required-star {
+            color: #c0392b;
+            font-weight: 700;
+            margin-left: 2px;
+        }
+
+        /* ===== COVER PREVIEW ===== */
+        .cover-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        #cover-preview-container {
+            width: 100%;
+            max-width: 180px;
+            height: 250px;
+            border: 2px dashed #e8ddd0;
+            border-radius: 12px;
+            background: #fcfaf7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        #cover-preview-container.has-image {
+            border-color: #b8a084;
+            border-style: solid;
+        }
+
+        #cover-placeholder {
+            color: #b8a084;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #cover-preview {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #cover-preview.loaded {
+            display: block;
+        }
+
+        /* ===== STATUS SELECTOR ===== */
+        .status-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-option {
+            padding: 8px 20px;
+            border: 2px solid #e8ddd0;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-size: 14px;
+            color: #6b4f3c;
+            background: #fcfaf7;
+            font-family: inherit;
+        }
+
+        .status-option:hover {
+            border-color: #b8a084;
+            background: #f8f2e8;
+        }
+
+        .status-option.selected {
+            border-color: #b89a70;
+            background: #b89a70;
+            color: white;
+        }
+
+        .status-option .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-option .dot.ongoing {
+            background: #4caf50;
+        }
+        .status-option .dot.completed {
+            background: #2196f3;
+        }
+        .status-option .dot.hiatus {
+            background: #ff9800;
+        }
+        .status-option .dot.draft {
+            background: #9e9e9e;
+        }
+
+        /* ===== TAGS ===== */
+        .tags-container-box {
+            background: #f9f6f0;
+            border-radius: 12px;
+            padding: 16px 20px 20px 20px;
+            margin-top: 8px;
+            border: 1px solid #e8ddd0;
+        }
+
+        .tag-category {
+            margin-bottom: 14px;
+        }
+
+        .tag-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .tag-category-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6b4f3c;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .tags-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag-check {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            background: #f8f4ef;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .tag-check:hover {
+            background: #f0e8de;
+        }
+
+        .tag-check input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+            cursor: pointer;
+            accent-color: #8b6f54;
+            margin: 0;
+        }
+
+        .tag-check label {
+            cursor: pointer;
+            font-weight: 400;
+            margin: 0;
+            font-size: 12px;
+            color: #3d2b1f;
+        }
+
+        .tag-check.selected {
+            background: #b89a70;
+        }
+
+        .tag-check.selected label {
+            color: white;
+        }
+
+        /* ===== CUSTOM TAGS ===== */
+        .custom-tag-input-container {
+            margin-top: 14px;
+        }
+
+        .custom-tag-input-container input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e8ddd0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #fcfaf7;
+        }
+
+        .custom-tag-input-container input:focus {
+            outline: none;
+            border-color: #b8a084;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .custom-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .custom-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0e8de;
+            color: #3d2b1f;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            animation: tagAppear 0.2s ease;
+        }
+
+        .custom-tag .remove-tag {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .custom-tag .remove-tag:hover {
+            opacity: 1;
+        }
+
+        .custom-tag .pending-badge {
+            font-size: 9px;
+            background: #b8a084;
+            color: white;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: 400;
+        }
+
+        /* ===== SUBGENRES ===== */
+        .subgenres-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            min-height: 44px;
+            border: 2px solid #e8ddd0;
+            border-radius: 10px;
+            background: #fcfaf7;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .subgenres-container:focus-within {
+            border-color: #b8a084;
+            box-shadow: 0 0 0 4px rgba(184, 160, 132, 0.1);
+        }
+
+        .subgenre-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ede6db;
+            color: #3d2b1f;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            animation: tagAppear 0.2s ease;
+        }
+
+        .subgenre-tag .remove-tag {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .subgenre-tag .remove-tag:hover {
+            opacity: 1;
+        }
+
+        /* ===== CONTENT WARNINGS ===== */
+        .warnings-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .warning-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: #f8f4ef;
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .warning-check:hover {
+            background: #f0e8de;
+        }
+
+        .warning-check input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+            accent-color: #8b6f54;
+            margin: 0;
+        }
+
+        .warning-check label {
+            cursor: pointer;
+            font-weight: 400;
+            margin: 0;
+            font-size: 13px;
+            color: #3d2b1f;
+        }
+
+        /* ===== PUBLICATION SCHEDULE ===== */
+        .schedule-row {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        #day-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 2px;
+        }
+
+        .day-slot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 14px;
+            background: #f5f0e9;
+            border: 2px solid #d4c5a0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #6b4f3c;
+            user-select: none;
+            min-width: 48px;
+            font-weight: 500;
+        }
+
+        .day-slot:hover {
+            background: #ede6db;
+            border-color: #b8a084;
+        }
+
+        .day-slot.selected {
+            background: #b89a70 !important;
+            border-color: #8b6f54 !important;
+            color: #ffffff !important;
+        }
+
+        .day-slot input[type="checkbox"] {
+            display: none;
+        }
+
+        /* ===== CHAPTER LIST ===== */
+        .chapter-list {
+            margin-top: 12px;
+        }
+
+        .chapter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fcfaf7;
+            border: 1px solid #f0e8de;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .chapter-item:hover {
+            border-color: #b8a084;
+            background: #f8f2e8;
+        }
+
+        .chapter-item .chapter-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chapter-item .chapter-number {
+            font-weight: 700;
+            color: #b89a70;
+            font-size: 14px;
+            min-width: 30px;
+        }
+
+        .chapter-item .chapter-title {
+            font-weight: 500;
+            color: #3d2b1f;
+            font-size: 15px;
+        }
+
+        .chapter-item .chapter-status {
+            font-size: 11px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .chapter-item .chapter-status.published {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .chapter-item .chapter-status.draft {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .chapter-item .chapter-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chapter-item .chapter-actions button {
+            background: none;
+            border: none;
+            color: #6b4f3c;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .chapter-item .chapter-actions button:hover {
+            background: #ede6db;
+        }
+
+        .chapter-item .chapter-actions .edit-btn {
+            color: #b89a70;
+        }
+
+        .chapter-item .chapter-actions .edit-btn:hover {
+            background: rgba(184, 154, 112, 0.1);
+        }
+
+        .chapter-item .chapter-actions .delete-btn {
+            color: #c0392b;
+        }
+
+        .chapter-item .chapter-actions .delete-btn:hover {
+            background: #fde8e8;
+        }
+
+        /* ===== BOTTOM ACTIONS ===== */
+        .bottom-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px solid #f0e8de;
+        }
+
+        .bottom-actions .left {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-actions .right {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-danger {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: #a93226;
+        }
+
+        .btn-secondary {
+            background: #f5f0e9;
+            color: #6b4f3c;
+            border: 1px solid #e8ddd0;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            background: #ede6db;
+        }
+
+        .btn-gold {
+            background: #b89a70;
+            color: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-gold:hover {
+            background: #a88a62;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(184, 154, 112, 0.2);
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+            }
+            .header-right {
+                justify-content: center;
+            }
+
+            .edit-container {
+                padding: 0 12px;
+            }
+
+            .edit-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .edit-actions-top {
+                width: 100%;
+            }
+
+            .edit-actions-top button {
+                flex: 1;
+                text-align: center;
+            }
+
+            .editor-section {
+                padding: 16px 18px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .cover-row {
+                grid-template-columns: 1fr;
+            }
+
+            #cover-preview-container {
+                max-width: 100%;
+                height: 200px;
+            }
+
+            .schedule-row {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .bottom-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .bottom-actions .left,
+            .bottom-actions .right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .bottom-actions button {
+                flex: 1;
+                text-align: center;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+
+            .day-slot {
+                font-size: 12px;
+                padding: 6px 10px;
+                min-width: 40px;
+            }
+
+            .chapter-item {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .chapter-item .chapter-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .site-header .nav a {
+                font-size: 13px;
+            }
+            .header-right {
+                flex-wrap: wrap;
+            }
+
+            .edit-header h1 {
+                font-size: 22px;
+            }
+
+            .status-selector {
+                flex-direction: column;
+            }
+
+            .status-option {
+                text-align: center;
+            }
+
+            .chapter-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .chapter-item .chapter-actions {
+                justify-content: flex-start;
+            }
+
+            .tags-grid {
+                gap: 4px;
+            }
+
+            .tag-check {
+                padding: 2px 6px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="library.html">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" class="active">Edit Story</a>
+            </nav>
+            <div class="header-right">
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
+                </div>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- EDIT STORY CONTENT -->
+        <!-- ============================================================ -->
+        <div class="edit-container">
+            <div class="edit-header">
+                <div>
+                    <h1>✎ Edit Story</h1>
+                    <span class="story-id">The Shadow's Heir · ID: ST-2024-001</span>
+                </div>
+                <div class="edit-actions-top">
+                    <button class="btn-view-story" onclick="window.location.href='story.html'">👁️ View Story</button>
+                    <button class="btn-add-chapter" onclick="window.location.href='chapter-new.html'">➕ Add Chapter</button>
+                    <button class="btn-save" onclick="saveStory()">💾 Save Changes</button>
+                </div>
+            </div>
+
+            <!-- ===== EDITOR WRAPPER ===== -->
+            <div class="editor-wrapper">
+
+                <!-- ===== BASIC INFO ===== -->
+                <div class="editor-section">
+                    <div class="section-title">
+                        📖 Basic Information
+                        <span class="badge required">Required *</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Story Title <span class="required-star">*</span></label>
+                        <input type="text" id="story-title" value="The Shadow's Heir" placeholder="Your story title">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Synopsis <span class="required-star">*</span></label>
+                        <textarea id="story-desc" rows="4">A young orphan discovers her destiny as the heir to a forgotten kingdom, but shadows lurk in every corner. The Council has set three trials to prove her worth. If she fails, the kingdom falls.</textarea>
+                        <div class="help-text">A compelling synopsis helps readers decide if your story is for them.</div>
+                    </div>
+                </div>
+
+                <!-- ===== COVER & STATUS ===== -->
+                <div class="editor-section">
+                    <div class="section-title">
+                        🎨 Cover &amp; Status
+                    </div>
+
+                    <div class="cover-row">
+                        <div class="form-group">
+                            <label>Cover Image URL</label>
+                            <input type="url" id="cover-url" value="https://picsum.photos/seed/darkfantasy/200/280" placeholder="https://example.com/cover.jpg" oninput="updateCoverPreview()">
+                            <div class="help-text">Upload to ImgBB for free and paste the direct link here.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cover Preview</label>
+                            <div id="cover-preview-container">
+                                <span id="cover-placeholder">No cover yet</span>
+                                <img id="cover-preview" src="https://picsum.photos/seed/darkfantasy/200/280" alt="Cover preview">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:16px;">
+                        <label>Story Status <span class="required-star">*</span></label>
+                        <div class="status-selector">
+                            <button class="status-option" data-status="draft" onclick="selectStatus(this)">
+                                <span class="dot draft"></span> Draft
+                            </button>
+                            <button class="status-option selected" data-status="ongoing" onclick="selectStatus(this)">
+                                <span class="dot ongoing"></span> Ongoing
+                            </button>
+                            <button class="status-option" data-status="completed" onclick="selectStatus(this)">
+                                <span class="dot completed"></span> Completed
+                            </button>
+                            <button class="status-option" data-status="hiatus" onclick="selectStatus(this)">
+                                <span class="dot hiatus"></span> Hiatus
+                            </button>
+                        </div>
+                        <div class="help-text">Set the current status of your story.</div>
+                    </div>
+                </div>
+
+                <!-- ===== GENRE & TAGS ===== -->
+                <div class="editor-section">
+                    <div class="section-title">
+                        🏷️ Genre &amp; Tags
+                        <span class="badge required">Required *</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Primary Genre <span class="required-star">*</span></label>
+                            <select id="primary-genre">
+                                <option value="">Select a genre...</option>
+                                <option value="fantasy" selected>Fantasy</option>
+                                <option value="romance">Romance</option>
+                                <option value="romantasy">Romantasy</option>
+                                <option value="sci-fi">Sci-Fi</option>
+                                <option value="mystery">Mystery</option>
+                                <option value="horror">Horror</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="drama">Drama</option>
+                                <option value="comedy">Comedy</option>
+                                <option value="thriller">Thriller</option>
+                                <option value="western">Western</option>
+                                <option value="historical">Historical Fiction</option>
+                                <option value="young-adult">Young Adult</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Secondary Genres</label>
+                            <select id="secondary-genre" onchange="addSubgenre(this)">
+                                <option value="">Add subgenre...</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="romance">Romance</option>
+                                <option value="romantasy">Romantasy</option>
+                                <option value="sci-fi">Sci-Fi</option>
+                                <option value="mystery">Mystery</option>
+                                <option value="horror">Horror</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="drama">Drama</option>
+                                <option value="comedy">Comedy</option>
+                                <option value="thriller">Thriller</option>
+                                <option value="western">Western</option>
+                                <option value="historical">Historical Fiction</option>
+                                <option value="young-adult">Young Adult</option>
+                                <option value="cyberpunk">Cyberpunk</option>
+                                <option value="steampunk">Steampunk</option>
+                                <option value="urban-fantasy">Urban Fantasy</option>
+                                <option value="dark-fantasy">Dark Fantasy</option>
+                            </select>
+                            <div class="subgenres-container" id="subgenres-container">
+                                <div id="subgenres-list" style="display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                                    <span class="subgenre-tag">Adventure <span class="remove-tag" onclick="removeSubgenre('Adventure')">×</span></span>
+                                    <span class="subgenre-tag">Dark Fantasy <span class="remove-tag" onclick="removeSubgenre('Dark Fantasy')">×</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags <span class="required-star">*</span></label>
+                        <div class="tags-container-box">
+                            <!-- By Genre -->
+                            <div class="tag-category">
+                                <span class="tag-category-title">By Genre</span>
+                                <div class="tags-grid">
+                                    <div class="tag-check selected"><input type="checkbox" value="action" id="tag-action" checked><label for="tag-action">Action</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="adventure" id="tag-adventure" checked><label for="tag-adventure">Adventure</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="comedy" id="tag-comedy"><label for="tag-comedy">Comedy</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="dark" id="tag-dark" checked><label for="tag-dark">Dark</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="drama" id="tag-drama"><label for="tag-drama">Drama</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="fantasy" id="tag-fantasy" checked><label for="tag-fantasy">Fantasy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="horror" id="tag-horror"><label for="tag-horror">Horror</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="mystery" id="tag-mystery"><label for="tag-mystery">Mystery</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="romance" id="tag-romance"><label for="tag-romance">Romance</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="romantasy" id="tag-romantasy"><label for="tag-romantasy">Romantasy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="sci-fi" id="tag-sci-fi"><label for="tag-sci-fi">Sci-Fi</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="thriller" id="tag-thriller"><label for="tag-thriller">Thriller</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="urban" id="tag-urban"><label for="tag-urban">Urban</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="western" id="tag-western"><label for="tag-western">Western</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="historical" id="tag-historical"><label for="tag-historical">Historical</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="young-adult" id="tag-young-adult"><label for="tag-young-adult">Young Adult</label></div>
+                                </div>
+                            </div>
+
+                            <!-- By Trope/Style -->
+                            <div class="tag-category">
+                                <span class="tag-category-title">By Trope / Style</span>
+                                <div class="tags-grid">
+                                    <div class="tag-check"><input type="checkbox" value="anti-hero" id="tag-anti-hero"><label for="tag-anti-hero">Anti-Hero</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="coming-of-age" id="tag-coming-of-age"><label for="tag-coming-of-age">Coming of Age</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="enemies-to-lovers" id="tag-enemies-to-lovers" checked><label for="tag-enemies-to-lovers">Enemies to Lovers</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="found-family" id="tag-found-family" checked><label for="tag-found-family">Found Family</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="friends-to-lovers" id="tag-friends-to-lovers"><label for="tag-friends-to-lovers">Friends to Lovers</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="grumpy-sunshine" id="tag-grumpy-sunshine"><label for="tag-grumpy-sunshine">Grumpy/Sunshine</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="isekai" id="tag-isekai"><label for="tag-isekai">Isekai</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="litrpg" id="tag-litrpg"><label for="tag-litrpg">LitRPG</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="magic-academy" id="tag-magic-academy"><label for="tag-magic-academy">Magic Academy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="reincarnation" id="tag-reincarnation"><label for="tag-reincarnation">Reincarnation</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="slice-of-life" id="tag-slice-of-life"><label for="tag-slice-of-life">Slice of Life</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="slow-burn" id="tag-slow-burn" checked><label for="tag-slow-burn">Slow Burn</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="system" id="tag-system"><label for="tag-system">System</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="transmigration" id="tag-transmigration"><label for="tag-transmigration">Transmigration</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="war" id="tag-war" checked><label for="tag-war">War</label></div>
+                                </div>
+                            </div>
+
+                            <!-- By Content/Maturity -->
+                            <div class="tag-category">
+                                <span class="tag-category-title">By Content / Maturity</span>
+                                <div class="tags-grid">
+                                    <div class="tag-check"><input type="checkbox" value="gore" id="tag-gore"><label for="tag-gore">Gore</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="mature" id="tag-mature"><label for="tag-mature">Mature</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="smut" id="tag-smut"><label for="tag-smut">Smut</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="tragedy" id="tag-tragedy"><label for="tag-tragedy">Tragedy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="violence" id="tag-violence"><label for="tag-violence">Violence</label></div>
+                                </div>
+                            </div>
+
+                            <!-- By Platform-Specific -->
+                            <div class="tag-category">
+                                <span class="tag-category-title">By Platform-Specific</span>
+                                <div class="tags-grid">
+                                    <div class="tag-check"><input type="checkbox" value="xianxia" id="tag-xianxia"><label for="tag-xianxia">Xianxia</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="xuanhuan" id="tag-xuanhuan"><label for="tag-xuanhuan">Xuanhuan</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="wuxia" id="tag-wuxia"><label for="tag-wuxia">Wuxia</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="cultivation" id="tag-cultivation"><label for="tag-cultivation">Cultivation</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="harem" id="tag-harem"><label for="tag-harem">Harem</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="lgbtq" id="tag-lgbtq"><label for="tag-lgbtq">LGBTQ+</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="fanfiction" id="tag-fanfiction"><label for="tag-fanfiction">Fanfiction</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="original" id="tag-original"><label for="tag-original">Original</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="bl" id="tag-bl"><label for="tag-bl">BL</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="gl" id="tag-gl"><label for="tag-gl">GL</label></div>
+                                </div>
+                            </div>
+
+                            <!-- By Popular Combinations -->
+                            <div class="tag-category">
+                                <span class="tag-category-title">Popular Combinations</span>
+                                <div class="tags-grid">
+                                    <div class="tag-check selected"><input type="checkbox" value="action-adventure" id="tag-action-adventure" checked><label for="tag-action-adventure">Action Adventure</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="comedy-romance" id="tag-comedy-romance"><label for="tag-comedy-romance">Comedy Romance</label></div>
+                                    <div class="tag-check selected"><input type="checkbox" value="dark-fantasy" id="tag-dark-fantasy" checked><label for="tag-dark-fantasy">Dark Fantasy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="sci-fi-adventure" id="tag-sci-fi-adventure"><label for="tag-sci-fi-adventure">Sci-Fi Adventure</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="urban-fantasy" id="tag-urban-fantasy"><label for="tag-urban-fantasy">Urban Fantasy</label></div>
+                                    <div class="tag-check"><input type="checkbox" value="young-adult-fantasy" id="tag-young-adult-fantasy"><label for="tag-young-adult-fantasy">Young Adult Fantasy</label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="help-text">Select all tags that apply to your story. The more accurate your tags, the easier it is for readers to find your work.</div>
+                    </div>
+
+                    <div class="custom-tag-input-container">
+                        <input type="text" id="custom-tag-input" placeholder="Type your own tag and press Enter... (pending approval)"
+                               onkeydown="handleCustomTagInput(event)">
+                        <div class="custom-tag-list" id="custom-tag-list">
+                            <span class="custom-tag">Political Intrigue <span class="pending-badge">pending</span> <span class="remove-tag" onclick="removeCustomTag('Political Intrigue')">×</span></span>
+                            <span class="custom-tag">Moral Ambiguity <span class="pending-badge">pending</span> <span class="remove-tag" onclick="removeCustomTag('Moral Ambiguity')">×</span></span>
+                        </div>
+                        <div class="help-text">Custom tags will be reviewed before going live.</div>
+                    </div>
+                </div>
+
+                <!-- ===== DISCLOSURES & WARNINGS ===== -->
+                <div class="editor-section">
+                    <div class="section-title">
+                        📋 Disclosures &amp; Warnings
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>AI Disclosure <span class="required-star">*</span></label>
+                            <select id="ai-disclosure">
+                                <option value="">Select an option...</option>
+                                <option value="human" selected>100% Human-Written</option>
+                                <option value="ai-assisted">AI-Assisted (Editing Only)</option>
+                                <option value="ai-generated-edited">AI-Generated (With Human Editing)</option>
+                                <option value="ai-generated-minimal">AI-Generated (Minimal Editing)</option>
+                            </select>
+                            <div class="help-text">Be transparent about your creative process.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Translation Disclosure</label>
+                            <select id="translation-disclosure">
+                                <option value="none" selected>Original English</option>
+                                <option value="human-ai">Human-Written, AI-Translated</option>
+                                <option value="human-human">Human-Written, Human-Translated</option>
+                                <option value="ai-ai">AI-Generated, AI-Translated</option>
+                                <option value="ai-human">AI-Generated, Human-Translated</option>
+                            </select>
+                            <div class="help-text">Let readers know if your work has been translated.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Content Warnings</label>
+                        <div class="warnings-grid">
+                            <div class="warning-check"><input type="checkbox" value="violence" id="warn-violence" checked><label for="warn-violence">Violence</label></div>
+                            <div class="warning-check"><input type="checkbox" value="gore" id="warn-gore"><label for="warn-gore">Gore</label></div>
+                            <div class="warning-check"><input type="checkbox" value="sexual" id="warn-sexual"><label for="warn-sexual">Sexual Content</label></div>
+                            <div class="warning-check"><input type="checkbox" value="language" id="warn-language" checked><label for="warn-language">Strong Language</label></div>
+                            <div class="warning-check"><input type="checkbox" value="trauma" id="warn-trauma"><label for="warn-trauma">Trauma</label></div>
+                            <div class="warning-check"><input type="checkbox" value="death" id="warn-death" checked><label for="warn-death">Death</label></div>
+                        </div>
+                        <div class="help-text">Help readers make informed choices about what they read.</div>
+                    </div>
+                </div>
+
+                <!-- ===== PUBLICATION SCHEDULE ===== -->
+                <div class="editor-section">
+                    <div class="section-title">
+                        📅 Publication Schedule
+                        <span class="badge required">Required *</span>
+                    </div>
+
+                    <div class="schedule-row">
+                        <div class="form-group">
+                            <label>Times per week <span class="required-star">*</span></label>
+                            <select id="pub-frequency">
+                                <option value="">Select...</option>
+                                <option value="1">1 time per week</option>
+                                <option value="2" selected>2 times per week</option>
+                                <option value="3">3 times per week</option>
+                                <option value="4">4 times per week</option>
+                                <option value="5">5 times per week</option>
+                                <option value="6">6 times per week</option>
+                                <option value="7">Daily</option>
+                            </select>
+                            <div class="help-text">How many chapters per week?</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Publishing days <span class="required-star">*</span></label>
+                            <div id="day-slots">
+                                <label class="day-slot selected" data-day="Monday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Monday" checked>
+                                    <span>Mon</span>
+                                </label>
+                                <label class="day-slot selected" data-day="Wednesday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Wednesday" checked>
+                                    <span>Wed</span>
+                                </label>
+                                <label class="day-slot selected" data-day="Friday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Friday" checked>
+                                    <span>Fri</span>
+                                </label>
+                                <label class="day-slot" data-day="Tuesday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Tuesday">
+                                    <span>Tue</span>
+                                </label>
+                                <label class="day-slot" data-day="Thursday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Thursday">
+                                    <span>Thu</span>
+                                </label>
+                                <label class="day-slot" data-day="Saturday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Saturday">
+                                    <span>Sat</span>
+                                </label>
+                                <label class="day-slot" data-day="Sunday" onclick="toggleDay(this)">
+                                    <input type="checkbox" value="Sunday">
+                                    <span>Sun</span>
+                                </label>
+                            </div>
+                            <div class="help-text">Select which days you publish.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Time of day <span class="required-star">*</span></label>
+                            <select id="pub-time">
+                                <option value="">Select time...</option>
+                                <option value="00:00">12:00 AM</option>
+                                <option value="01:00">1:00 AM</option>
+                                <option value="02:00">2:00 AM</option>
+                                <option value="03:00">3:00 AM</option>
+                                <option value="04:00">4:00 AM</option>
+                                <option value="05:00">5:00 AM</option>
+                                <option value="06:00">6:00 AM</option>
+                                <option value="07:00">7:00 AM</option>
+                                <option value="08:00">8:00 AM</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                                <option value="18:00" selected>6:00 PM</option>
+                                <option value="19:00">7:00 PM</option>
+                                <option value="20:00">8:00 PM</option>
+                                <option value="21:00">9:00 PM</option>
+                                <option value="22:00">10:00 PM</option>
+                                <option value="23:00">11:00 PM</option>
+                            </select>
+                            <div class="help-text">What time do you usually publish?</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== CHAPTERS ===== -->
+                <div class="editor-section" style="border-bottom: none;">
+                    <div class="section-title">
+                        📑 Chapters
+                        <span class="badge">8 total</span>
+                        <button class="btn-add-chapter" style="padding:4px 16px;font-size:12px;margin-left:auto;" onclick="window.location.href='chapter-new.html'">➕ Add Chapter</button>
+                    </div>
+
+                    <div class="chapter-list">
+                        <div class="chapter-item">
+                            <div class="chapter-info">
+                                <span class="chapter-number">#1</span>
+                                <span class="chapter-title">The Awakening</span>
+                                <span class="chapter-status published">Published</span>
+                            </div>
+                            <div class="chapter-actions">
+                                <button class="edit-btn" onclick="window.location.href='chapter-edit.html'">✎ Edit</button>
+                                <button onclick="alert('Chapter preview')">👁️</button>
+                                <button class="delete-btn" onclick="if(confirm('Delete this chapter?')) alert('Chapter deleted')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="chapter-item">
+                            <div class="chapter-info">
+                                <span class="chapter-number">#2</span>
+                                <span class="chapter-title">The Shadow's Call</span>
+                                <span class="chapter-status published">Published</span>
+                            </div>
+                            <div class="chapter-actions">
+                                <button class="edit-btn" onclick="window.location.href='chapter-edit.html'">✎ Edit</button>
+                                <button onclick="alert('Chapter preview')">👁️</button>
+                                <button class="delete-btn" onclick="if(confirm('Delete this chapter?')) alert('Chapter deleted')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="chapter-item">
+                            <div class="chapter-info">
+                                <span class="chapter-number">#3</span>
+                                <span class="chapter-title">The Council</span>
+                                <span class="chapter-status published">Published</span>
+                            </div>
+                            <div class="chapter-actions">
+                                <button class="edit-btn" onclick="window.location.href='chapter-edit.html'">✎ Edit</button>
+                                <button onclick="alert('Chapter preview')">👁️</button>
+                                <button class="delete-btn" onclick="if(confirm('Delete this chapter?')) alert('Chapter deleted')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="chapter-item" style="background:#fff8e1;border-color:#ffcc80;">
+                            <div class="chapter-info">
+                                <span class="chapter-number">#4</span>
+                                <span class="chapter-title">The First Trial</span>
+                                <span class="chapter-status draft">Draft</span>
+                            </div>
+                            <div class="chapter-actions">
+                                <button class="edit-btn" onclick="window.location.href='chapter-edit.html'">✎ Edit</button>
+                                <button onclick="alert('Chapter preview')">👁️</button>
+                                <button class="delete-btn" onclick="if(confirm('Delete this chapter?')) alert('Chapter deleted')">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="help-text" style="margin-top:8px;">Chapters appear in the order they are listed. Drag to reorder (coming soon).</div>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- BOTTOM ACTIONS -->
+            <!-- ============================================================ -->
+            <div class="bottom-actions">
+                <div class="left">
+                    <button class="btn-secondary" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+                    <button class="btn-danger" onclick="if(confirm('Are you sure you want to delete this story? This action cannot be undone!')) alert('Story deleted')">🗑️ Delete Story</button>
+                </div>
+                <div class="right">
+                    <button class="btn-secondary" onclick="handlePreview()">👁️ Preview</button>
+                    <button class="btn-gold" onclick="saveStory()">💾 Save Changes</button>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- FOOTER -->
+            <!-- ============================================================ -->
+            <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
+                <p>WordFlaneur — where authors create at a reasonable pace.</p>
+                <p><a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // COVER PREVIEW
+        // ============================================================
+        function updateCoverPreview() {
+            const url = document.getElementById('cover-url').value.trim();
+            const preview = document.getElementById('cover-preview');
+            const placeholder = document.getElementById('cover-placeholder');
+            const container = document.getElementById('cover-preview-container');
+
+            if (url) {
+                preview.src = url;
+                preview.className = 'loaded';
+                placeholder.style.display = 'none';
+                container.classList.add('has-image');
+
+                preview.onerror = function() {
+                    preview.className = '';
+                    preview.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                    placeholder.innerHTML = 'Invalid image URL';
+                    container.classList.remove('has-image');
+                };
+
+                preview.onload = function() {
+                    preview.style.display = 'block';
+                };
+            } else {
+                preview.className = '';
+                preview.style.display = 'none';
+                placeholder.style.display = 'flex';
+                placeholder.innerHTML = 'No cover yet';
+                container.classList.remove('has-image');
+            }
+        }
+
+        // ============================================================
+        // STATUS SELECTOR
+        // ============================================================
+        function selectStatus(button) {
+            document.querySelectorAll('.status-option').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        }
+
+        // ============================================================
+        // DAY SLOTS
+        // ============================================================
+        function toggleDay(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected');
+        }
+
+        // ============================================================
+        // SUBGENRES
+        // ============================================================
+        let subgenres = ['Adventure', 'Dark Fantasy'];
+
+        function addSubgenre(select) {
+            const value = select.value;
+            if (value && !subgenres.includes(value)) {
+                subgenres.push(value);
+                renderSubgenres();
+                select.value = '';
+            }
+        }
+
+        function removeSubgenre(subgenre) {
+            subgenres = subgenres.filter(s => s !== subgenre);
+            renderSubgenres();
+        }
+
+        function renderSubgenres() {
+            const container = document.getElementById('subgenres-list');
+            container.innerHTML = subgenres.map(s => `
+                        <span class="subgenre-tag">
+                            ${s}
+                            <span class="remove-tag" onclick="removeSubgenre('${s}')">×</span>
+                        </span>
+                    `).join('');
+        }
+
+        // ============================================================
+        // CUSTOM TAGS
+        // ============================================================
+        let customTags = ['Political Intrigue', 'Moral Ambiguity'];
+
+        function handleCustomTagInput(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = document.getElementById('custom-tag-input');
+                const tag = input.value.trim();
+
+                if (tag && !customTags.includes(tag)) {
+                    customTags.push(tag);
+                    renderCustomTags();
+                    input.value = '';
+                }
+            }
+        }
+
+        function removeCustomTag(tag) {
+            customTags = customTags.filter(t => t !== tag);
+            renderCustomTags();
+        }
+
+        function renderCustomTags() {
+            const container = document.getElementById('custom-tag-list');
+            container.innerHTML = customTags.map(tag => `
+                        <span class="custom-tag">
+                            ${tag}
+                            <span class="pending-badge">pending</span>
+                            <span class="remove-tag" onclick="removeCustomTag('${tag}')">×</span>
+                        </span>
+                    `).join('');
+        }
+
+        // ============================================================
+        // GET SELECTED TAGS
+        // ============================================================
+        function getSelectedTags() {
+            return Array.from(document.querySelectorAll('.tags-grid input[type="checkbox"]:checked')).map(cb => cb.value);
+        }
+
+        function getSelectedWarnings() {
+            return Array.from(document.querySelectorAll('.warning-check input[type="checkbox"]:checked')).map(cb => cb.value);
+        }
+
+        function getSelectedDays() {
+            return Array.from(document.querySelectorAll('#day-slots input[type="checkbox"]:checked')).map(cb => cb.value);
+        }
+
+        // ============================================================
+        // SAVE STORY
+        // ============================================================
+        function saveStory() {
+            const data = {
+                title: document.getElementById('story-title').value.trim(),
+                description: document.getElementById('story-desc').value.trim(),
+                coverUrl: document.getElementById('cover-url').value.trim(),
+                status: document.querySelector('.status-option.selected')?.dataset.status || 'draft',
+                primaryGenre: document.getElementById('primary-genre').value,
+                subgenres: subgenres,
+                tags: getSelectedTags(),
+                customTags: customTags,
+                aiDisclosure: document.getElementById('ai-disclosure').value,
+                translationDisclosure: document.getElementById('translation-disclosure').value,
+                contentWarnings: getSelectedWarnings(),
+                pubFrequency: document.getElementById('pub-frequency').value,
+                pubTime: document.getElementById('pub-time').value,
+                pubDays: getSelectedDays()
+            };
+
+            // Validate
+            if (!data.title) {
+                alert('Story title is required.');
+                document.getElementById('story-title').focus();
+                return;
+            }
+
+            if (!data.description) {
+                alert('Synopsis is required.');
+                document.getElementById('story-desc').focus();
+                return;
+            }
+
+            if (!data.primaryGenre) {
+                alert('Primary genre is required.');
+                document.getElementById('primary-genre').focus();
+                return;
+            }
+
+            if (data.tags.length === 0 && data.customTags.length === 0) {
+                alert('At least one tag is required.');
+                return;
+            }
+
+            if (!data.pubFrequency || !data.pubTime || data.pubDays.length === 0) {
+                alert('Publication schedule is required (frequency, days, and time).');
+                return;
+            }
+
+            // Save to localStorage (demo)
+            const storyId = 'ST-2024-001';
+            localStorage.setItem('story_' + storyId, JSON.stringify(data));
+
+            // Show success
+            const btn = document.querySelector('.btn-gold');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Saved!';
+            btn.style.background = '#2e7d32';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+            }, 3000);
+
+            console.log('📝 Story saved:', data);
+            alert('✅ Story saved successfully! (Demo)');
+        }
+
+        // ============================================================
+        // PREVIEW
+        // ============================================================
+        function handlePreview() {
+            const title = document.getElementById('story-title').value.trim() || 'Untitled Story';
+            const desc = document.getElementById('story-desc').value.trim() || 'No description yet.';
+            const cover = document.getElementById('cover-url').value.trim();
+
+            const previewWindow = window.open('', '_blank', 'width=800,height=600');
+            if (previewWindow) {
+                previewWindow.document.write(`
+                            <html>
+                                <head><title>Preview: ${title}</title>
+                                <style>
+                                    body { font-family: Georgia, serif; max-width: 700px; margin: 40px auto; padding: 20px; line-height: 1.8; color: #3d2b1f; }
+                                    h1 { color: #3d2b1f; border-bottom: 2px solid #ede6db; padding-bottom: 10px; }
+                                    .meta { color: #7a6b5a; font-size: 14px; }
+                                    .cover { max-width: 200px; margin: 20px 0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+                                    .tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+                                    .tag { background: #ede6db; padding: 2px 10px; border-radius: 12px; font-size: 12px; }
+                                    .status { display: inline-block; padding: 4px 16px; border-radius: 20px; font-weight: 600; font-size: 14px; }
+                                    .status.ongoing { background: #e8f5e9; color: #2e7d32; }
+                                    .status.draft { background: #fff8e1; color: #f57f17; }
+                                    .status.completed { background: #e3f2fd; color: #0d47a1; }
+                                    .status.hiatus { background: #ffebee; color: #c62828; }
+                                </style>
+                                </head>
+                                <body>
+                                    ${cover ? `<img src="${cover}" class="cover" alt="Cover">` : ''}
+                                    <h1>${title}</h1>
+                                    <div class="meta">${desc}</div>
+                                    <div class="meta" style="margin-top: 8px;">
+                                        Status: <span class="status ${document.querySelector('.status-option.selected')?.dataset.status || 'draft'}">${document.querySelector('.status-option.selected')?.textContent.trim() || 'Draft'}</span>
+                                    </div>
+                                    <div style="margin-top: 40px; color: #7a6b5a; font-size: 12px; border-top: 1px solid #ede6db; padding-top: 20px;">
+                                        Preview from WordFlaneur
+                                    </div>
+                                </body>
+                            </html>
+                        `);
+                previewWindow.document.close();
+            } else {
+                alert('Please allow popups to preview.');
+            }
+        }
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        async function handleLogin() {
+            window.location.href = 'login.html';
+        }
+
+        async function handleLogout() {
+            const r = await signOut();
+            if (r.success) window.location.reload();
+            else alert('Error signing out');
+        }
+
+        // ============================================================
+        // CHECK AUTH
+        // ============================================================
+        async function checkAuth() {
+            const client = window.supabaseClient || window.supabase;
+            if (!client?.auth) {
+                renderGuestState();
+                return;
+            }
+            const { data: { session }, error } = await client.auth.getSession();
+            if (error || !session?.user) {
+                renderGuestState();
+                return;
+            }
+            const user = session.user;
+            const profileResult = await getUserProfile(user.id);
+            const profile = profileResult.success && profileResult.profile ? profileResult.profile : null;
+            document.getElementById('user-greeting').textContent = `👋 ${profile?.display_name || profile?.username || user.user_metadata?.display_name || user.user_metadata?.name || user.email || 'User'}`;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('logout-btn').classList.remove('hidden');
+            document.getElementById('publish-btn').style.display = 'inline-block';
+        }
+
+        function renderGuestState() {
+            document.getElementById('user-greeting').textContent = 'Guest';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('logout-btn').classList.add('hidden');
+            document.getElementById('publish-btn').style.display = 'none';
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateCoverPreview();
+
+            // Add click handlers for status buttons
+            document.querySelectorAll('.status-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectStatus(this);
+                });
+            });
+
+            // Add click handlers for tag selections
+            document.querySelectorAll('.tag-check input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    const parent = this.closest('.tag-check');
+                    if (this.checked) {
+                        parent.classList.add('selected');
+                    } else {
+                        parent.classList.remove('selected');
+                    }
+                });
+            });
+
+            // Init tag states
+            document.querySelectorAll('.tag-check input[type="checkbox"]:checked').forEach(cb => {
+                cb.closest('.tag-check').classList.add('selected');
+            });
+
+            console.log('✎ Story Edit page loaded');
+        });
+    </script>
+</body>
+</html>
