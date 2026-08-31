@@ -1,283 +1,1148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Library — WordFlaneur</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>My Library · WordFlaneur</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* LIBRARY PAGE */
+        /* ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f1ed;
+            padding: 20px;
+            color: #1a1614;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e8e3dd;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .site-header .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .site-header .logo a {
+            text-decoration: none;
+            color: #1a1614;
+        }
+        .site-header .logo span {
+            color: #b8634b;
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .site-header .nav a {
+            color: #5a4f46;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .site-header .nav a:hover {
+            color: #b8634b;
+        }
+        .site-header .nav a.active {
+            color: #b8634b;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #d4c5b8;
+            color: #5a4f46;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .btn-outline:hover {
+            background: #f5ede8;
+            border-color: #b8634b;
+            color: #b8634b;
+        }
+
+        .btn {
+            background: #b8634b;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 6px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(184, 99, 75, 0.2);
+        }
+        .btn:hover {
+            background: #a04a35;
+            transform: translateY(-2px);
+        }
+
+        .support-btn {
+            background: #f57f17;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(245, 127, 23, 0.2);
+        }
+        .support-btn:hover {
+            background: #d96c10;
+            transform: translateY(-2px);
+        }
+        .support-btn .heart {
+            color: #ff6b6b;
+        }
+
+        /* ============================================================ */
+        /* LIBRARY CONTENT */
+        /* ============================================================ */
+        .library-container {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e8e3dd;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        /* ===== HEADER ===== */
+        .library-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .library-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1614;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .library-header h1 .badge {
+            background: #b8634b;
+            color: white;
+            font-size: 12px;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .library-header .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .library-header .actions .search-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8f5f2;
+            border: 2px solid #e8e3dd;
+            border-radius: 8px;
+            padding: 4px 12px;
+            transition: all 0.2s;
+        }
+
+        .library-header .actions .search-box:focus-within {
+            border-color: #b8634b;
+            box-shadow: 0 0 0 3px rgba(184, 99, 75, 0.1);
+        }
+
+        .library-header .actions .search-box input {
+            border: none;
+            padding: 6px 0;
+            font-size: 13px;
+            font-family: inherit;
+            background: transparent;
+            width: 160px;
+            outline: none;
+            color: #1a1614;
+        }
+
+        .library-header .actions .search-box input::placeholder {
+            color: #b8a084;
+        }
+
+        .library-header .actions .search-box .icon {
+            color: #b8a084;
+            font-size: 14px;
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            padding: 12px 24px;
+            border-bottom: 1px solid #f0ebe6;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            background: #fcfaf7;
+        }
+
+        .filter-bar .filter-btn {
+            padding: 4px 16px;
+            border: 1px solid #e8e3dd;
+            border-radius: 20px;
+            background: transparent;
+            font-size: 13px;
+            color: #6f655c;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-bar .filter-btn:hover {
+            background: #f5f3f0;
+            border-color: #d4c5b8;
+        }
+
+        .filter-bar .filter-btn.active {
+            background: #b8634b;
+            color: white;
+            border-color: #b8634b;
+        }
+
+        .filter-bar .filter-btn .count {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-left: 2px;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0ebe6;
+            background: #fcfaf7;
+        }
+
+        .stats-bar .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #f0ebe6;
+        }
+
+        .stats-bar .stat-item .number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #b8634b;
+        }
+
+        .stats-bar .stat-item .label {
+            font-size: 11px;
+            color: #6f655c;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* ===== BOOK GRID ===== */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            padding: 20px 24px;
+        }
+
+        .book-card {
+            background: #ffffff;
+            border: 1px solid #f0ebe6;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            border-color: #b8634b;
+        }
+
+        .book-card .cover {
+            height: 140px;
+            background: linear-gradient(145deg, #f0ebe6, #e8e3dd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #b8a084;
+            position: relative;
+        }
+
+        .book-card .cover .status-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 9px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .book-card .cover .status-badge.reading {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .book-card .cover .status-badge.completed {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .book-card .cover .status-badge.planning {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .book-card .cover .status-badge.dropped {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .book-card .body {
+            padding: 12px 14px 14px;
+        }
+
+        .book-card .body .title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1614;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-card .body .author {
+            font-size: 12px;
+            color: #6f655c;
+            margin-top: 2px;
+        }
+
+        .book-card .body .meta {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            color: #9a9088;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .book-card .body .meta span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .book-card .body .progress-container {
+            margin-top: 8px;
+        }
+
+        .book-card .body .progress-container .progress-bar {
+            height: 4px;
+            background: #ede8e2;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .book-card .body .progress-container .progress-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            background: #b8634b;
+        }
+
+        .book-card .body .progress-container .progress-text {
+            font-size: 10px;
+            color: #9a9088;
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .book-card .body .actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .book-card .body .actions button {
+            background: none;
+            border: 1px solid #e8e3dd;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #5a4f46;
+        }
+
+        .book-card .body .actions button:hover {
+            background: #b8634b;
+            border-color: #b8634b;
+            color: white;
+        }
+
+        .book-card .body .actions .remove-btn:hover {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            padding: 60px 24px;
+            text-align: center;
+            color: #9a9088;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+
+        .empty-state h3 {
+            color: #5a4f46;
+            margin-bottom: 4px;
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            max-width: 400px;
+            margin: 0 auto 16px;
+        }
+
+        .empty-state .btn {
+            display: inline-block;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .support-modal.active { display: flex; }
+        .support-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0ebe6;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .support-modal-content .modal-header h3 { margin: 0; font-size: 18px; color: #1a1614; }
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: #9a9088;
+        }
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: #f8f5f2;
+            border-radius: 10px;
+            border: 1px solid #f0ebe6;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .support-option:hover { border-color: #b8634b; background: #f5ede8; }
+        .support-option .left { display: flex; align-items: center; gap: 10px; }
+        .support-option .left .icon { font-size: 20px; }
+        .support-option .left .info .title { font-weight: 600; color: #1a1614; font-size: 14px; }
+        .support-option .left .info .sub { font-size: 12px; color: #6f655c; }
+        .support-option .price { font-weight: 700; color: #b8634b; font-size: 15px; }
+        .support-modal-footer { margin-top: 14px; text-align: center; font-size: 12px; color: #6f655c; }
+        .support-modal-footer a { color: #b8634b; text-decoration: none; font-weight: 500; }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            .site-header { flex-direction: column; align-items: stretch; }
+            .site-header .nav { justify-content: center; }
+            .header-right { justify-content: center; }
+
+            .library-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .library-header .actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .library-header .actions .search-box {
+                width: 100%;
+            }
+
+            .library-header .actions .search-box input {
+                width: 100%;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 12px 16px;
+            }
+
+            .book-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                padding: 12px 16px;
+                gap: 12px;
+            }
+
+            .filter-bar {
+                padding: 10px 16px;
+                gap: 4px;
+            }
+
+            .filter-bar .filter-btn {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header .nav { gap: 10px; flex-wrap: wrap; }
+            .site-header .nav a { font-size: 12px; }
+            .header-right { flex-wrap: wrap; }
+
+            .book-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                padding: 8px 12px;
+            }
+
+            .book-card .cover { height: 100px; font-size: 24px; }
+            .book-card .body { padding: 8px 10px 10px; }
+            .book-card .body .title { font-size: 12px; }
+            .book-card .body .author { font-size: 10px; }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                padding: 8px 12px;
+            }
+
+            .stats-bar .stat-item .number { font-size: 16px; }
+            .stats-bar .stat-item .label { font-size: 9px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- ============================================
-    HEADER
-    ============================================ -->
-    <header>
-      <div class="logo">
-        <a href="index.html">📜 Word<span>Flaneur</span></a>
-      </div>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="library.html" class="active">Library</a>
-        <a href="publish.html">Write</a>
-        <a href="about.html">About</a>
-        <a href="dashboard.html">Dashboard</a>
-      </nav>
-      <div id="auth-section">
-        <span id="user-greeting">Guest</span>
-        <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
-        <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
-        <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
-      </div>
-    </header>
+    <div class="container">
 
-    <!-- ============================================
-    PAGE TITLE
-    ============================================ -->
-    <h1 style="margin: 30px 0 10px 0; color: #3d2b1f;">📚 Library</h1>
+        <!-- ============================================================ -->
+        <!-- HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
+            <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="#" class="active">Library</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="about.html">About</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+            <div class="header-right">
+                <span id="user-greeting">👋 Elara Voss</span>
+                <button class="btn-outline" onclick="handleLogout()">Logout</button>
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
+            </div>
+        </header>
 
-    <!-- ============================================
-    FILTERS
-    ============================================ -->
-    <div style="background: #ffffff; padding: 20px; border-radius: 16px; border: 1px solid #e8ddd0; margin-bottom: 25px;">
-      <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
-        <div style="flex: 1; min-width: 200px;">
-          <label>Search</label>
-          <input type="text" id="search-input" placeholder="Search stories..." style="margin: 0;">
+        <!-- ============================================================ -->
+        <!-- LIBRARY -->
+        <!-- ============================================================ -->
+        <div class="library-container">
+
+            <!-- Header -->
+            <div class="library-header">
+                <h1>
+                    📚 My Library
+                    <span class="badge" id="total-count">47</span>
+                </h1>
+                <div class="actions">
+                    <div class="search-box">
+                        <span class="icon">🔍</span>
+                        <input type="text" id="search-input" placeholder="Search your library..." oninput="filterLibrary()">
+                    </div>
+                    <button class="btn-outline" onclick="alert('Export library')">📤 Export</button>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="number" id="reading-count">12</div>
+                    <div class="label">Currently Reading</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="completed-count">24</div>
+                    <div class="label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="planning-count">8</div>
+                    <div class="label">Plan to Read</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="dropped-count">3</div>
+                    <div class="label">Dropped</div>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all" onclick="filterLibrary('all')">All <span class="count">(47)</span></button>
+                <button class="filter-btn" data-filter="reading" onclick="filterLibrary('reading')">📖 Reading <span class="count">(12)</span></button>
+                <button class="filter-btn" data-filter="completed" onclick="filterLibrary('completed')">✅ Completed <span class="count">(24)</span></button>
+                <button class="filter-btn" data-filter="planning" onclick="filterLibrary('planning')">📋 Plan to Read <span class="count">(8)</span></button>
+                <button class="filter-btn" data-filter="dropped" onclick="filterLibrary('dropped')">⏹️ Dropped <span class="count">(3)</span></button>
+                <button class="filter-btn" data-filter="favorites" onclick="filterLibrary('favorites')">⭐ Favorites <span class="count">(9)</span></button>
+            </div>
+
+            <!-- Book Grid -->
+            <div class="book-grid" id="book-grid">
+                <!-- Rendered by JavaScript -->
+            </div>
+
         </div>
-        <div style="flex: 1; min-width: 150px;">
-          <label>Genre</label>
-          <select id="genre-filter" style="margin: 0;">
-            <option value="">All Genres</option>
-          </select>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER -->
+        <!-- ============================================================ -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e8e3dd; text-align: center; color: #6f655c; font-size: 14px;">
+            <p>📜 WordFlaneur — Where Stories Come Alive</p>
+            <p>
+                <a href="about.html" style="color:#b8634b;text-decoration:none;font-weight:600;">About</a> ·
+                <a href="privacy.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Privacy</a> ·
+                <a href="terms.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Terms</a> ·
+                <a href="help.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Help</a> ·
+                <a href="support.html" style="color:#b8634b;text-decoration:none;font-weight:600;">Support</a>
+            </p>
+        </footer>
+
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
+                </div>
+                <div id="support-options"></div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="support.html">Learn more →</a></p>
+                </div>
+            </div>
         </div>
-        <div style="flex: 1; min-width: 150px;">
-          <label>Sort By</label>
-          <select id="sort-filter" style="margin: 0;">
-            <option value="ris">RIS (Highest)</option>
-            <option value="spotlights">Most Spotlights</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-          </select>
-        </div>
-        <div style="flex: 0 0 auto;">
-          <button class="btn" onclick="applyFilters()">Apply</button>
-          <button class="btn-outline" onclick="resetFilters()">Reset</button>
-        </div>
-      </div>
+
     </div>
 
-    <!-- ============================================
-    RANKING TABS
-    ============================================ -->
-    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
-      <button class="btn-outline" data-view="all" onclick="setView('all')" style="background: #6b4f3c; color: #f4efe6;">All Stories</button>
-      <button class="btn-outline" data-view="most-scouted" onclick="setView('most-scouted')">Most Scouted</button>
-      <button class="btn-outline" data-view="rising" onclick="setView('rising')">Rising</button>
-      <button class="btn-outline" data-view="hidden-gems" onclick="setView('hidden-gems')">Hidden Gems</button>
-      <button class="btn-outline" data-view="curator-picks" onclick="setView('curator-picks')">Curator Picks</button>
-      <button class="btn-outline" data-view="lost-found" onclick="setView('lost-found')">Lost & Found</button>
-      <button class="btn-outline" data-view="promoted" onclick="setView('promoted')">Promoted</button>
-    </div>
+    <script>
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        const supportOptions = [
+            [
+                { icon: '☕', title: 'Buy us a coffee', sub: 'One-time donation', price: '$5' },
+                { icon: '🌟', title: 'Supporter\'s Circle', sub: 'Monthly · ad-free', price: '$7.99/mo' },
+                { icon: '💪', title: 'Patron', sub: 'Exclusive perks', price: '$14.99/mo' },
+                { icon: '💎', title: 'Founding Supporter', sub: 'Lifetime recognition', price: '$49' }
+            ],
+            [
+                { icon: '📚', title: 'Book Bundle', sub: 'Support library fund', price: '$15' },
+                { icon: '🎨', title: 'Art Fund', sub: 'Support cover artists', price: '$25' }
+            ]
+        ];
 
-    <!-- ============================================
-    STORY GRID
-    ============================================ -->
-    <div id="library-grid" class="grid">
-      <p style="color: #7a6b5a; grid-column: 1 / -1;">Loading stories...</p>
-    </div>
-
-    <!-- ============================================
-    FOOTER
-    ============================================ -->
-    <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
-      <p>📜 WordFlaneur — It's OK to Be Slower.</p>
-      <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
-    </footer>
-  </div>
-
-  <!-- ============================================
-  SCRIPTS
-  ============================================ -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
-  <script src="js/supabase.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/database.js"></script>
-  <script src="js/algorithm.js"></script>
-
-  <script>
-    // ============================================
-    // LIBRARY LOGIC
-    // ============================================
-
-    let currentView = 'all';
-    let currentStories = [];
-
-    // Load stories
-    async function loadStories() {
-      const grid = document.getElementById('library-grid');
-      grid.innerHTML = '<p style="color: #7a6b5a; grid-column: 1 / -1;">Loading stories...</p>';
-
-      try {
-        const result = await getStories();
-        if (!result.success) throw new Error(result.error);
-
-        currentStories = result.data;
-        applyFilters();
-      } catch (error) {
-        grid.innerHTML = `<p style="color: #8b3a3a; grid-column: 1 / -1;">Error loading stories: ${error.message}</p>`;
-      }
-    }
-
-    // Apply filters
-    function applyFilters() {
-      const search = document.getElementById('search-input').value.toLowerCase();
-      const genre = document.getElementById('genre-filter').value;
-      const sortBy = document.getElementById('sort-filter').value;
-
-      let filtered = currentStories.filter(story => {
-        // Search filter
-        if (search && !story.title.toLowerCase().includes(search)) return false;
-        // Genre filter
-        if (genre && story.tags) {
-          const tags = story.tags.map(t => t.tags.name);
-          if (!tags.includes(genre)) return false;
+        function renderSupportOptions() {
+            const container = document.getElementById('support-options');
+            const set = supportOptions[Math.floor(Math.random() * supportOptions.length)];
+            container.innerHTML = set.map(opt => `
+                    <div class="support-option" onclick="alert('${opt.title} - Thank you!')">
+                        <div class="left">
+                            <span class="icon">${opt.icon}</span>
+                            <div class="info">
+                                <div class="title">${opt.title}</div>
+                                <div class="sub">${opt.sub}</div>
+                            </div>
+                        </div>
+                        <span class="price">${opt.price}</span>
+                    </div>
+                `).join('');
         }
-        return true;
-      });
 
-      // Apply view filter
-      if (currentView === 'hidden-gems') {
-        filtered = filtered.filter(story => calculateRIS(story) < 50);
-      } else if (currentView === 'rising') {
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        filtered = filtered.filter(story => new Date(story.created_at) > sevenDaysAgo);
-        filtered.sort((a, b) => (b.spotlight_count || 0) - (a.spotlight_count || 0));
-      } else if (currentView === 'most-scouted') {
-        filtered.sort((a, b) => (b.spotlight_count || 0) - (a.spotlight_count || 0));
-      } else if (currentView === 'lost-found') {
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        filtered = filtered.filter(story => {
-          const lastUpdated = new Date(story.last_updated);
-          return lastUpdated < thirtyDaysAgo && calculateRIS(story) > 100;
+        function openSupportModal() {
+            renderSupportOptions();
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
         });
-      } else if (currentView === 'curator-picks') {
-        filtered.sort((a, b) => (b.shelf_appearance_count || 0) - (a.shelf_appearance_count || 0));
-      } else {
-        // Sort by selected sort
-        if (sortBy === 'ris') filtered = sortByRIS(filtered);
-        else if (sortBy === 'spotlights') filtered.sort((a, b) => (b.spotlight_count || 0) - (a.spotlight_count || 0));
-        else if (sortBy === 'newest') filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        else if (sortBy === 'oldest') filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-      }
 
-      renderStories(filtered);
-    }
+        // ============================================================
+        // LIBRARY DATA
+        // ============================================================
+        let libraryBooks = [
+            {
+                id: 1,
+                title: 'The Shadow\'s Heir',
+                author: 'Elara Voss',
+                status: 'reading',
+                progress: 43,
+                favorite: true,
+                coverEmoji: '🏰',
+                rating: 4.8,
+                tags: ['Fantasy', 'Dark', 'Magic']
+            },
+            {
+                id: 2,
+                title: 'Starlight & Roses',
+                author: 'Elara Voss',
+                status: 'reading',
+                progress: 28,
+                favorite: true,
+                coverEmoji: '🌹',
+                rating: 4.9,
+                tags: ['Romance', 'Slow Burn']
+            },
+            {
+                id: 3,
+                title: 'Nexus Protocol',
+                author: 'Marcus Chen',
+                status: 'completed',
+                progress: 100,
+                favorite: false,
+                coverEmoji: '🤖',
+                rating: 4.7,
+                tags: ['Sci-Fi', 'Thriller']
+            },
+            {
+                id: 4,
+                title: 'The Last Lighthouse',
+                author: 'Marcus Webb',
+                status: 'completed',
+                progress: 100,
+                favorite: true,
+                coverEmoji: '🗼',
+                rating: 4.6,
+                tags: ['Fantasy', 'Cozy']
+            },
+            {
+                id: 5,
+                title: 'Soulsmith\'s Apprentice',
+                author: 'Sarah Chen',
+                status: 'planning',
+                progress: 0,
+                favorite: false,
+                coverEmoji: '⚒️',
+                rating: 3.8,
+                tags: ['LitRPG']
+            },
+            {
+                id: 6,
+                title: 'Dragon\'s Ascent',
+                author: 'Thomas Blake',
+                status: 'reading',
+                progress: 12,
+                favorite: false,
+                coverEmoji: '🐉',
+                rating: 4.2,
+                tags: ['Fantasy', 'Action']
+            },
+            {
+                id: 7,
+                title: 'The Sunken City',
+                author: 'River Song',
+                status: 'completed',
+                progress: 100,
+                favorite: false,
+                coverEmoji: '🌊',
+                rating: 4.4,
+                tags: ['Adventure', 'Mystery']
+            },
+            {
+                id: 8,
+                title: 'Whispers in the Dark',
+                author: 'Marcus Chen',
+                status: 'dropped',
+                progress: 15,
+                favorite: false,
+                coverEmoji: '🕯️',
+                rating: 3.5,
+                tags: ['Horror', 'Gothic']
+            },
+            {
+                id: 9,
+                title: 'The Crystal Throne',
+                author: 'Amelia Hart',
+                status: 'reading',
+                progress: 62,
+                favorite: true,
+                coverEmoji: '💎',
+                rating: 4.5,
+                tags: ['Fantasy', 'Political']
+            },
+            {
+                id: 10,
+                title: 'Ember & Ash',
+                author: 'Cinder Rose',
+                status: 'planning',
+                progress: 0,
+                favorite: false,
+                coverEmoji: '🔥',
+                rating: 4.1,
+                tags: ['Fantasy', 'Romance']
+            },
+            {
+                id: 11,
+                title: 'The Forgotten Kingdom',
+                author: 'Elara Voss',
+                status: 'completed',
+                progress: 100,
+                favorite: true,
+                coverEmoji: '🏴',
+                rating: 4.9,
+                tags: ['Fantasy', 'Epic']
+            },
+            {
+                id: 12,
+                title: 'The Clockwork City',
+                author: 'Zero Cool',
+                status: 'reading',
+                progress: 34,
+                favorite: false,
+                coverEmoji: '⚙️',
+                rating: 4.0,
+                tags: ['Steampunk', 'Sci-Fi']
+            },
+            {
+                id: 13,
+                title: 'The Wandering Bard',
+                author: 'Cinder Rose',
+                status: 'planning',
+                progress: 0,
+                favorite: false,
+                coverEmoji: '🎵',
+                rating: 3.9,
+                tags: ['Fantasy', 'Slice of Life']
+            },
+            {
+                id: 14,
+                title: 'The Last Guardian',
+                author: 'Thomas Blake',
+                status: 'dropped',
+                progress: 8,
+                favorite: false,
+                coverEmoji: '🛡️',
+                rating: 3.7,
+                tags: ['Fantasy', 'Action']
+            },
+            {
+                id: 15,
+                title: 'Starlight Saga',
+                author: 'Amelia Hart',
+                status: 'completed',
+                progress: 100,
+                favorite: false,
+                coverEmoji: '⭐',
+                rating: 4.3,
+                tags: ['Sci-Fi', 'Space Opera']
+            }
+        ];
 
-    // Render stories
-    function renderStories(stories) {
-      const grid = document.getElementById('library-grid');
+        let currentFilter = 'all';
+        let currentSearch = '';
 
-      if (stories.length === 0) {
-        grid.innerHTML = '<p style="color: #7a6b5a; grid-column: 1 / -1;">No stories found.</p>';
-        return;
-      }
+        // ============================================================
+        // RENDER LIBRARY
+        // ============================================================
+        function renderLibrary() {
+            const grid = document.getElementById('book-grid');
 
-      let html = '';
-      stories.forEach(story => {
-        const ris = calculateRIS(story);
-        html += `
-          <div class="story-card">
-            <img class="story-cover" src="${story.cover_url || 'https://via.placeholder.com/300x400/d4c5a0/6b4f3c?text=Cover'}" onerror="this.src='https://via.placeholder.com/300x400/d4c5a0/6b4f3c?text=Cover'">
-            <div class="story-title"><a href="story.html?id=${story.id}">${story.title}</a></div>
-            <div class="story-author">by ${story.profiles?.display_name || 'Unknown Author'}</div>
-            <div class="story-meta">
-              <span class="ris">RIS: ${ris}</span>
-              <span class="spotlight-count">🔦 ${story.spotlight_count || 0}</span>
-            </div>
-            <div class="story-actions">
-              <button class="btn-sm read" onclick="window.location.href='story.html?id=${story.id}'">Read</button>
-            </div>
-          </div>
-        `;
-      });
+            let filtered = libraryBooks;
 
-      grid.innerHTML = html;
-    }
+            // Apply filter
+            if (currentFilter === 'favorites') {
+                filtered = filtered.filter(b => b.favorite);
+            } else if (currentFilter !== 'all') {
+                filtered = filtered.filter(b => b.status === currentFilter);
+            }
 
-    // Set view
-    function setView(view) {
-      currentView = view;
-      // Update button styles
-      document.querySelectorAll('[data-view]').forEach(btn => {
-        btn.style.background = btn.dataset.view === view ? '#6b4f3c' : 'transparent';
-        btn.style.color = btn.dataset.view === view ? '#f4efe6' : '#6b4f3c';
-      });
-      applyFilters();
-    }
+            // Apply search
+            if (currentSearch.trim()) {
+                const search = currentSearch.toLowerCase().trim();
+                filtered = filtered.filter(b =>
+                    b.title.toLowerCase().includes(search) ||
+                    b.author.toLowerCase().includes(search) ||
+                    b.tags.some(t => t.toLowerCase().includes(search))
+                );
+            }
 
-    // Reset filters
-    function resetFilters() {
-      document.getElementById('search-input').value = '';
-      document.getElementById('genre-filter').value = '';
-      document.getElementById('sort-filter').value = 'ris';
-      currentView = 'all';
-      document.querySelectorAll('[data-view]').forEach(btn => {
-        btn.style.background = btn.dataset.view === 'all' ? '#6b4f3c' : 'transparent';
-        btn.style.color = btn.dataset.view === 'all' ? '#f4efe6' : '#6b4f3c';
-      });
-      applyFilters();
-    }
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <div class="icon">📚</div>
+                            <h3>No books found</h3>
+                            <p>${currentSearch ? 'Try a different search term.' : 'Your library is empty. Start adding stories you love!'}</p>
+                            ${!currentSearch ? '<button class="btn" onclick="window.location.href=\'browse.html\'">Browse Stories</button>' : ''}
+                        </div>
+                    `;
+                return;
+            }
 
-    // ============================================
-    // AUTH HANDLERS
-    // ============================================
-
-    async function handleLogin() { window.location.href = 'login.html'; }
-    async function handleLogout() {
-      const result = await signOut();
-      if (result.success) window.location.reload();
-      else alert('Error signing out: ' + result.error);
-    }
-
-    async function checkAuth() {
-      const result = await getCurrentUser();
-      if (result.success && result.user) {
-        const profileResult = await getUserProfile(result.user.id);
-        if (profileResult.success) {
-          const profile = profileResult.profile;
-          document.getElementById('user-greeting').textContent = `👋 ${profile.display_name || 'User'}`;
-          document.getElementById('login-btn').classList.add('hidden');
-          document.getElementById('logout-btn').classList.remove('hidden');
-          document.getElementById('publish-btn').style.display = 'inline-block';
+            grid.innerHTML = filtered.map(book => `
+                    <div class="book-card" onclick="window.location.href='story.html?id=${book.id}'">
+                        <div class="cover">
+                            ${book.coverEmoji}
+                            <span class="status-badge ${book.status}">${book.status}</span>
+                        </div>
+                        <div class="body">
+                            <div class="title">${book.title} ${book.favorite ? '⭐' : ''}</div>
+                            <div class="author">by ${book.author}</div>
+                            <div class="meta">
+                                <span>⭐ ${book.rating}</span>
+                                ${book.progress > 0 && book.status !== 'completed' ? `<span>📖 ${book.progress}%</span>` : ''}
+                                ${book.status === 'completed' ? '<span>✅ Done</span>' : ''}
+                            </div>
+                            ${book.status === 'reading' ? `
+                                <div class="progress-container">
+                                    <div class="progress-bar"><div class="fill" style="width:${book.progress}%;"></div></div>
+                                    <div class="progress-text">${book.progress}% complete</div>
+                                </div>
+                            ` : ''}
+                            <div class="actions">
+                                ${book.status === 'reading' ? `<button onclick="event.stopPropagation(); updateProgress(${book.id})">📖 Continue</button>` : ''}
+                                ${book.status === 'planning' ? `<button onclick="event.stopPropagation(); startReading(${book.id})">▶️ Start</button>` : ''}
+                                ${book.status === 'completed' ? `<button onclick="event.stopPropagation(); alert('Re-read ${book.title}')">🔄 Re-read</button>` : ''}
+                                <button onclick="event.stopPropagation(); toggleFavorite(${book.id})">${book.favorite ? '⭐' : '☆'}</button>
+                                <button class="remove-btn" onclick="event.stopPropagation(); removeBook(${book.id})">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
         }
-      }
-    }
 
-    // ============================================
-    // POPULATE GENRE FILTER
-    // ============================================
+        // ============================================================
+        // FILTER & SEARCH
+        // ============================================================
+        function filterLibrary(filter) {
+            if (filter) {
+                currentFilter = filter;
 
-    function populateGenreFilter() {
-      const select = document.getElementById('genre-filter');
-      const genres = CONFIG.tags.categories.genre.options;
-      genres.forEach(genre => {
-        const option = document.createElement('option');
-        option.value = genre;
-        option.textContent = genre;
-        select.appendChild(option);
-      });
-    }
+                // Update active state
+                document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.filter === filter);
+                });
+            }
 
-    // ============================================
-    // INIT
-    // ============================================
+            renderLibrary();
+        }
 
-    populateGenreFilter();
-    loadStories();
-    checkAuth();
-  </script>
+        function filterLibrarySearch() {
+            const input = document.getElementById('search-input');
+            currentSearch = input.value;
+            renderLibrary();
+        }
+
+        // ============================================================
+        // LIBRARY ACTIONS
+        // ============================================================
+        function toggleFavorite(id) {
+            const book = libraryBooks.find(b => b.id === id);
+            if (book) {
+                book.favorite = !book.favorite;
+                renderLibrary();
+            }
+        }
+
+        function startReading(id) {
+            const book = libraryBooks.find(b => b.id === id);
+            if (book) {
+                book.status = 'reading';
+                book.progress = 1;
+                renderLibrary();
+                updateStats();
+            }
+        }
+
+        function updateProgress(id) {
+            const book = libraryBooks.find(b => b.id === id);
+            if (book) {
+                const newProgress = Math.min(100, book.progress + 10);
+                book.progress = newProgress;
+                if (newProgress === 100) {
+                    book.status = 'completed';
+                }
+                renderLibrary();
+                updateStats();
+            }
+        }
+
+        function removeBook(id) {
+            if (confirm('Remove this book from your library?')) {
+                libraryBooks = libraryBooks.filter(b => b.id !== id);
+                renderLibrary();
+                updateStats();
+            }
+        }
+
+        // ============================================================
+        // UPDATE STATS
+        // ============================================================
+        function updateStats() {
+            document.getElementById('total-count').textContent = libraryBooks.length;
+            document.getElementById('reading-count').textContent = libraryBooks.filter(b => b.status === 'reading').length;
+            document.getElementById('completed-count').textContent = libraryBooks.filter(b => b.status === 'completed').length;
+            document.getElementById('planning-count').textContent = libraryBooks.filter(b => b.status === 'planning').length;
+            document.getElementById('dropped-count').textContent = libraryBooks.filter(b => b.status === 'dropped').length;
+
+            // Update filter counts
+            document.querySelectorAll('.filter-bar .filter-btn').forEach(btn => {
+                const filter = btn.dataset.filter;
+                let count;
+                if (filter === 'all') count = libraryBooks.length;
+                else if (filter === 'favorites') count = libraryBooks.filter(b => b.favorite).length;
+                else count = libraryBooks.filter(b => b.status === filter).length;
+
+                const countSpan = btn.querySelector('.count');
+                if (countSpan) countSpan.textContent = `(${count})`;
+            });
+        }
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                alert('Logged out successfully!');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('user-greeting').textContent = '👋 Elara Voss';
+            renderLibrary();
+            updateStats();
+
+            console.log('📚 Library page loaded with ' + libraryBooks.length + ' books');
+        });
+
+        // Search with Enter key
+        document.getElementById('search-input').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                filterLibrarySearch();
+            }
+        });
+    </script>
 </body>
 </html>
