@@ -1,0 +1,20 @@
+{
+  "name": "wordflaneur",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node ./src/index.js",
+    "start": "node ./dist/index.js",
+    "migrate": "supabase db push",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.24.0",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "supabase": "^1.0.0"
+  }
+}
