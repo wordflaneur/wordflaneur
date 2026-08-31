@@ -5,103 +5,1303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About — WordFlaneur</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ============================================================ */
+        /* MACARON COLOR SCHEME - Blue Accent for About/Trust pages     */
+        /* ============================================================ */
+        :root {
+            /* Base colors */
+            --white: #FBFBF6;
+            --yellow-light: #FFFD8E;
+            --yellow-shadow: #F9E133;
+            --orange-light: #FCAB6A;
+            --orange-shadow: #F75630;
+            --red-dark: #A1180D;
+            --red-dark-2: #BD2419;
+            --aqua-shadow: #36E7C7;
+            --brown-dark: #7D4212;
+            --blue-light: #284F84;
+            --blue-dark: #132D44;
+            --yellow-ribbon: #E0D776;
+
+            /* Semantic colors - Blue accent for About */
+            --text-primary: #2d2a24;
+            --text-secondary: #4a4540;
+            --text-light: #7a7068;
+            --bg-body: #FBFBF6;
+            --bg-card: #ffffff;
+            --shadow-soft: rgba(45, 42, 36, 0.06);
+            --shadow-hover: rgba(40, 79, 132, 0.15);
+            --border-color: #e8e3dd;
+            --brand: #284F84;
+            --brand-hover: #132D44;
+            --brand-light: #4A7AAA;
+            --brand-very-light: #6A9ACA;
+            --success: #2e7d32;
+            --success-bg: #e8f5e9;
+            --warning: #f57f17;
+            --warning-bg: #fff8e1;
+            --info: #0d47a1;
+            --info-bg: #e3f2fd;
+            --purple: #7b1fa2;
+            --purple-bg: #f3e5f5;
+        }
+
+        /* ============================================================ */
+        /* DARK MODE */
+        /* ============================================================ */
+        [data-theme="dark"] {
+            --bg-body: #1a1a20;
+            --bg-card: #28282e;
+            --text-primary: #F0EAE0;
+            --text-secondary: #C4BDB5;
+            --text-light: #9A9490;
+            --shadow-soft: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(74, 122, 170, 0.25);
+            --border-color: #4a4a52;
+            --brand: #4A7AAA;
+            --brand-hover: #5A8ABA;
+            --brand-light: #6A9ACA;
+            --brand-very-light: #8ABADA;
+            --success: #4caf50;
+            --success-bg: #1e3a1e;
+            --warning: #ffa726;
+            --warning-bg: #3a2a1a;
+            --info: #42a5f5;
+            --info-bg: #1a2a3a;
+            --purple: #ab47bc;
+            --purple-bg: #2a1a3a;
+        }
+
+        /* ============================================================ */
+        /* GLOBAL HEADER LAYOUT - Macaron style */
+        /* ============================================================ */
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow-soft);
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: nowrap;
+            position: relative;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .site-header .logo {
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .site-header .logo a {
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.2s;
+        }
+
+        .site-header .logo a:hover {
+            color: var(--brand);
+        }
+
+        .site-header .logo span {
+            color: var(--brand);
+        }
+
+        .site-header .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: nowrap;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .site-header .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .site-header .nav a:hover {
+            color: var(--brand);
+            border-bottom-color: var(--brand);
+        }
+
+        .site-header .nav a.active {
+            color: var(--brand);
+            font-weight: 600;
+            border-bottom-color: var(--brand);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .theme-toggle {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--brand-very-light);
+            border-color: var(--brand);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-dropdown .lang-btn {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .lang-dropdown .lang-btn:hover {
+            background: var(--brand-very-light);
+            border-color: var(--brand);
+            color: var(--text-primary);
+        }
+
+        .lang-dropdown .lang-btn .arrow {
+            font-size: 10px;
+            margin-left: 2px;
+        }
+
+        .lang-dropdown .lang-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 140px;
+            box-shadow: 0 8px 24px var(--shadow-soft);
+            z-index: 100;
+            margin-top: 4px;
+        }
+
+        .lang-dropdown .lang-menu.open {
+            display: block;
+        }
+
+        .lang-dropdown .lang-menu button {
+            display: block;
+            width: 100%;
+            padding: 8px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .lang-dropdown .lang-menu button:hover {
+            background: rgba(40, 79, 132, 0.08);
+            color: var(--brand);
+        }
+
+        .lang-dropdown .lang-menu button.active {
+            color: var(--brand);
+            font-weight: 600;
+            background: rgba(40, 79, 132, 0.08);
+        }
+
+        .lang-dropdown .lang-menu .lang-divider {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 4px 12px;
+        }
+
+        .header-right .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-right .auth-section #user-greeting {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-outline:hover {
+            background: var(--brand);
+            border-color: var(--brand);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .btn {
+            background: var(--brand);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(40, 79, 132, 0.25);
+        }
+
+        .btn:hover {
+            background: var(--brand-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(19, 45, 68, 0.3);
+        }
+
+        .support-btn {
+            background: var(--yellow-light);
+            color: var(--text-primary);
+            border: 2px solid var(--yellow-shadow);
+            border-radius: 40px;
+            padding: 6px 18px 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 2px 8px rgba(249, 225, 51, 0.2);
+        }
+
+        .support-btn:hover {
+            background: var(--yellow-shadow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(249, 225, 51, 0.3);
+        }
+
+        .support-btn .heart {
+            color: var(--red-dark);
+            font-size: 15px;
+        }
+
+        /* ============================================================ */
+        /* SUPPORT MODAL - Macaron style */
+        /* ============================================================ */
+        .support-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .support-modal.active {
+            display: flex;
+        }
+
+        .support-modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--brand-light);
+            box-shadow: 0 20px 60px var(--shadow-soft);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .support-modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .support-modal-content .modal-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: 20px;
+        }
+
+        .support-modal-content .modal-header .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.2s;
+        }
+
+        .support-modal-content .modal-header .close-btn:hover {
+            color: var(--brand);
+        }
+
+        .support-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-body);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .support-option:hover {
+            border-color: var(--brand-light);
+            background: rgba(40, 79, 132, 0.04);
+            transform: translateX(4px);
+        }
+
+        .support-option .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .support-option .left .icon {
+            font-size: 24px;
+        }
+
+        .support-option .left .info .title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .support-option .left .info .sub {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .support-option .price {
+            font-weight: 700;
+            color: var(--brand);
+            font-size: 16px;
+        }
+
+        .support-modal-footer {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .support-modal-footer a {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .support-modal-footer a:hover {
+            color: var(--brand-hover);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* ABOUT PAGE - Macaron style with more accent color */
+        /* ============================================================ */
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        .about-hero {
+            text-align: center;
+            padding: 40px 20px 30px 20px;
+            background: linear-gradient(180deg, rgba(40, 79, 132, 0.06) 0%, transparent 100%);
+            border-radius: 16px;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .about-hero h1 {
+            font-size: 36px;
+            color: var(--text-primary);
+            margin: 0 0 12px 0;
+        }
+
+        .about-hero h1 span {
+            color: var(--brand);
+        }
+
+        .about-hero p {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .about-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 2px solid var(--border-color);
+            padding: 30px 35px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px var(--shadow-soft);
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .about-section:hover {
+            border-color: var(--brand-light);
+            box-shadow: 0 4px 16px var(--shadow-hover);
+        }
+
+        .about-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand), var(--brand-light), var(--brand-very-light));
+            border-radius: 16px 16px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .about-section:hover::before {
+            opacity: 1;
+        }
+
+        .about-section .section-icon {
+            font-size: 28px;
+            margin-right: 10px;
+        }
+
+        .about-section h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid var(--brand);
+            padding-bottom: 8px;
+        }
+
+        .about-section p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0 0 12px 0;
+        }
+
+        .about-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-section ul {
+            margin: 8px 0 12px 0;
+            padding-left: 24px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .about-section ul li {
+            margin-bottom: 4px;
+        }
+
+        .about-section ul li::marker {
+            color: var(--brand);
+        }
+
+        .about-section .highlight {
+            color: var(--brand);
+            font-weight: 600;
+            background: rgba(40, 79, 132, 0.06);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .about-section .badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .about-section .badge-list .badge {
+            background: var(--bg-body);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            transition: border-color 0.3s;
+        }
+
+        .about-section .badge-list .badge:hover {
+            border-color: var(--brand-light);
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
+        }
+
+        .role-card {
+            background: var(--bg-body);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--brand);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .role-card:hover {
+            border-color: var(--brand-light);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--shadow-hover);
+        }
+
+        .role-card:hover::before {
+            opacity: 1;
+        }
+
+        .role-card .role-icon {
+            font-size: 32px;
+        }
+
+        .role-card .role-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 16px;
+            margin: 8px 0 4px 0;
+        }
+
+        .role-card .role-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .role-card .role-earn {
+            font-size: 12px;
+            color: var(--brand);
+            font-weight: 600;
+            margin-top: 6px;
+            background: rgba(40, 79, 132, 0.06);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, var(--brand), var(--brand-light), transparent);
+            margin: 24px 0;
+            border-radius: 2px;
+        }
+
+        .about-section h4 {
+            color: var(--text-secondary);
+            margin: 0 0 6px 0;
+            font-size: 16px;
+        }
+
+        .about-section h4 strong {
+            color: var(--brand);
+        }
+
+        /* ============================================================ */
+        /* TABLE - Macaron style with accent */
+        /* ============================================================ */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-top: 8px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 12px 14px;
+            background: rgba(40, 79, 132, 0.08);
+            color: var(--text-primary);
+            font-weight: 600;
+            border-bottom: 3px solid var(--brand);
+        }
+
+        .comparison-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            transition: background 0.2s;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(40, 79, 132, 0.03);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table .yes {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .comparison-table .no {
+            color: var(--text-light);
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+        }
+
+        /* ============================================================ */
+        /* FOOTER - Macaron style */
+        /* ============================================================ */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 3px solid var(--brand);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        footer a {
+            color: var(--brand);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--brand-hover);
+            text-decoration: underline;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVE */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .site-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                padding: 14px 16px;
+            }
+
+            .site-header .nav {
+                justify-content: center;
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+
+            .header-right {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .about-hero {
+                padding: 24px 16px 20px 16px;
+            }
+
+            .about-hero h1 {
+                font-size: 28px;
+            }
+
+            .about-hero p {
+                font-size: 16px;
+            }
+
+            .about-section {
+                padding: 20px;
+            }
+
+            .role-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .comparison-table {
+                font-size: 12px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px 10px;
+            }
+
+            .support-btn {
+                font-size: 12px;
+                padding: 6px 14px 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px 16px;
+            }
+
+            .site-header .nav {
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .site-header .nav a {
+                font-size: 13px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .about-hero h1 {
+                font-size: 24px;
+            }
+
+            .about-hero p {
+                font-size: 14px;
+            }
+
+            .about-section h2 {
+                font-size: 18px;
+            }
+
+            .about-section {
+                padding: 16px;
+            }
+
+            .about-section ul {
+                font-size: 14px;
+                padding-left: 18px;
+            }
+
+            .comparison-table {
+                font-size: 11px;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 6px 8px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- ===== HEADER ===== -->
-        <header>
+        <!-- ============================================================ -->
+        <!-- SITE HEADER -->
+        <!-- ============================================================ -->
+        <header class="site-header">
             <div class="logo"><a href="index.html">📜 Word<span>Flaneur</span></a></div>
-            <nav>
+            <nav class="nav">
                 <a href="index.html">Home</a>
                 <a href="library.html">Library</a>
-                <a href="publish.html">Write</a>
+                <a href="rankings.html">Rankings</a>
                 <a href="about.html" class="active">About</a>
                 <a href="dashboard.html">Dashboard</a>
             </nav>
-            <div id="auth-section">
-                <span id="user-greeting">Guest</span>
-                <button class="btn-outline" id="login-btn" onclick="handleLogin()">Sign In</button>
-                <button class="btn-outline hidden" id="logout-btn" onclick="handleLogout()">Logout</button>
-                <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+            <div class="header-right">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                    <span id="theme-icon">🌙</span>
+                </button>
+
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" onclick="toggleLanguageDropdown()">🌐 EN <span class="arrow">▼</span></button>
+                    <div class="lang-menu" id="langMenu">
+                        <button class="active" data-lang="en" onclick="switchLanguage('en')">🇬🇧 English</button>
+                        <button data-lang="es" onclick="switchLanguage('es')">🇪🇸 Español</button>
+                        <hr class="lang-divider">
+                        <button data-lang="fr" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                        <button data-lang="de" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                    </div>
+                </div>
+
+                <div class="auth-section">
+                    <span id="user-greeting">👋 Elara Voss</span>
+                    <button class="btn-outline hidden" id="login-btn" onclick="handleLogin()">Sign In</button>
+                    <button class="btn-outline" id="logout-btn" onclick="handleLogout()">Logout</button>
+                    <button class="btn" id="publish-btn" onclick="window.location.href='publish.html'" style="display:inline-block;">✍️ Publish</button>
+                </div>
+
+                <button class="support-btn" onclick="openSupportModal()">
+                    <span class="heart">❤️</span> Support
+                </button>
             </div>
         </header>
 
-        <!-- ===== ABOUT CONTENT ===== -->
-        <div style="max-width: 800px; margin: 30px auto;">
-            <h1 style="color: #3d2b1f;">📜 About WordFlaneur</h1>
-            <hr style="margin: 20px 0; border: 1px solid #d4c5a0;">
-
-            <h2 style="color: #6b4f3c;">Our Philosophy</h2>
-            <p style="color: #5a4d3e; font-size: 18px;">We believe stories should be experienced, not consumed. We believe quality matters more than speed. We believe community is stronger than competition.</p>
-
-            <h2 style="color: #6b4f3c; margin-top: 25px;">Why We Exist</h2>
-            <p style="color: #5a4d3e; font-size: 18px;">Other platforms reward speed and volume. We reward commitment, community, and sustainability.</p>
-
-            <h2 style="color: #6b4f3c; margin-top: 25px;">What We Offer</h2>
-            <ul style="color: #5a4d3e; font-size: 18px; list-style: none; padding: 0;">
-                <li style="padding: 8px 0;">📖 A place to write at your own pace.</li>
-                <li style="padding: 8px 0;">🔦 Readers who curate, not algorithms.</li>
-                <li style="padding: 8px 0;">💰 Earn $200–$500/month from your hobby.</li>
-                <li style="padding: 8px 0;">🌱 A community that values quality over speed.</li>
-            </ul>
-
-            <h2 style="color: #6b4f3c; margin-top: 25px;">The Flaneur Network</h2>
-            <p style="color: #5a4d3e; font-size: 18px;">WordFlaneur is the first of many Flaneur platforms. Each platform has its own identity, its own vibe, and its own community.</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
-                <div style="background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e8ddd0;">
-                    <h4 style="color: #6b4f3c;">📜 WordFlaneur</h4>
-                    <p style="font-size: 14px; color: #7a6b5a;">Fantasy</p>
-                    <p style="font-size: 12px; color: #b8860b;">"It's OK to Be Slower."</p>
+        <!-- ============================================================ -->
+        <!-- SUPPORT MODAL -->
+        <!-- ============================================================ -->
+        <div class="support-modal" id="support-modal">
+            <div class="support-modal-content">
+                <div class="modal-header">
+                    <h3>❤️ Support WordFlaneur</h3>
+                    <button class="close-btn" onclick="closeSupportModal()">×</button>
                 </div>
-                <div style="background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e8ddd0;">
-                    <h4 style="color: #c0392b;">❤️ HeartFlaneur</h4>
-                    <p style="font-size: 14px; color: #7a6b5a;">Romance</p>
-                    <p style="font-size: 12px; color: #c0392b;">"Love Without the Rush."</p>
+                <div class="support-option" onclick="alert('☕ Thank you for buying us a coffee!')">
+                    <div class="left"><span class="icon">☕</span><div class="info"><div class="title">Buy us a coffee</div><div class="sub">One-time donation</div></div></div>
+                    <span class="price">$5</span>
                 </div>
-                <div style="background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e8ddd0;">
-                    <h4 style="color: #2980b9;">🚀 NovaFlaneur</h4>
-                    <p style="font-size: 14px; color: #7a6b5a;">Sci-Fi</p>
-                    <p style="font-size: 12px; color: #2980b9;">"Infinity at Your Own Pace."</p>
+                <div class="support-option" onclick="alert('🌟 You\'ve joined the Supporter\'s Circle!')">
+                    <div class="left"><span class="icon">🌟</span><div class="info"><div class="title">Supporter's Circle</div><div class="sub">Monthly subscription · Ad-free reading</div></div></div>
+                    <span class="price">$7.99/mo</span>
                 </div>
-                <div style="background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e8ddd0;">
-                    <h4 style="color: #8e44ad;">🔍 MysteryFlaneur</h4>
-                    <p style="font-size: 14px; color: #7a6b5a;">Mystery</p>
-                    <p style="font-size: 12px; color: #8e44ad;">"Slow-Burn Suspense."</p>
+                <div class="support-option" onclick="alert('💪 Thank you for becoming a Patron!')">
+                    <div class="left"><span class="icon">💪</span><div class="info"><div class="title">Patron</div><div class="sub">Everything + exclusive content &amp; perks</div></div></div>
+                    <span class="price">$14.99/mo</span>
+                </div>
+                <div class="support-option" onclick="alert('💎 You\'re a Founding Supporter!')">
+                    <div class="left"><span class="icon">💎</span><div class="info"><div class="title">Founding Supporter</div><div class="sub">Early supporter — lifetime recognition</div></div></div>
+                    <span class="price">$49</span>
+                </div>
+                <div class="support-modal-footer">
+                    <p>Your support helps keep the platform ad-free and growing. <a href="#" onclick="alert('Learn more about supporting WordFlaneur')">Learn more →</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ABOUT CONTENT -->
+        <!-- ============================================================ -->
+        <div class="about-container">
+
+            <!-- Hero -->
+            <div class="about-hero">
+                <h1>About <span>WordFlaneur</span></h1>
+                <p>A sanctuary for slow-burn stories. Where authors write at their own pace, readers discover hidden gems, and scouts earn from recommendations they genuinely love.</p>
+            </div>
+
+            <!-- ===== WHAT IS WORDFLANEUR ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">📖</span> What is WordFlaneur?</h2>
+                <p>
+                    WordFlaneur is a platform for <strong>slow-burn storytelling</strong>. Unlike platforms that pressure authors to publish daily, we believe that <strong>great stories take time</strong> — and that readers appreciate the craft.
+                </p>
+                <p>
+                    We're built around three core principles:
+                </p>
+                <ul>
+                    <li><strong>Quality over Speed</strong> — Write at your own pace. No daily pressure.</li>
+                    <li><strong>Readers Are Curators</strong> — Scouts discover and promote stories they genuinely love.</li>
+                    <li><strong>Everyone Can Earn</strong> — Authors earn from readers. Scouts earn from recommendations. The platform takes a small cut to grow.</li>
+                </ul>
+            </div>
+
+            <!-- ===== ROLES ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">👥</span> Who Belongs Here?</h2>
+                <p>WordFlaneur has three primary roles. You can be one, two, or all three.</p>
+                <div class="role-grid">
+                    <div class="role-card">
+                        <div class="role-icon">✍️</div>
+                        <div class="role-title">Author</div>
+                        <div class="role-desc">Publish stories chapter by chapter. Set your own pace. Earn from readers who unlock your chapters, tip you, or subscribe.</div>
+                        <div class="role-earn">💰 Earn from your writing</div>
+                    </div>
+                    <div class="role-card">
+                        <div class="role-icon">🔦</div>
+                        <div class="role-title">Scout</div>
+                        <div class="role-desc">Discover and recommend stories you love. Build a following of readers who trust your taste. Earn from tips and rewards.</div>
+                        <div class="role-earn">💰 Earn from recommendations</div>
+                    </div>
+                    <div class="role-card">
+                        <div class="role-icon">📚</div>
+                        <div class="role-title">Reader</div>
+                        <div class="role-desc">Read stories, follow scouts, build your library, and support authors and scouts you believe in.</div>
+                        <div class="role-earn">❤️ Support creators</div>
+                    </div>
                 </div>
             </div>
 
-            <h2 style="color: #6b4f3c; margin-top: 25px;">Join Us</h2>
-            <p style="color: #5a4d3e; font-size: 18px;">We're building something different. A place where every story gets a fair chance. Where readers are curators. Where writers can breathe.</p>
-            <button class="btn" onclick="window.location.href='index.html'" style="margin-top: 10px;">Explore Stories</button>
-        </div>
+            <!-- ===== HOW IT WORKS ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">⚙️</span> How It Works</h2>
 
-        <!-- ===== FOOTER ===== -->
-        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #d4c5a0; text-align: center; color: #7a6b5a; font-size: 14px;">
-            <p>📜 WordFlaneur — It's OK to Be Slower.</p>
-            <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
-        </footer>
+                <h4 style="color: var(--text-secondary); margin: 0 0 6px 0;"><strong>For Authors</strong></h4>
+                <ul>
+                    <li>Publish your story chapter by chapter. <span class="highlight">There's no minimum publishing frequency.</span></li>
+                    <li>Lock chapters behind a paywall — readers pay to unlock. You keep <span class="highlight">80%</span> of the revenue.</li>
+                    <li>Receive tips from readers. You keep <span class="highlight">90%</span> of tips.</li>
+                    <li>Readers can subscribe to you. You keep <span class="highlight">80%</span> of subscription revenue.</li>
+                    <li>Scouts will discover and recommend your work — if it's good.</li>
+                    <li>Your earnings are <span class="highlight">fully transparent</span> in your dashboard.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: var(--text-secondary); margin: 0 0 6px 0;"><strong>For Scouts</strong></h4>
+                <ul>
+                    <li>Discover stories you genuinely love. <span class="highlight">Only recommend what you believe in.</span></li>
+                    <li>Write a personal review explaining why you recommend each story.</li>
+                    <li>Build a following of readers who trust your taste.</li>
+                    <li>Earn <span class="highlight">tips</span> from readers who appreciate your recommendations.</li>
+                    <li>Earn <span class="highlight">cumulative rewards</span> from the platform based on your Trust Value.</li>
+                    <li>Your <span class="highlight">Trust Value</span> is a metric that measures sincerity, consistency, and reader engagement.</li>
+                    <li>Higher Trust Value = more visibility = more followers = more rewards.</li>
+                </ul>
+
+                <div class="divider"></div>
+
+                <h4 style="color: var(--text-secondary); margin: 0 0 6px 0;"><strong>For Readers</strong></h4>
+                <ul>
+                    <li>Read stories for free (first few chapters) or unlock everything with a <span class="highlight">Premium subscription</span>.</li>
+                    <li>Follow scouts to discover great stories through people you trust.</li>
+                    <li>Build your public library — show what you're reading and support the stories you love.</li>
+                    <li>Tip scouts and authors directly.</li>
+                    <li>Subscribe to your favorite authors for early access and exclusive content.</li>
+                </ul>
+            </div>
+
+            <!-- ===== EARNINGS & FEES ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">💰</span> Earnings &amp; Fees</h2>
+                <p>Everything you need to know about how money flows on WordFlaneur.</p>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Revenue Source</th>
+                            <th>You Keep</th>
+                            <th>Platform Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Chapter Unlocks</strong> (Authors)</td>
+                            <td class="yes">80%</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reader Tips</strong> (Authors &amp; Scouts)</td>
+                            <td class="yes">90%</td>
+                            <td>10%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Author Subscriptions</strong> (Authors)</td>
+                            <td class="yes">80%</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scout Rewards</strong> (Scouts)</td>
+                            <td class="yes">100%</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Marketplace Transactions</strong> (Service Providers)</td>
+                            <td class="yes">85%</td>
+                            <td>15%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 12px; font-size: 14px;">
+                    <span class="highlight">💡 Note:</span> Platform fees fund growth, development, and moderation. We're transparent about every transaction in your dashboard.
+                </p>
+            </div>
+
+            <!-- ===== TRUST VALUE ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">🔒</span> Trust Value</h2>
+                <p>
+                    <strong>Trust Value</strong> is the single most important metric for scouts. It measures how much readers trust your recommendations.
+                </p>
+                <p>
+                    Trust Value is built through:
+                </p>
+                <ul>
+                    <li><strong>Sincerity</strong> — Recommending stories you genuinely love.</li>
+                    <li><strong>Consistency</strong> — Regular recommendations over time.</li>
+                    <li><strong>Engagement</strong> — Hearts, votes, and comments on your recommendations.</li>
+                    <li><strong>Reader feedback</strong> — How readers respond to your recommendations.</li>
+                </ul>
+                <p>
+                    Scouts with higher Trust Value get <span class="highlight">more visibility</span> — they appear in banners, rankings, and recommendations more often.
+                </p>
+                <p style="font-style: italic; color: var(--text-light);">
+                    "We don't reveal the exact formula — that's what keeps it honest. But we reward sincerity, not gaming the system."
+                </p>
+            </div>
+
+            <!-- ===== TRANSPARENCY ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">🔍</span> Transparency</h2>
+                <p>
+                    We believe in <strong>different transparency for different roles</strong>. Here's what you can expect:
+                </p>
+                <ul>
+                    <li><strong>Authors</strong> — Full transparency on earnings. You'll see exactly what you earn, from every source, every time.</li>
+                    <li><strong>Scouts</strong> — Partial transparency on rewards. You'll see your total rewards and Trust Value growth, but not the exact formula.</li>
+                    <li><strong>Readers</strong> — Minimal transparency. You'll see story quality, scout reputation, and clear pricing.</li>
+                </ul>
+            </div>
+
+            <!-- ===== RULES & GUIDELINES ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">📋</span> Rules &amp; Guidelines</h2>
+
+                <h4 style="color: var(--text-secondary); margin: 0 0 6px 0;"><strong>For Authors</strong></h4>
+                <ul>
+                    <li>You own your work. WordFlaneur does <span class="highlight">not</span> claim ownership of your stories.</li>
+                    <li>You can lock chapters for profit — or keep everything free.</li>
+                    <li>You can route readers to Patreon or other platforms, but you'll lose platform visibility.</li>
+                    <li>Your earnings are <span class="highlight">fully transparent</span> in your dashboard.</li>
+                </ul>
+
+                <h4 style="color: var(--text-secondary); margin: 12px 0 6px 0;"><strong>For Scouts</strong></h4>
+                <ul>
+                    <li><span class="highlight">Only recommend stories you genuinely love.</span> Readers trust you because you're authentic.</li>
+                    <li>Your Trust Value is built on sincerity, consistency, and engagement.</li>
+                    <li>You can earn tips from readers and rewards from the platform.</li>
+                    <li>Scouts who game the system (e.g., recommending for money) will lose Trust Value.</li>
+                </ul>
+
+                <h4 style="color: var(--text-secondary); margin: 12px 0 6px 0;"><strong>For Everyone</strong></h4>
+                <ul>
+                    <li><span class="highlight">Be kind.</span> WordFlaneur is a community of readers, writers, and curators.</li>
+                    <li>No spam, no harassment, no plagiarism.</li>
+                    <li>Content warnings are required for mature content.</li>
+                    <li>AI disclosure is required — be transparent about how you create.</li>
+                </ul>
+            </div>
+
+            <!-- ===== FAQ ===== -->
+            <div class="about-section">
+                <h2><span class="section-icon">❓</span> Frequently Asked Questions</h2>
+
+                <h4 style="color: var(--text-primary); margin: 0 0 4px 0;"><strong>Do I own my work?</strong></h4>
+                <p>Yes. You own everything you publish on WordFlaneur. We take no ownership.</p>
+
+                <h4 style="color: var(--text-primary); margin: 12px 0 4px 0;"><strong>Can I leave the platform?</strong></h4>
+                <p>Yes. You can take your work down at any time. You can also route readers to Patreon or other platforms, but you'll lose platform visibility.</p>
+
+                <h4 style="color: var(--text-primary); margin: 12px 0 4px 0;"><strong>How do scouts earn?</strong></h4>
+                <p>Scouts earn from reader tips and cumulative platform rewards. The more sincere and trusted you are, the more you earn.</p>
+
+                <h4 style="color: var(--text-primary); margin: 12px 0 4px 0;"><strong>What is Trust Value?</strong></h4>
+                <p>Trust Value is a metric that measures how much readers trust a scout's recommendations. It's built through sincerity, consistency, and engagement.</p>
+
+                <h4 style="color: var(--text-primary); margin: 12px 0 4px 0;"><strong>How do I get paid?</strong></h4>
+                <p>Earnings are tracked in coins. You can convert coins to real money via our payment partner (coming soon).</p>
+            </div>
+
+            <!-- ===== FOOTER ===== -->
+            <footer>
+                <p>📜 WordFlaneur — where authors create at a reasonable pace.</p>
+                <p><a href="about.html">About</a> · <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Support</a></p>
+            </footer>
+
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/config.js"></script>
-    <script src="js/supabase.js"></script>
-    <script src="js/auth.js"></script>
     <script>
-        async function handleLogin() { window.location.href = 'login.html'; }
-        async function handleLogout() { const r = await signOut(); if (r.success) window.location.reload(); else alert('Error signing out'); }
-        async function checkAuth() {
-            const r = await getCurrentUser();
-            if (r.success && r.user) {
-                const p = await getUserProfile(r.user.id);
-                if (p.success) {
-                    document.getElementById('user-greeting').textContent = `👋 ${p.profile.display_name || 'User'}`;
-                    document.getElementById('login-btn').classList.add('hidden');
-                    document.getElementById('logout-btn').classList.remove('hidden');
-                    document.getElementById('publish-btn').style.display = 'inline-block';
-                }
+        // ============================================================
+        // THEME TOGGLE
+        // ============================================================
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            const icon = document.getElementById('theme-icon');
+            if (icon) {
+                icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
             }
         }
-        checkAuth();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const icon = document.getElementById('theme-icon');
+                if (icon) {
+                    icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+                }
+            }
+        });
+
+        // ============================================================
+        // LANGUAGE DROPDOWN
+        // ============================================================
+        function toggleLanguageDropdown() {
+            document.getElementById('langMenu').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            var dropdown = document.getElementById('langDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                document.getElementById('langMenu').classList.remove('open');
+            }
+        });
+
+        // ============================================================
+        // LANGUAGE SWITCHER
+        // ============================================================
+        function switchLanguage(lang) {
+            document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            var label = document.querySelector('.lang-btn');
+            var langNames = {
+                'en': '🌐 EN',
+                'es': '🌐 ES',
+                'fr': '🌐 FR',
+                'de': '🌐 DE'
+            };
+            if (label) {
+                label.innerHTML = langNames[lang] + ' <span class="arrow">▼</span>';
+            }
+
+            localStorage.setItem('preferred_language', lang);
+            document.getElementById('langMenu').classList.remove('open');
+            alert('🌐 Language switched to ' + langNames[lang] + ' (Demo)');
+        }
+
+        // ============================================================
+        // SUPPORT MODAL
+        // ============================================================
+        function openSupportModal() {
+            document.getElementById('support-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('support-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeSupportModal();
+        });
+
+        // ============================================================
+        // AUTH
+        // ============================================================
+        function handleLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('user-greeting').textContent = '👋 Guest';
+                document.getElementById('login-btn').classList.remove('hidden');
+                document.getElementById('logout-btn').classList.add('hidden');
+                alert('Logged out successfully!');
+            }
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var greeting = document.getElementById('user-greeting');
+            if (greeting) greeting.textContent = '👋 Elara Voss';
+
+            var loginBtn = document.getElementById('login-btn');
+            var logoutBtn = document.getElementById('logout-btn');
+            if (loginBtn) loginBtn.classList.add('hidden');
+            if (logoutBtn) logoutBtn.classList.remove('hidden');
+
+            var savedLang = localStorage.getItem('preferred_language') || 'en';
+            document.querySelectorAll('.lang-menu button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.lang === savedLang);
+            });
+
+            console.log('📖 About page loaded with Blue Macaron color scheme!');
+            console.log('🎨 Primary accent: Blue (#284F84) for trust/About pages');
+            console.log('🎨 Added accent borders, hover effects, and highlights throughout.');
+        });
     </script>
 </body>
 </html>
