@@ -3,8 +3,13 @@
 // 🔐 SUPABASE.JS — Supabase Client
 // ============================================
 
-const SUPABASE_URL = window.__SUPABASE_URL__ || "https://ugrmqwgjcisufcpjqhzy.supabase.co";
-const SUPABASE_ANON_KEY = window.__SUPABASE_ANON_KEY__ || "sb_publishable__9skp_lVOca6QzX0vU5Xpg_5m6156tp";
+// Load Supabase credentials from window object (injected by server or set in index.html)
+const SUPABASE_URL = window.__SUPABASE_URL__;
+const SUPABASE_ANON_KEY = window.__SUPABASE_ANON_KEY__;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.error('Supabase credentials not found. Ensure SUPABASE_URL and SUPABASE_ANON_KEY are set on window object.');
+}
 
 (function initializeSupabase() {
   const existingClient = window.supabaseClient || window.supabase;
