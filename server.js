@@ -20,12 +20,14 @@ app.use(express.static('.')); // Serve your HTML, CSS, and JS files
 // ============================================
 // SUPABASE CLIENT
 // ============================================
+// SUPABASE_URL must be set. Prefer the service_role key for server-side operations;
+// fall back to anon only if service role is not provided.
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-    console.error('Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables.');
-    process.exit(1);
+  console.error('Missing SUPABASE_URL or SUPABASE key environment variables.');
+  process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -34,121 +36,121 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // HEALTH CHECK
 // ============================================
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', message: 'WordFlaneur is running!' });
+  res.json({ status: 'ok', message: 'WordFlaneur is running!' });
 });
 
 // ============================================
 // GET STORIES
 // ============================================
 app.get('/api/stories', async (req, res) => {
-    try {
-        const { data, error } = await supabase
-            .from('stories')
-            .select('*, profiles!author_id (username, display_name)')
-            .order('created_at', { ascending: false });
+  try {
+    const { data, error } = await supabase
+      .from('stories')
+      .select('*, profiles!author_id (username, display_name)')
+      .order('created_at', { ascending: false });
 
-        if (error) throw error;
-        res.json({ success: true, data });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // GET A SINGLE STORY
 // ============================================
 app.get('/api/stories/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { data, error } = await supabase
-            .from('stories')
-            .select('*, profiles!author_id (username, display_name)')
-            .eq('id', id)
-            .single();
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('stories')
+      .select('*, profiles!author_id (username, display_name)')
+      .eq('id', id)
+      .single();
 
-        if (error) throw error;
-        res.json({ success: true, data });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // CREATE A STORY
 // ============================================
 app.post('/api/stories', async (req, res) => {
-    try {
-        const { title, description, author_id, cover_url, tags, ai_disclosure } = req.body;
-        const { data, error } = await supabase
-            .from('stories')
-            .insert([{ title, description, author_id, cover_url, tags, ai_disclosure }])
-            .select();
+  try {
+    const { title, description, author_id, cover_url, tags, ai_disclosure } = req.body;
+    const { data, error } = await supabase
+      .from('stories')
+      .insert([{ title, description, author_id, cover_url, tags, ai_disclosure }])
+      .select();
 
-        if (error) throw error;
-        res.json({ success: true, data: data[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // GET CHAPTERS FOR A STORY
 // ============================================
 app.get('/api/stories/:id/chapters', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { data, error } = await supabase
-            .from('chapters')
-            .select('*')
-            .eq('story_id', id)
-            .order('order_number', { ascending: true });
+  try {
+    const { id } = req.params;
+    const { data, error } = await supabase
+      .from('chapters')
+      .select('*')
+      .eq('story_id', id)
+      .order('order_number', { ascending: true });
 
-        if (error) throw error;
-        res.json({ success: true, data });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // CREATE A CHAPTER
 // ============================================
 app.post('/api/chapters', async (req, res) => {
-    try {
-        const { story_id, title, content, order_number } = req.body;
-        const { data, error } = await supabase
-            .from('chapters')
-            .insert([{ story_id, title, content, order_number }])
-            .select();
+  try {
+    const { story_id, title, content, order_number } = req.body;
+    const { data, error } = await supabase
+      .from('chapters')
+      .insert([{ story_id, title, content, order_number }])
+      .select();
 
-        if (error) throw error;
-        res.json({ success: true, data: data[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // SPOTLIGHT A STORY
 // ============================================
 app.post('/api/spotlight', async (req, res) => {
-    try {
-        const { user_id, story_id } = req.body;
-        const { data, error } = await supabase
-            .from('spotlights')
-            .insert([{ user_id, story_id }])
-            .select();
+  try {
+    const { user_id, story_id } = req.body;
+    const { data, error } = await supabase
+      .from('spotlights')
+      .insert([{ user_id, story_id }])
+      .select();
 
-        if (error) throw error;
-        res.json({ success: true, data: data[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    if (error) throw error;
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ============================================
 // START SERVER
 // ============================================
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 WordFlaneur server running on port ${PORT}`);
+  console.log(`🚀 WordFlaneur server running on port ${PORT}`);
 });
