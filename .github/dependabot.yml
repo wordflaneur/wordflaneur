@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
-    security-updates: true
+    # security-updates: true  # Commented out - security updates are enabled by default
     labels:
       - "dependencies"
       - "automated"
